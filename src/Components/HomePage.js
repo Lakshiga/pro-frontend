@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "../Components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Components/ui/card"
 import { TableTennis, Chess, Dribbble, Users, Calendar, Award, Star, ArrowRight, Menu, Check } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"

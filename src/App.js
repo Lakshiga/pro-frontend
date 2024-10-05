@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "../Components/HomePage";
-import Login from "../Components/Login";
-import Register from "../Components/Register";
-import AdminDashboard from "../Components/AdminDashboard";
-import OrganizerDashboard from "../Components/OrganizerDashboard";
+import HomePage from "./Components/HomePage"; // Updated path
+import Login from "./Components/Login"; // Updated path
+import Register from "./Components/Register"; // Updated path
+import AdminDashboard from "./Components/AdminDashboard"; // Updated path
+import OrganizerDashboard from "./Components/OrganizerDashboard"; // Updated path
 
 function App() {
   return (

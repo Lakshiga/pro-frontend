@@ -3,25 +3,6 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Users, CheckCircle, DollarSign, BarChart3, Search } from 'lucide-react';
 
-const Organizer = {
-  _id: '', // Organizer ID as a string
-  name: '', // Organizer's name as a string
-  email: '', // Organizer's email as a string
-  registrationDate: '', // Registration date as a string (e.g., '2024-10-05')
-  status: '' // Status can be either 'pending' or 'verified'
-};
-
-const Payment = {
-  _id: '', // Payment ID as a string
-  organizerId: {
-    _id: '', // Organizer ID as a string
-    name: '' // Organizer's name as a string
-  },
-  amount: 0, // Amount as a number
-  date: '', // Payment date as a string (e.g., '2024-10-05')
-  status: '' // Status can be either 'pending' or 'completed'
-};
-
 const AdminDashboard = () => {
   const [organizers, setOrganizers] = useState([]);
   const [payments, setPayments] = useState([]);
@@ -147,94 +128,100 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {activeTab === 'organizers' && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Organizers</h2>
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left text-gray-500 dark:text-gray-400">
-                    <th className="pb-2">Name</th>
-                    <th className="pb-2">Email</th>
-                    <th className="pb-2">Registration Date</th>
-                    <th className="pb-2">Status</th>
-                    <th className="pb-2">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrganizers.map((organizer) => (
-                    <tr key={organizer._id} className="border-t border-gray-200 dark:border-gray-700">
-                      <td className="py-3">{organizer.name}</td>
-                      <td className="py-3">{organizer.email}</td>
-                      <td className="py-3">{new Date(organizer.registrationDate).toLocaleDateString()}</td>
-                      <td className="py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          organizer.status === 'verified' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
-                        }`}>
-                          {organizer.status}
-                        </span>
-                      </td>
-                      <td className="py-3">
-                        {organizer.status === 'pending' && (
-                          <button
-                            onClick={() => verifyOrganizer(organizer._id)}
-                            className="bg-[#1e3a8a] text-white px-3 py-1 rounded hover:bg-[#40e0d0] transition-colors duration-300"
-                          >
-                            Verify
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        {loading ? ( // Display loading state
+          <div className="text-center py-6">
+            <h2 className="text-xl font-semibold">Loading...</h2>
           </div>
-        )}
+        ) : (
+          <>
+            {activeTab === 'organizers' && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold mb-4">Organizers</h2>
+                  <table className="w-full">
+                    <thead>
+                      <tr className="text-left text-gray-500 dark:text-gray-400">
+                        <th className="pb-2">Name</th>
+                        <th className="pb-2">Email</th>
+                        <th className="pb-2">Registration Date</th>
+                        <th className="pb-2">Status</th>
+                        <th className="pb-2">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredOrganizers.map((organizer) => (
+                        <tr key={organizer._id} className="border-t border-gray-200 dark:border-gray-700">
+                          <td className="py-3">{organizer.name}</td>
+                          <td className="py-3">{organizer.email}</td>
+                          <td className="py-3">{new Date(organizer.registrationDate).toLocaleDateString()}</td>
+                          <td className="py-3">
+                            <span className={`px-2 py-1 rounded-full text-xs ${
+                              organizer.status === 'verified' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
+                            }`}>
+                              {organizer.status}
+                            </span>
+                          </td>
+                          <td className="py-3">
+                            {organizer.status === 'pending' && (
+                              <button
+                                onClick={() => verifyOrganizer(organizer._id)}
+                                className="bg-[#1e3a8a] text-white px-3 py-1 rounded hover:bg-[#40e0d0] transition-colors duration-300"
+                              >
+                                Verify
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
-        {activeTab === 'payments' && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Payments</h2>
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left text-gray-500 dark:text-gray-400">
-                    <th className="pb-2">Organizer</th>
-                    <th className="pb-2">Amount</th>
-                    <th className="pb-2">Date</th>
-                    <th className="pb-2">Status</th>
-                    <th className="pb-2">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPayments.map((payment) => (
-                    <tr key={payment._id} className="border-t border-gray-200 dark:border-gray-700">
-                      <td className="py-3">{payment.organizerId.name}</td>
-                      <td className="py-3">${payment.amount}</td>
-                      <td className="py-3">{new Date(payment.date).toLocaleDateString()}</td>
-                      <td className="py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          payment.status === 'completed' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
-                        }`}>
-                          {payment.status}
-                        </span>
-                      </td>
-                      <td className="py-3">
-                        {payment.status === 'pending' && (
-                          <button
-                            onClick={() => approvePayment(payment._id)}
-                            className="bg-[#1e3a8a] text-white px-3 py-1 rounded hover:bg-[#40e0d0] transition-colors duration-300"
-                          >
-                            Approve
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+            {activeTab === 'payments' && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold mb-4">Payments</h2>
+                  <table className="w-full">
+                    <thead>
+                      <tr className="text-left text-gray-500 dark:text-gray-400">
+                        <th className="pb-2">Organizer</th>
+                        <th className="pb-2">Amount</th>
+                        <th className="pb-2">Status</th>
+                        <th className="pb-2">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredPayments.map((payment) => (
+                        <tr key={payment._id} className="border-t border-gray-200 dark:border-gray-700">
+                          <td className="py-3">{payment.organizerId.name}</td>
+                          <td className="py-3">${payment.amount}</td>
+                          <td className="py-3">
+                            <span className={`px-2 py-1 rounded-full text-xs ${
+                              payment.status === 'approved' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
+                            }`}>
+                              {payment.status}
+                            </span>
+                          </td>
+                          <td className="py-3">
+                            {payment.status === 'pending' && (
+                              <button
+                                onClick={() => approvePayment(payment._id)}
+                                className="bg-[#1e3a8a] text-white px-3 py-1 rounded hover:bg-[#40e0d0] transition-colors duration-300"
+                              >
+                                Approve
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

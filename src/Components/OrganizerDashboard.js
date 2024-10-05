@@ -1,40 +1,16 @@
-import { useState, useEffect } from 'react'
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "../Components/ui/card"
-import { Input } from "../Components/ui/input"
-import { Label } from "../Components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../Components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../Components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs"
-import { Calendar, Users, Trophy, CheckCircle, Activity, BarChart, DollarSign } from "lucide-react"
-import axios from 'axios'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { useRouter } from 'next/router'
-
-const Event = {
-  id: '',
-  name: '',
-  date: '',
-  sport: ''
-};
-
-const Match = {
-  id: '',
-  eventId: '',
-  player1: '',
-  player2: '',
-  date: ''
-}
-
-
-const User = {
-  id: '',
-  name: '',
-  email: '',
-  role: '',  // role can be 'player' or 'umpire'
-  registrationDate: ''
-};
+import { useState, useEffect, useCallback } from 'react';
+import { Button } from "../Components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../Components/ui/card";
+import { Input } from "../Components/ui/input";
+import { Label } from "../Components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../Components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../Components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
+import { Calendar, Users, Trophy, DollarSign } from "lucide-react";
+import axios from 'axios';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 const OrganizerSubscription = {
   id: '',
@@ -43,100 +19,106 @@ const OrganizerSubscription = {
 };
 
 export default function OrganizerDashboard() {
-  const [events, setEvents] = useState([])
-  const [matches, setMatches] = useState([])
-  const [unverifiedUsers, setUnverifiedUsers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [subscription, setSubscription] = useState<OrganizerSubscription | null>(null)
+  const [events, setEvents] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [unverifiedUsers, setUnverifiedUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState<OrganizerSubscription | null>(null);
 
-  const router = useRouter()
+  const router = useRouter();
 
   const [newEvent, setNewEvent] = useState({
     name: '',
     date: '',
     sport: ''
-  })
+  });
 
   const [newMatch, setNewMatch] = useState({
     eventId: '',
     player1: '',
     player2: '',
     date: ''
-  })
+  });
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
+  // Memoized fetchData function using useCallback
+  const fetchData = useCallback(async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const [eventsRes, matchesRes, usersRes, subscriptionRes] = await Promise.all([
         axios.get('/api/organizer/events'),
         axios.get('/api/organizer/matches'),
         axios.get('/api/organizer/unverified-users'),
         axios.get('/api/organizer/subscription')
-      ])
-      setEvents(eventsRes.data)
-      setMatches(matchesRes.data)
-      setUnverifiedUsers(usersRes.data)
-      setSubscription(subscriptionRes.data)
+      ]);
+      setEvents(eventsRes.data);
+      setMatches(matchesRes.data);
+      setUnverifiedUsers(usersRes.data);
+      setSubscription(subscriptionRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error)
+      console.error('Error fetching data:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, []); // You can add dependencies here if needed
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const createEvent = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!subscription || subscription.status !== 'active') {
-      alert('Please subscribe to create events')
-      return
+      alert('Please subscribe to create events');
+      return;
     }
     try {
-      const res = await axios.post('/api/organizer/events', newEvent)
-      setEvents([...events, res.data])
-      setNewEvent({ name: '', date: '', sport: '' })
+      const res = await axios.post('/api/organizer/events', newEvent);
+      setEvents([...events, res.data]);
+      setNewEvent({ name: '', date: '', sport: '' });
     } catch (error) {
-      console.error('Error creating event:', error)
+      console.error('Error creating event:', error);
     }
-  }
+  };
 
   const createMatch = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!subscription || subscription.status !== 'active') {
-      alert('Please subscribe to create matches')
-      return
+      alert('Please subscribe to create matches');
+      return;
     }
     try {
-      const res = await axios.post('/api/organizer/matches', newMatch)
-      setMatches([...matches, res.data])
-      setNewMatch({ eventId: '', player1: '', player2: '', date: '' })
+      const res = await axios.post('/api/organizer/matches', newMatch);
+      setMatches([...matches, res.data]);
+      setNewMatch({ eventId: '', player1: '', player2: '', date: '' });
     } catch (error) {
-      console.error('Error creating match:', error)
+      console.error('Error creating match:', error);
     }
-  }
+  };
 
   const verifyUser = async (userId) => {
     try {
-      await axios.post(`/api/organizer/verify-user/${userId}`)
+      await axios.post(`/api/organizer/verify-user/${userId}`);
       setUnverifiedUsers(prevUsers => 
         prevUsers.filter(user => user.id !== userId)
-      )
+      );
     } catch (error) {
-      console.error('Error verifying user:', error)
+      console.error('Error verifying user:', error);
     }
-  }
+  };
 
   const handleSubscribe = () => {
-    router.push('/organizer/subscribe')
-  }
+    router.push('/organizer/subscribe');
+  };
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.5 }
+  };
+
+  // Add loading check here
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -280,12 +262,17 @@ export default function OrganizerDashboard() {
                   <TableBody>
                     {events.map((event) => (
                       <TableRow key={event.id}>
-                        <TableCell className="font-medium">{event.name}</TableCell>
+                                                <TableCell>{event.name}</TableCell>
                         <TableCell>{new Date(event.date).toLocaleDateString()}</TableCell>
                         <TableCell>{event.sport}</TableCell>
                         <TableCell>
-                          <Button variant="outline" size="sm" className="text-[#1e3a8a] border-[#40e0d0] hover:bg-[#40e0d0] hover:text-white transition-all duration-300">
-                            Edit
+                          <Button
+                            onClick={() => {
+                              // Add your delete or edit functionality here
+                            }}
+                            className="bg-red-500 hover:bg-red-600 text-white"
+                          >
+                            Delete
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -303,7 +290,7 @@ export default function OrganizerDashboard() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={createMatch} className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid md:grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="eventId">Event</Label>
                       <Select
@@ -315,21 +302,12 @@ export default function OrganizerDashboard() {
                         </SelectTrigger>
                         <SelectContent>
                           {events.map((event) => (
-                            <SelectItem key={event.id} value={event.id}>{event.name}</SelectItem>
+                            <SelectItem key={event.id} value={event.id}>
+                              {event.name}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="matchDate">Date</Label>
-                      <Input
-                        id="matchDate"
-                        type="date"
-                        value={newMatch.date}
-                        onChange={(e) => setNewMatch({...newMatch, date: e.target.value})}
-                        required
-                        className="border-[#40e0d0] focus:ring-[#1e3a8a]"
-                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="player1">Player 1</Label>
@@ -351,6 +329,17 @@ export default function OrganizerDashboard() {
                         className="border-[#40e0d0] focus:ring-[#1e3a8a]"
                       />
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="date">Match Date</Label>
+                    <Input
+                      id="date"
+                      type="date"
+                      value={newMatch.date}
+                      onChange={(e) => setNewMatch({...newMatch, date: e.target.value})}
+                      required
+                      className="border-[#40e0d0] focus:ring-[#1e3a8a]"
+                    />
                   </div>
                   <Button type="submit" className="w-full bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-white hover:from-[#40e0d0] hover:to-[#1e3a8a] transition-all duration-300">
                     Create Match
@@ -377,13 +366,18 @@ export default function OrganizerDashboard() {
                   <TableBody>
                     {matches.map((match) => (
                       <TableRow key={match.id}>
-                        <TableCell>{events.find(e => e.id === match.eventId)?.name}</TableCell>
+                        <TableCell>{match.eventName}</TableCell>
                         <TableCell>{match.player1}</TableCell>
                         <TableCell>{match.player2}</TableCell>
                         <TableCell>{new Date(match.date).toLocaleDateString()}</TableCell>
                         <TableCell>
-                          <Button variant="outline" size="sm" className="text-[#1e3a8a] border-[#40e0d0] hover:bg-[#40e0d0] hover:text-white transition-all duration-300">
-                            Edit
+                          <Button
+                            onClick={() => {
+                              // Add your delete or edit functionality here
+                            }}
+                            className="bg-red-500 hover:bg-red-600 text-white"
+                          >
+                            Delete
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -405,20 +399,19 @@ export default function OrganizerDashboard() {
                     <TableRow>
                       <TableHead>Name</TableHead>
                       <TableHead>Email</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Registration Date</TableHead>
-                      <TableHead>Action</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {unverifiedUsers.map((user) => (
                       <TableRow key={user.id}>
-                        <TableCell className="font-medium">{user.name}</TableCell>
+                        <TableCell>{user.name}</TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.role}</TableCell>
-                        <TableCell>{new Date(user.registrationDate).toLocaleDateString()}</TableCell>
                         <TableCell>
-                          <Button onClick={() => verifyUser(user.id)} className="bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-white hover:from-[#40e0d0] hover:to-[#1e3a8a] transition-all duration-300">
+                          <Button
+                            onClick={() => verifyUser(user.id)}
+                            className="bg-green-500 hover:bg-green-600 text-white"
+                          >
                             Verify
                           </Button>
                         </TableCell>
@@ -433,13 +426,11 @@ export default function OrganizerDashboard() {
           <TabsContent value="analytics" className="space-y-6">
             <Card className="bg-white dark:bg-gray-800 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-[#1e3a8a]">Performance Analytics</CardTitle>
+                <CardTitle className="text-2xl font-bold text-[#1e3a8a]">Analytics</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] flex items-center justify-center">
-                  <BarChart className="h-16 w-16 text-[#40e0d0]" />
-                  <p className="ml-4 text-lg text-gray-600 dark:text-gray-300">Analytics visualization coming soon!</p>
-                </div>
+                <p className="text-gray-700">Here you can add analytics data or visualizations.</p>
+                {/* Add analytics charts or graphs here */}
               </CardContent>
             </Card>
           </TabsContent>
