@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Users, CheckCircle, DollarSign, BarChart3, Search } from 'lucide-react';
+import { FaUsersLine } from "react-icons/fa6";
+import { LuCheckCircle } from "react-icons/lu";
+import { FaDollarSign } from "react-icons/fa6";
+import { LuBarChart3 } from "react-icons/lu";
+import { IoSearch } from "react-icons/io5";
+
 
 const AdminDashboard = () => {
   const [organizers, setOrganizers] = useState([]);
@@ -74,10 +79,10 @@ const AdminDashboard = () => {
 
         <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { title: "Total Users", value: organizers.length, icon: Users, color: "from-blue-600 to-blue-400" },
-            { title: "Pending Verifications", value: organizers.filter(org => org.status === 'pending').length, icon: CheckCircle, color: "from-yellow-600 to-yellow-400" },
-            { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: DollarSign, color: "from-green-600 to-green-400" },
-            { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: BarChart3, color: "from-purple-600 to-purple-400" },
+            { title: "Total Users", value: organizers.length, icon: FaUsersLine, color: "from-blue-600 to-blue-400" },
+            { title: "Pending Verifications", value: organizers.filter(org => org.status === 'pending').length, icon: LuCheckCircle, color: "from-yellow-600 to-yellow-400" },
+            { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: FaDollarSign, color: "from-green-600 to-green-400" },
+            { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: LuBarChart3, color: "from-purple-600 to-purple-400" },
           ].map((item, index) => (
             <motion.div
               key={index}
@@ -100,7 +105,7 @@ const AdminDashboard = () => {
         <div className="mb-6">
           <label htmlFor="search" className="text-lg font-semibold mb-2 block">Search</label>
           <div className="relative">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <IoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               id="search"
               className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#40e0d0]"

@@ -4,11 +4,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "../Components/ui/input"
 import { Label } from "../Components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../Components/ui/select"
-import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { Eye, EyeOff } from "lucide-react"
 import axios from 'axios'
+import { IoMdEyeOff } from "react-icons/io";
+import { FaEye } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
@@ -66,7 +66,7 @@ export default function Register() {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-center mb-4">
-              <Image src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
+              <img src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
             </div>
             <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">
               Create an Account
@@ -117,7 +117,7 @@ export default function Register() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
                     </button>
                   </div>
                 </div>

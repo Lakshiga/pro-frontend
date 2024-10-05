@@ -6,11 +6,13 @@ import { Label } from "../Components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../Components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../Components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../Components/ui/tabs";
-import { Calendar, Users, Trophy, DollarSign } from "lucide-react";
 import axios from 'axios';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
+import { IoCalendarNumberSharp } from "react-icons/io5";
+import { FaTrophy } from "react-icons/fa6";
+import { FaUsersLine } from "react-icons/fa6";
+import { FaDollarSign } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
 
 const OrganizerSubscription = {
   id: '',
@@ -24,8 +26,8 @@ export default function OrganizerDashboard() {
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState<OrganizerSubscription | null>(null);
+  const navigate = useNavigate();
 
-  const router = useRouter();
 
   const [newEvent, setNewEvent] = useState({
     name: '',
@@ -107,7 +109,7 @@ export default function OrganizerDashboard() {
   };
 
   const handleSubscribe = () => {
-    router.push('/organizer/subscribe');
+    navigate('/organizer/subscribe');
   };
 
   const fadeIn = {
@@ -126,7 +128,7 @@ export default function OrganizerDashboard() {
       <motion.div className="max-w-7xl mx-auto space-y-8" {...fadeIn}>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Image src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
+            <img src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
             <h1 className="text-4xl font-bold bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">
               Organizer Dashboard
             </h1>
@@ -140,7 +142,7 @@ export default function OrganizerDashboard() {
           <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Total Events</CardTitle>
-              <Calendar className="h-4 w-4 text-[#40e0d0]" />
+              <IoCalendarNumberSharp className="h-4 w-4 text-[#40e0d0]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{events.length}</div>
@@ -149,7 +151,7 @@ export default function OrganizerDashboard() {
           <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Total Matches</CardTitle>
-              <Trophy className="h-4 w-4 text-[#40e0d0]" />
+              <FaTrophy className="h-4 w-4 text-[#40e0d0]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{matches.length}</div>
@@ -158,7 +160,7 @@ export default function OrganizerDashboard() {
           <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Unverified Users</CardTitle>
-              <Users className="h-4 w-4 text-[#40e0d0]" />
+              <FaUsersLine className="h-4 w-4 text-[#40e0d0]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{unverifiedUsers.length}</div>
@@ -167,7 +169,7 @@ export default function OrganizerDashboard() {
           <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Subscription Status</CardTitle>
-              <DollarSign className="h-4 w-4 text-[#40e0d0]" />
+              <FaDollarSign className="h-4 w-4 text-[#40e0d0]" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{subscription?.status || 'Inactive'}</div>

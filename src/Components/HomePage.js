@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { Button } from "../Components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Components/ui/card"
-import { TableTennis, Chess, Dribbble, Users, Calendar, Award, Star, ArrowRight, Menu, Check } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
-
+import { Link } from 'react-router-dom';
+import { IoMenu } from "react-icons/io5";
+import { IoCalendarNumberSharp } from "react-icons/io5";
+import { FaUsersLine } from "react-icons/fa6";
+import { LuAward } from "react-icons/lu";
+import { FaRegStar } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { LiaTableTennisSolid } from "react-icons/lia";
+import { FaChess } from "react-icons/fa";
+import { FaDribbble } from "react-icons/fa6";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import "../CSS/HomePage.css"
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -19,7 +27,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#e6f7ff] via-white to-[#e6fffa] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <header className="px-4 lg:px-6 h-20 flex items-center border-b border-[#40e0d0]/20 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 dark:border-[#40e0d0]/10 sticky top-0 z-50">
         <Link className="flex items-center justify-center" href="#">
-          <Image src="/MatchMaster.png" alt="Match Master Logo" width={50} height={50} className="w-10 h-10 md:w-12 md:h-12" />
+          <img src="/MatchMaster.png" alt="Match Master Logo" width={50} height={50} className="w-10 h-10 md:w-12 md:h-12" />
           <span className="ml-2 text-xl font-bold bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">Match Master</span>
         </Link>
         <nav className={`ml-auto flex gap-4 sm:gap-6 ${isMenuOpen ? 'flex' : 'hidden'} md:flex`}>
@@ -33,7 +41,7 @@ export default function HomePage() {
           <Link href="/login">Log In</Link>
         </Button>
         <Button className="ml-2 md:hidden" variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <Menu className="h-6 w-6" />
+          <IoMenu className="h-6 w-6" />
         </Button>
       </header>
       <main className="flex-1">
@@ -66,12 +74,12 @@ export default function HomePage() {
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { icon: Calendar, title: "Event Management", description: "Create and manage sports events with customizable schedules and brackets." },
-                { icon: Users, title: "Player Registration", description: "Streamline the registration process for players and teams." },
-                { icon: Award, title: "Score Tracking", description: "Real-time score updates and automated result calculations." },
-                { icon: Star, title: "Performance Analytics", description: "Gain insights into player and team performance with advanced analytics." },
-                { icon: Award, title: "Tournament Creation", description: "Easily set up and manage tournaments of any size or format." },
-                { icon: ArrowRight, title: "Live Updates", description: "Keep participants and spectators informed with live event updates." },
+                { icon: IoCalendarNumberSharp, title: "Event Management", description: "Create and manage sports events with customizable schedules and brackets." },
+                { icon: FaUsersLine, title: "Player Registration", description: "Streamline the registration process for players and teams." },
+                { icon: LuAward, title: "Score Tracking", description: "Real-time score updates and automated result calculations." },
+                { icon: FaRegStar, title: "Performance Analytics", description: "Gain insights into player and team performance with advanced analytics." },
+                { icon: LuAward, title: "Tournament Creation", description: "Easily set up and manage tournaments of any size or format." },
+                { icon: FaArrowRightLong, title: "Live Updates", description: "Keep participants and spectators informed with live event updates." },
               ].map((feature, index) => (
                 <motion.div key={index} {...fadeIn} transition={{ delay: index * 0.1 }}>
                   <Card className="hover:shadow-xl transition-shadow duration-300 border-[#40e0d0]/20 dark:border-[#40e0d0]/10 overflow-hidden group">
@@ -95,10 +103,10 @@ export default function HomePage() {
             </motion.h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { icon: TableTennis, name: "Table Tennis" },
-                { icon: Chess, name: "Chess" },
-                { icon: Dribbble, name: "Carom" },
-                { icon: Award, name: "Badminton" },
+                { icon: LiaTableTennisSolid, name: "Table Tennis" },
+                { icon: FaChess, name: "Chess" },
+                { icon: FaDribbble, name: "Carom" },
+                { icon: LuAward, name: "Badminton" },
               ].map((sport, index) => (
                 <motion.div key={index} className="flex flex-col items-center" {...fadeIn} transition={{ delay: index * 0.1 }}>
                   <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#1e3a8a] to-[#40e0d0] flex items-center justify-center mb-4 shadow-lg group hover:shadow-xl transition-all duration-300">
@@ -157,7 +165,7 @@ export default function HomePage() {
                       <ul className="space-y-2">
                         {plan.features.map((feature, fIndex) => (
                           <li key={fIndex} className="flex items-center text-gray-700 dark:text-gray-200">
-                            <Check className="w-5 h-5 mr-2 text-[#40e0d0]" />
+                            <IoMdCheckmarkCircleOutline className="w-5 h-5 mr-2 text-[#40e0d0]" />
                             {feature}
                           </li>
                         ))}
