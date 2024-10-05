@@ -1,0 +1,63 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #e6f7ff, #ffffff, #e6fffa);
+}
+
+.dark .login-page {
+  background: linear-gradient(to bottom right, #1a202c, #2d3748, #1a202c);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-logo {
+  width: 60px;
+  height: 60px;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(to right, #1e3a8a, #40e0d0);
+  -webkit-background-clip: text; /* For Safari */
+  background-clip: text; /* Standard property, not fully supported for text */
+  -webkit-text-fill-color: transparent; /* For Safari */
+ /* Standard property, not widely supported */
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(to right, #1e3a8a, #40e0d0);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background: linear-gradient(to right, #40e0d0, #1e3a8a);
+}
+
+.forgot-password {
+  color: #40e0d0;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.register-link {
+  color: #1e3a8a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

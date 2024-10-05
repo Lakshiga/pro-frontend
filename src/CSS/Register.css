@@ -1,0 +1,84 @@
+/* Custom styles for the Register page */
+
+/* Background styling for better gradients on light/dark modes */
+body {
+    background: linear-gradient(to bottom right, #e6f7ff, #e6fffa);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Card shadow customization */
+  .card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button hover transition */
+  .button {
+    transition: background 0.3s ease;
+  }
+  
+  .button:hover {
+    background: linear-gradient(to right, #40e0d0, #1e3a8a);
+  }
+  
+  /* Styling for form inputs */
+  input {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #40e0d0;
+  }
+  
+  /* Label styles */
+  label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Select dropdown */
+  .select-trigger {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  
+  .select-trigger:hover {
+    border-color: #1e3a8a;
+  }
+  
+  /* Password toggle button */
+  .password-toggle-btn {
+    cursor: pointer;
+    color: #666;
+  }
+  
+  /* General text alignment for footer */
+  .card-footer {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .card-footer a {
+    color: #40e0d0;
+    font-weight: bold;
+  }
+  
+  .card-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Custom styling for the gradient text in the header */
+  .card-title {
+    background: linear-gradient(to right, #1e3a8a, #40e0d0);
+    -webkit-background-clip: text; /* For Safari */
+    background-clip: text; /* Standard property, limited support for text */
+    color: transparent; /* Makes the text color transparent */
+    font-weight: bold;
+  }
+  
+  
