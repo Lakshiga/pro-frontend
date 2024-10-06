@@ -11,7 +11,7 @@ import logo from '../Images/MatchMaster.png'; // Import your logo here
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     role: ''
@@ -38,6 +38,9 @@ export default function Register() {
     e.preventDefault()
     setError('')
     setSuccess(false)
+
+    // Debug: Check if form data is being sent correctly
+  console.log('Form data:', formData);
 
     try {
       const response = await axios.post('http://localhost:3000/api/auth/register', formData)
