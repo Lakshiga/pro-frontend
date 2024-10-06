@@ -42,7 +42,7 @@ const OrganizerDashboard = () => {
   const createEvent = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/organizer/events', newEvent);
+      const res = await axios.post('/api/event/create', newEvent);
       setEvents([...events, res.data]);
       setNewEvent({ name: '', date: '', sport: '' });
     } catch (error) {
@@ -53,7 +53,7 @@ const OrganizerDashboard = () => {
   const createMatch = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/organizer/matches', newMatch);
+      const res = await axios.post('/api/match/create', newMatch);
       setMatches([...matches, res.data]);
       setNewMatch({ eventId: '', player1: '', player2: '', date: '' });
     } catch (error) {

@@ -43,7 +43,7 @@ export default function Register() {
   console.log('Form data:', formData);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', formData)
+      const response = await axios.post('http://localhost:4000/api/auth/register', formData)
       console.log('Registration successful:', response.data)
       setSuccess(true)
       setFormData({ username: '', email: '', password: '', role: '' })
@@ -76,11 +76,11 @@ export default function Register() {
                 <label htmlFor="name" className="form-label">Name</label>
                 <input 
                   id="name" 
-                  name="name" 
+                  name="username" 
                   placeholder="John Doe" 
                   className="form-control" 
                   required 
-                  value={formData.name}
+                  value={formData.username}
                   onChange={handleInputChange}
                 />
               </div>
