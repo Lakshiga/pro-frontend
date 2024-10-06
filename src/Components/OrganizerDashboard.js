@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import "../CSS/OrganizerDashboard.css"
 import logo from '../Images/MatchMaster.png'; // Import your logo here
 
-
 const OrganizerDashboard = () => {
   const [events, setEvents] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -72,42 +71,58 @@ const OrganizerDashboard = () => {
   };
 
   const handleSubscribe = () => {
-    navigate('/organizer/subscribe');
+    navigate('/organizer-subscribe');
   };
 
   return (
     <div className="min-vh-100 custom-gradient p-4">
-      <div className="container">
-        <header className="d-flex justify-content-between align-items-center mb-4">
-          <div className="d-flex align-items-center">
+    <div className="container">
+      <header className="d-flex justify-content-between align-items-center mb-4">
+        <div className="d-flex align-items-center">
           <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
-            <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
-          </div>
-          <button className="btn btn-outline-light">Logout</button>
-        </header>
+          <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
+        </div>
+        <button className="btn btn-outline-light">Logout</button>
+      </header>
 
-        <div className="row g-4 mb-4">
-          {[
-            { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp, color: "bg-info" },
-            { title: "Total Matches", value: matches.length, icon: FaTrophy, color: "bg-info" },
-            { title: "Unverified Users", value: unverifiedUsers.length, icon: FaUsersLine, color: "bg-info" },
-            { title: "Subscription Status", value: subscription?.status || 'Inactive', icon: FaDollarSign, color: "bg-info" },
-          ].map((item, index) => (
-            <div key={index} className="col-md-6 col-lg-3">
-              <div className={`card ${item.color} text-white`}>
-                <div className="card-body">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h6 className="card-subtitle">{item.title}</h6>
-                    <item.icon className="fs-4" />
-                  </div>
-                  <h2 className="card-title mb-0">{item.value}</h2>
+      <div className="row g-4 mb-4">
+        {[
+          { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp, color: "bg-info" },
+          { title: "Total Matches", value: matches.length, icon: FaTrophy, color: "bg-info" },
+          { title: "Unverified Users", value: unverifiedUsers.length, icon: FaUsersLine, color: "bg-info" },
+        ].map((item, index) => (
+          <div key={index} className="col-md-6 col-lg-3">
+            <div className={`card ${item.color}`} style={{ color: 'navy' }}>
+              <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <h6 className="card-subtitle">{item.title}</h6>
+                  <item.icon className="fs-4" />
                 </div>
+                <h2 className="card-title mb-0">{item.value}</h2>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
 
-        <ul className="nav nav-tabs mb-4">
+        {/* Subscription Status Integrated into the Card Grid */}
+        <div className="col-md-6 col-lg-3">
+          <div className={`card bg-info`} style={{ color: 'navy' }}>
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <h6 className="card-subtitle">Subscription Status</h6>
+                <FaDollarSign className="fs-4" />
+              </div>
+              <h2 className="card-title mb-0">{subscription?.status || 'Inactive'}</h2>
+              <button 
+                  className="btn mt-3"
+                  style={{ backgroundColor: 'navy', color: 'white' }} // Adding navy color
+                  onClick={handleSubscribe}>Subscribe Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <ul className="nav nav-tabs mb-4" >
           <li className="nav-item">
             <button className={`nav-link ${activeTab === 'events' ? 'active' : ''}`} onClick={() => setActiveTab('events')}>Events</button>
           </li>
@@ -141,7 +156,7 @@ const OrganizerDashboard = () => {
                           required
                         />
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-4" >
                         <label htmlFor="eventDate" className="form-label">Date</label>
                         <input
                           type="date"
@@ -169,7 +184,7 @@ const OrganizerDashboard = () => {
                         </select>
                       </div>
                     </div>
-                    <button type="submit" className="btn btn-primary mt-3">Create Event</button>
+                    <button type="submit" className="btn mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>Create Event</button>
                   </form>
                 </div>
               </div>
