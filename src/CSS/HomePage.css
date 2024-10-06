@@ -55,8 +55,8 @@
 
   .custom-gradient {
     background: linear-gradient(to bottom right, #08096b, #00e6d4);
-  }
-  
+}
+
   /* In your HomePage.css or a similar CSS file */
 .custom-gradient {
   background: linear-gradient(to bottom right, #08096b, #00e6d4);

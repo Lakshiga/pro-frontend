@@ -55,7 +55,7 @@ export default function Login() {
         <div className="card w-100" style={{ maxWidth: '28rem' }}>
           <div className="card-header text-center">
           <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-2" />
-            <h2 className="card-title h4 fw-bold text-primary">Welcome Back</h2>
+            <h2 className="card-title h4 fw-bold"style={{ color: 'navy' }}>Welcome Back</h2>
             <p className="card-text text-muted">Log in to your Match Master account</p>
           </div>
           <div className="card-body">
@@ -95,14 +95,14 @@ export default function Login() {
                 </div>
               </div>
               {error && <p className="text-danger">{error}</p>}
-              <button type="submit" className="btn btn-primary w-100 mt-3">Log In</button>
+<button type="submit" className="btn w-100 mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>Log In</button>
             </form>
           </div>
           <div className="card-footer text-center">
             <Link to="/forgot-password" className="fw-bold text-decoration-none">Forgot your password?</Link>
             <p className="mt-2">
-              Don't have an account? 
-              <Link to="/register" className="fw-bold text-decoration-none">Register</Link>
+              Don't have an account ?   
+              <Link to="/register" className="fw-bold text-decoration-none">  Register </Link>
             </p>
           </div>
         </div>

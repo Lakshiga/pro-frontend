@@ -14,6 +14,7 @@ import { FaChess } from "react-icons/fa";
 import { FaDribbble } from "react-icons/fa6";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import logo from '../Images/MatchMaster.png'; // Import your logo here
+import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope } from 'react-icons/fa'; // Importing FontAwesome Icons from React Icons
 import "../CSS/HomePage.css"
 
 export default function HomePage() {
@@ -29,17 +30,17 @@ export default function HomePage() {
     <div className="d-flex flex-column min-vh-100">
       <header className="px-4 py-3 d-flex align-items-center border-bottom bg-white sticky-top shadow-sm">
         <a className="d-flex align-items-center justify-content-center text-decoration-none" href="#">
-          <img src={logo} alt="Match Master Logo" width={50} height={50} className="me-2" />
-          <span className="h5 fw-bold text-primary">Match Master</span>
+          <img src={logo} alt="Match Master Logo" width={85} height={80} className="me-2" />
+          <span className="h5 fw-bold " style={{ color: 'navy' }} >Match Master</span>
         </a>
         <nav className={`ms-auto ${isMenuOpen ? 'd-flex' : 'd-none'} d-md-flex gap-3`}>
           {['Features', 'Sports', 'Testimonials', 'Pricing'].map((item) => (
-            <a key={item} className="text-secondary text-decoration-none" href={`#${item.toLowerCase()}`}>
+            <a key={item} className="text-secondary text-decoration-none fw-bold" href={`#${item.toLowerCase()}`}>
               {item}
             </a>
           ))}
         </nav>
-        <a href="/login" className="btn btn-primary ms-3">Log In</a>
+        <a href="/login" className="btn w-15 py-2 custom-gradient ms-3 fw-bold"style={{ color: '#00e6d4' }}>Log In</a>
         <button className="btn btn-outline-secondary d-md-none ms-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <IoMenu />
         </button>
@@ -48,17 +49,17 @@ export default function HomePage() {
       <main className="flex-grow-1">
         <section className="py-5 custom-gradient text-white">
           <div className="container text-center">
-            <h1 className="display-4 fw-bold">Revolutionize Your <span className="text-info">Sports Management</span></h1>
-            <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
-            <a href="/register" className="btn btn-light text-primary me-2">Get Started for Free</a>
-            <a href="#features" className="btn btn-outline-light">Learn More</a>
+          <h1 className="display-4 fw-bold">Revolutionize Your <span style={{ color: '#00e6d4' }}>Sports Management</span></h1>
+          <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
+            <a href="/register" className="btn btn-light me-2 fw-bold"style={{ color: 'navy' }}>Get Started for Free</a>
+            <a href="#features" className="btn btn-outline-light fw-bold">Learn More</a>
           </div>
         </section>
 
         <section id="features" className="py-5 bg-light">
           <div className="container">
-            <h2 className="text-center mb-5 text-primary">Powerful Features</h2>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <h2 className="text-center mb-5"style={{ color: 'navy' }}>Powerful Features</h2>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
               {[
                 { icon: IoCalendarNumberSharp, title: "Event Management", description: "Create and manage sports events with customizable schedules and brackets." },
                 { icon: FaUsersLine, title: "Player Registration", description: "Streamline the registration process for players and teams." },
@@ -70,7 +71,7 @@ export default function HomePage() {
                 <div className="col" key={index}>
                   <div className="card h-100 text-center shadow-sm">
                     <div className="card-body">
-                      <feature.icon className="fs-1 text-primary mb-3" />
+                      <feature.icon className="fs-1 mb-3"style={{ color: 'navy' }} />
                       <h5 className="card-title">{feature.title}</h5>
                       <p className="card-text">{feature.description}</p>
                     </div>
@@ -93,7 +94,7 @@ export default function HomePage() {
               ].map((sport, index) => (
                 <div key={index} className="col text-center">
                   <div className="bg-white rounded-circle p-4 shadow-lg mb-3 d-flex justify-content-center align-items-center mx-auto" style={{width: '100px', height: '100px'}}>
-                    <sport.icon className="text-primary fs-1" />
+                    <sport.icon className="fs-1" style={{ color: 'navy' }} />
                   </div>
                   <h3 className="text-white">{sport.name}</h3>
                 </div>
@@ -104,7 +105,7 @@ export default function HomePage() {
 
         <section id="testimonials" className="py-5 bg-white">
           <div className="container">
-            <h2 className="text-center mb-5 text-primary">What Our Users Say</h2>
+            <h2 className="text-center mb-5" style={{ color: 'navy' }}>What Our Users Say</h2>
             <div className="row row-cols-1 row-cols-md-3 g-4">
               {[
                 { name: "Alex Johnson", role: "Tournament Organizer", quote: "Match Master has revolutionized how we manage our annual chess tournament. It's a game-changer!" },
@@ -113,12 +114,12 @@ export default function HomePage() {
               ].map((testimonial, index) => (
                 <div key={index} className="col">
                   <div className="card h-100 border-primary">
-                    <div className="card-header bg-primary text-white">
+                    <div className="card-header w-100 py-2 custom-gradient text-white text-white">
                       <h5 className="card-title mb-0">{testimonial.name}</h5>
                       <small>{testimonial.role}</small>
                     </div>
                     <div className="card-body">
-                      <p className="card-text">"{testimonial.quote}"</p>
+                      <p className="card-text fw-bold">"{testimonial.quote}"</p>
                     </div>
                   </div>
                 </div>
@@ -129,7 +130,7 @@ export default function HomePage() {
 
         <section id="pricing" className="py-5 custom-gradient">
           <div className="container">
-            <h2 className="text-center mb-5 text-white">Simple, Transparent Pricing</h2>
+            <h2 className="text-center mb-5 text-white fw-bold">Simple, Transparent Pricing</h2>
             <div className="row row-cols-1 row-cols-md-3 g-4">
               {[
                 { name: "Basic", price: "$29", features: ["Up to 5 events", "100 player registrations", "Basic analytics", "Email support"] },
@@ -139,11 +140,11 @@ export default function HomePage() {
                 <div key={index} className="col">
                   <div className="card h-100 text-center">
                     <div className="card-header bg-white">
-                      <h5 className="card-title text-primary">{plan.name}</h5>
+                      <h5 className="card-title fw-bold" style={{ color: 'navy' }}>{plan.name}</h5>
                       <div className="display-4 fw-bold">{plan.price}</div>
                     </div>
                     <div className="card-body">
-                      <ul className="list-unstyled">
+                      <ul className="list-unstyled fw-bold">
                         {plan.features.map((feature, fIndex) => (
                           <li key={fIndex} className="mb-2">
                             <IoMdCheckmarkCircleOutline className="text-success me-2" />
@@ -153,7 +154,7 @@ export default function HomePage() {
                       </ul>
                     </div>
                     <div className="card-footer bg-white">
-                      <Link to="/register" className="btn btn-primary w-100">Get Started</Link>
+                      <Link to="/register" className="btn w-100 py-2 custom-gradient text-white">Get Started</Link>
                     </div>
                   </div>
                 </div>
@@ -164,29 +165,42 @@ export default function HomePage() {
 
         <section className="py-5 custom-gradient text-white">
           <div className="container text-center">
-            <h2 className="mb-4">Ready to Transform Your Sports Management?</h2>
+            <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
             <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
-            <Link to="/register" className="btn btn-light btn-lg text-primary">Start Your Free Trial</Link>
+            <Link to="/register" className="btn btn-light btn-lg fw-bold "style={{ color: 'navy' }}>Start Your Free Trial</Link>
           </div>
         </section>
       </main>
 
       <footer className="py-4 bg-light border-top">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
-              <p className="mb-0 text-muted">© 2024 Match Master. All rights reserved.</p>
-            </div>
-            <div className="col-md-6">
-              <nav className="nav justify-content-center justify-content-md-end">
-                <Link className="nav-link text-muted" to="#">Terms of Service</Link>
-                <Link className="nav-link text-muted" to="#">Privacy Policy</Link>
-                <Link className="nav-link text-muted" to="#">Contact Us</Link>
-              </nav>
-            </div>
+      <div className="container">
+        <div className="row justify-content-center text-center"> {/* Center the entire row */}
+          <div className="col-12 mb-3"> {/* Center the text and icons */}
+            <p className="mb-0 text-muted">© 2024 Match Master. All rights reserved.</p>
+          </div>
+          <div className="col-12">
+            <nav className="nav justify-content-center"> {/* Center the nav links and icons */}
+              <Link className="nav-link text-muted" to="#">Terms of Service</Link>
+              <Link className="nav-link text-muted" to="#">Privacy Policy</Link>
+              <Link className="nav-link text-muted" to="#">Contact Us</Link>
+              {/* Social Media Icons */}
+              <a href="https://www.facebook.com" className="nav-link text-muted" target="_blank" rel="noopener noreferrer">
+                <FaFacebook size={24} /> {/* Facebook Icon */}
+              </a>
+              <a href="https://www.twitter.com" className="nav-link text-muted" target="_blank" rel="noopener noreferrer">
+                <FaTwitter size={24} /> {/* Twitter Icon */}
+              </a>
+              <a href="https://www.instagram.com" className="nav-link text-muted" target="_blank" rel="noopener noreferrer">
+                <FaInstagram size={24} /> {/* Instagram Icon */}
+              </a>
+              <a href="mailto:info@matchmaster.com" className="nav-link text-muted">
+                <FaEnvelope size={24} /> {/* Email Icon */}
+              </a>
+            </nav>
           </div>
         </div>
-      </footer>
+      </div>
+    </footer>
     </div>
   )
 }

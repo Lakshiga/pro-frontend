@@ -1,22 +1,21 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import "../CSS/OrganzierSubscribe.css"
+import axios from 'axios';
+import "../CSS/OrganzierSubscribe.css";
 import logo from '../Images/MatchMaster.png'; // Adjust the path based on your folder structure
 
-
 export default function OrganizerSubscribe() {
-  const [plan, setPlan] = useState('monthly')
-  const [cardNumber, setCardNumber] = useState('')
-  const [expiryDate, setExpiryDate] = useState('')
-  const [cvv, setCvv] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [plan, setPlan] = useState('monthly');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
       // In a real application, you would use a secure payment gateway here
@@ -24,34 +23,33 @@ export default function OrganizerSubscribe() {
         plan,
         cardNumber,
         expiryDate,
-        cvv
-      })
+        cvv,
+      });
 
       if (response.data.success) {
-        alert('Subscription successful!')
-        navigate('/organizer/dashboard')
+        alert('Subscription successful!');
+        navigate('/organizer/dashboard');
       } else {
-        alert('Subscription failed. Please try again.')
+        alert('Subscription failed. Please try again.');
       }
     } catch (error) {
-      console.error('Error during subscription:', error)
-      alert('An error occurred. Please try again.')
+      console.error('Error during subscription:', error);
+      alert('An error occurred. Please try again.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-vh-100 custom-gradient d-flex align-items-center justify-content-center p-4">
-      <div className="card w-100 max-w-md bg-white shadow-lg">
-        <div className="card-header text-center border-0 bg-transparent">
-        <img src={logo} alt="Match Master Logo" width={80} height={80} className="mx-auto mb-4" />
-        <h2 className="card-title h3 fw-bold text-primary">Organizer Subscription</h2>
-          <p className="card-text text-muted">Choose a plan to start organizing events</p>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center p-4 bg-light">
+      <div className="card custom-card bg-white shadow-sm">
+        <div className="text-center mb-4">
+          <img src={logo} alt="Match Master Logo" width={60} height={60} className="mb-3" />
+          <h2 className="h4 text-primary">Organizer Subscription</h2>
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-3">
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -93,7 +91,7 @@ export default function OrganizerSubscribe() {
                 required
               />
             </div>
-            <div className="row g-3 mb-3">
+            <div className="row mb-3">
               <div className="col-md-6">
                 <label htmlFor="expiryDate" className="form-label">Expiry Date</label>
                 <input
@@ -128,10 +126,10 @@ export default function OrganizerSubscribe() {
             </button>
           </form>
         </div>
-        <div className="card-footer text-center border-0 bg-transparent">
+        <div className="text-center mt-3">
           <small className="text-muted">By subscribing, you agree to our Terms of Service and Privacy Policy.</small>
         </div>
       </div>
     </div>
-  )
+  );
 }
