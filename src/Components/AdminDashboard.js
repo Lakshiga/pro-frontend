@@ -24,8 +24,8 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const [organizersRes, paymentsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/organizers'),
-        axios.get('http://localhost:5000/api/payments')
+        axios.get('http://localhost:3000/api/organizers'),
+        axios.get('http://localhost:3000/api/payments')
       ]);
       setOrganizers(organizersRes.data);
       setPayments(paymentsRes.data);
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
 
   const verifyOrganizer = async (organizerId) => {
     try {
-      await axios.patch(`http://localhost:5000/api/organizers/verify/${organizerId}`);
+      await axios.patch(`http://localhost:3000/api/admin/verify/${organizerId}`);
       fetchData();
     } catch (error) {
       console.error('Error verifying organizer:', error);
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
 
   const approvePayment = async (paymentId) => {
     try {
-      await axios.patch(`http://localhost:5000/api/payments/approve/${paymentId}`);
+      await axios.patch(`http://localhost:3000/api/payments/approve/${paymentId}`);
       fetchData();
     } catch (error) {
       console.error('Error approving payment:', error);

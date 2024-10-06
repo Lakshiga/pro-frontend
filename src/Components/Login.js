@@ -1,8 +1,4 @@
 import React, { useState } from 'react'
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../Components/ui/card"
-import { Input } from "../Components/ui/input"
-import { Label } from "../Components/ui/label"
 import { motion } from "framer-motion"
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
@@ -32,7 +28,7 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post('http://localhost:3000/api/auth/login', formData);
       console.log('Login successful:', response.data);
       // Here you would typically store the token and redirect the user
     } catch (error) {

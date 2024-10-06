@@ -40,10 +40,10 @@ export default function Register() {
     setSuccess(false)
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData)
+      const response = await axios.post('http://localhost:3000/api/auth/register', formData)
       console.log('Registration successful:', response.data)
       setSuccess(true)
-      setFormData({ name: '', email: '', password: '', role: '' })
+      setFormData({ username: '', email: '', password: '', role: '' })
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         setError(error.response.data.message || 'An error occurred during registration')

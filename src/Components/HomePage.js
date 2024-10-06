@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Components/ui/card"
-import { motion } from "framer-motion"
 import { Link } from 'react-router-dom';
 import { IoMenu } from "react-icons/io5";
 import { IoCalendarNumberSharp } from "react-icons/io5";
@@ -19,12 +16,6 @@ import "../CSS/HomePage.css"
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 }
-  }
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -72,7 +63,7 @@ export default function HomePage() {
                   <div className="card h-100 text-center shadow-sm">
                     <div className="card-body">
                       <feature.icon className="fs-1 mb-3"style={{ color: 'navy' }} />
-                      <h5 className="card-title">{feature.title}</h5>
+                      <h5 className="card-title"style={{ color: 'navy' }}>{feature.title}</h5>
                       <p className="card-text">{feature.description}</p>
                     </div>
                   </div>
