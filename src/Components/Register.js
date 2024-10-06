@@ -63,7 +63,7 @@ export default function Register() {
       >
         <div className="card w-100" style={{ maxWidth: '28rem' }}>
           <div className="card-header text-center">
-          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-2" />
+          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-0" />
             <h2 className="card-title fw-bold mb-0"style={{ color: 'navy' }}>Create an Account</h2>
             <p className="text-muted">Enter your details to register for Match Master</p>
           </div>

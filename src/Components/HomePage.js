@@ -51,8 +51,8 @@ export default function HomePage() {
           <div className="container text-center">
           <h1 className="display-4 fw-bold">Revolutionize Your <span style={{ color: '#00e6d4' }}>Sports Management</span></h1>
           <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
-            <a href="/register" className="btn btn-light me-2 fw-bold"style={{ color: 'navy' }}>Get Started for Free</a>
-            <a href="#features" className="btn btn-outline-light fw-bold">Learn More</a>
+            <a href="/register" className="btn btn-outline-light me-2 fw-bold"style={{ color: '#00e6d4' }}>Get Started for Free</a>
+            <a href="#features" className="btn btn-outline-light fw-bold"style={{ color: '#00e6d4' }}>Learn More</a>
           </div>
         </section>
 
@@ -141,13 +141,13 @@ export default function HomePage() {
                   <div className="card h-100 text-center">
                     <div className="card-header bg-white">
                       <h5 className="card-title fw-bold" style={{ color: 'navy' }}>{plan.name}</h5>
-                      <div className="display-4 fw-bold">{plan.price}</div>
+                      <div className="display-4 fw-bold" style={{ color: 'navy' }}>{plan.price}</div>
                     </div>
                     <div className="card-body">
                       <ul className="list-unstyled fw-bold">
                         {plan.features.map((feature, fIndex) => (
                           <li key={fIndex} className="mb-2">
-                            <IoMdCheckmarkCircleOutline className="text-success me-2" />
+                            <IoMdCheckmarkCircleOutline className="me-2" style={{ color: 'navy' }}/>
                             {feature}
                           </li>
                         ))}
@@ -167,7 +167,7 @@ export default function HomePage() {
           <div className="container text-center">
             <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
             <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
-            <Link to="/register" className="btn btn-light btn-lg fw-bold "style={{ color: 'navy' }}>Start Your Free Trial</Link>
+            <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#00e6d4' }}>Start Your Free Trial</Link>
           </div>
         </section>
       </main>

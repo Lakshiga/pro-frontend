@@ -1,3 +1,10 @@
 /* .custom-gradient {
   background: linear-gradient(to bottom right, #08096b, #00e6d4);
 } */
+
+.logo-square {
+  width: 60px; /* Set the width */
+  height: 60px; /* Set the height equal to the width for a square */
+  border-radius: 40px; /* Adjust this value for the desired roundness */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}

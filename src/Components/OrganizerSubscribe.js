@@ -41,11 +41,11 @@ export default function OrganizerSubscribe() {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center p-4 bg-light">
+    <div className="min-vh-100 custom-gradient d-flex align-items-center justify-content-center p-4">
       <div className="card custom-card bg-white shadow-sm">
         <div className="text-center mb-4">
           <img src={logo} alt="Match Master Logo" width={60} height={60} className="mb-3" />
-          <h2 className="h4 text-primary">Organizer Subscription</h2>
+          <h2 className="h4 fw-bold" style={{ color: 'navy' }}>Organizer Subscription</h2>
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
@@ -116,10 +116,10 @@ export default function OrganizerSubscribe() {
                   required
                 />
               </div>
-            </div>
+            </div> 
             <button
               type="submit"
-              className="btn btn-primary w-100"
+              className="btn w-100 mt-3" style={{ backgroundColor: 'navy', color: 'white' }}
               disabled={loading}
             >
               {loading ? 'Processing...' : 'Subscribe Now'}

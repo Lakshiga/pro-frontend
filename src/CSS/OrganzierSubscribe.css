@@ -1,22 +1,31 @@
 .custom-gradient {
-    background: linear-gradient(to bottom right, #08096b, #00e6d4);
-  }
-  
-  .btn-primary {
-    background-color: #08096b;
-    border-color: #08096b;
-  }
-  
-  .btn-primary:hover, .btn-primary:focus {
-    background-color: #00e6d4;
-    border-color: #00e6d4;
-  }
-  
-  .text-primary {
-    color: #08096b !important;
-  }
-  
-  .form-check-input:checked {
-    background-color: #08096b;
-    border-color: #08096b;
-  }
+  background: linear-gradient(to bottom right, #08096b, #00e6d4);
+}
+
+.custom-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.custom-card .form-check {
+  margin-bottom: 10px;
+}
+
+.custom-card .form-control {
+  border-radius: 5px;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.btn {
+  background-color: navy;
+  color: white;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}

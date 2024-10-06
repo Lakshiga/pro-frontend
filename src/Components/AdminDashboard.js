@@ -64,12 +64,12 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-vh-100 custom-gradient p-4">
+    <div className="min-vh-100 custom-gradient p-5">
       <div className="container">
-        <header className="d-flex justify-content-between align-items-center mb-4">
+        <header className="d-flex justify-content-between align-items-center mb-5">
           <div className="d-flex align-items-center">
-          <img src={logo} alt="Match Master Logo" className="me-3" style={{width: '48px', height: '48px'}} />
-            <h1 className="h3 fw-bold text-white mb-0">Admin Dashboard</h1>
+          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
+            <h1 className="h3 fw-bold text-white mb-0">  Admin Dashboard </h1>
           </div>
           <button className="btn btn-outline-light">
             Logout
@@ -90,7 +90,7 @@ const AdminDashboard = () => {
               transition={{ duration: 0.3, delay: index * 0.1 }}
               className={`col-md-6 col-lg-3`}
             >
-              <div className={`${item.color} text-white p-3 rounded`}>
+              <div className={`${item.color}  p-3 rounded`}style={{ color: 'navy' }}>
                 <div className="d-flex justify-content-between mb-2">
                   <h2 className="h6 mb-0">{item.title}</h2>
                   <item.icon className="fs-4" />
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <ul className="nav nav-tabs mb-4">
+        <ul className="nav nav-tabs mb-4"style={{ color: 'navy' }}>
           <li className="nav-item">
             <button
               className={`nav-link ${activeTab === 'organizers' ? 'active' : ''}`}
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
               Organizers
             </button>
           </li>
-          <li className="nav-item">
+          <li className="nav-item"style={{ color: 'navy' }}>
             <button
               className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
               onClick={() => setActiveTab('payments')}
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
         ) : (
           <>
             {activeTab === 'organizers' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden">
+              <div className="bg-white rounded shadow-sm overflow-hidden"style={{ color: 'navy' }}>
                 <div className="p-4">
                   <h2 className="h5 mb-3">Organizers</h2>
                   <div className="table-responsive">
@@ -194,7 +194,7 @@ const AdminDashboard = () => {
             )}
 
             {activeTab === 'payments' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden">
+              <div className="bg-white rounded shadow-sm overflow-hidden"style={{ color: 'navy' }}>
                 <div className="p-4">
                   <h2 className="h5 mb-3">Payments</h2>
                   <div className="table-responsive">

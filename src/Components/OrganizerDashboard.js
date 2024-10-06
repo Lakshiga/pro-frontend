@@ -80,7 +80,7 @@ const OrganizerDashboard = () => {
       <div className="container">
         <header className="d-flex justify-content-between align-items-center mb-4">
           <div className="d-flex align-items-center">
-            <img src={logo} alt="Match Master Logo" width="60" height="60" className="me-3" />
+          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
             <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
           </div>
           <button className="btn btn-outline-light">Logout</button>
