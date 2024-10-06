@@ -7,117 +7,106 @@ import { motion } from "framer-motion"
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-
 import axios from 'axios'
+import logo from '../Images/MatchMaster.png'; // Import your logo here
+import "../CSS/Login.css"
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
-  })
-  const [error, setError] = useState('')
+  });
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prevData => ({
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData)
-      console.log('Login successful:', response.data)
+      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      console.log('Login successful:', response.data);
       // Here you would typically store the token and redirect the user
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.message || 'An error occurred during login')
+        setError(error.response.data.message || 'An error occurred during login');
       } else {
-        setError('An error occurred during login')
+        setError('An error occurred during login');
       }
-      console.error('Login error:', error)
+      console.error('Login error:', error);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#e6f7ff] via-white to-[#e6fffa] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center custom-gradient p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-center mb-4">
-              <img src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
-            </div>
-            <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">
-              Welcome Back
-            </CardTitle>
-            <CardDescription className="text-center">
-              Log in to your Match Master account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="card w-100" style={{ maxWidth: '28rem' }}>
+          <div className="card-header text-center">
+          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-2" />
+            <h2 className="card-title h4 fw-bold text-primary">Welcome Back</h2>
+            <p className="card-text text-muted">Log in to your Match Master account</p>
+          </div>
+          <div className="card-body">
             <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
-                    name="email" 
-                    placeholder="john@example.com" 
-                    type="email" 
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input 
+                  id="email" 
+                  name="email" 
+                  placeholder="john@example.com" 
+                  type="email" 
+                  className="form-control" 
+                  required 
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <div className="input-group">
+                  <input 
+                    id="password" 
+                    name="password" 
+                    type={showPassword ? "text" : "password"} 
+                    className="form-control" 
                     required 
-                    value={formData.email}
+                    value={formData.password}
                     onChange={handleInputChange}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Input 
-                      id="password" 
-                      name="password" 
-                      type={showPassword ? "text" : "password"} 
-                      required 
-                      value={formData.password}
-                      onChange={handleInputChange}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                    >
-                      {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
+                  </button>
                 </div>
               </div>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
-              <Button className="w-full mt-6 bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-white hover:from-[#40e0d0] hover:to-[#1e3a8a] transition-all duration-300" type="submit">
-                Log In
-              </Button>
+              {error && <p className="text-danger">{error}</p>}
+              <button type="submit" className="btn btn-primary w-100 mt-3">Log In</button>
             </form>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
-            <Link href="/forgot-password" className="text-sm text-[#40e0d0] hover:underline text-center">
-              Forgot your password?
-            </Link>
-            <div className="text-sm text-gray-600 dark:text-gray-400 text-center">
+          </div>
+          <div className="card-footer text-center">
+            <Link to="/forgot-password" className="fw-bold text-decoration-none">Forgot your password?</Link>
+            <p className="mt-2">
               Don't have an account? 
-              <Link href="/register" className="text-[#1e3a8a] hover:underline font-semibold ml-1">
-                Register
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
+              <Link to="/register" className="fw-bold text-decoration-none">Register</Link>
+            </p>
+          </div>
+        </div>
       </motion.div>
     </div>
-  )
+  );
 }

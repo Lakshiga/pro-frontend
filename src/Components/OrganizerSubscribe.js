@@ -1,12 +1,9 @@
 import { useState } from 'react'
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../Components/ui/card"
-import { Input } from "../Components/ui/input"
-import { Label } from "../Components/ui/label"
-import { RadioGroup, RadioGroupItem } from "../Components/ui/radio-group"
-import { useRouter } from 'next/router'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
-import Image from 'next/image'
+import "../CSS/OrganzierSubscribe.css"
+import logo from '../Images/MatchMaster.png'; // Adjust the path based on your folder structure
+
 
 export default function OrganizerSubscribe() {
   const [plan, setPlan] = useState('monthly')
@@ -15,7 +12,7 @@ export default function OrganizerSubscribe() {
   const [cvv, setCvv] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const router = useRouter()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,7 +29,7 @@ export default function OrganizerSubscribe() {
 
       if (response.data.success) {
         alert('Subscription successful!')
-        router.push('/organizer/dashboard')
+        navigate('/organizer/dashboard')
       } else {
         alert('Subscription failed. Please try again.')
       }
@@ -45,74 +42,96 @@ export default function OrganizerSubscribe() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e6f7ff] via-white to-[#e6fffa] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-8 flex items-center justify-center">
-      <Card className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl">
-        <CardHeader className="text-center">
-          <Image src="/MatchMaster.png" alt="Match Master Logo" width={80} height={80} className="mx-auto mb-4" />
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">
-            Organizer Subscription
-          </CardTitle>
-          <CardDescription>Choose a plan to start organizing events</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="min-vh-100 custom-gradient d-flex align-items-center justify-content-center p-4">
+      <div className="card w-100 max-w-md bg-white shadow-lg">
+        <div className="card-header text-center border-0 bg-transparent">
+        <img src={logo} alt="Match Master Logo" width={80} height={80} className="mx-auto mb-4" />
+        <h2 className="card-title h3 fw-bold text-primary">Organizer Subscription</h2>
+          <p className="card-text text-muted">Choose a plan to start organizing events</p>
+        </div>
+        <div className="card-body">
           <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <RadioGroup defaultValue="monthly" onValueChange={setPlan}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="monthly" id="monthly" />
-                  <Label htmlFor="monthly">Monthly ($29.99/month)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="yearly" id="yearly" />
-                  <Label htmlFor="yearly">Yearly ($299.99/year - Save 17%)</Label>
-                </div>
-              </RadioGroup>
-              <div className="space-y-2">
-                <Label htmlFor="cardNumber">Card Number</Label>
-                <Input
-                  id="cardNumber"
-                  placeholder="1234 5678 9012 3456"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
+            <div className="mb-4">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="plan"
+                  id="monthly"
+                  value="monthly"
+                  checked={plan === 'monthly'}
+                  onChange={() => setPlan('monthly')}
+                />
+                <label className="form-check-label" htmlFor="monthly">
+                  Monthly ($29.99/month)
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="plan"
+                  id="yearly"
+                  value="yearly"
+                  checked={plan === 'yearly'}
+                  onChange={() => setPlan('yearly')}
+                />
+                <label className="form-check-label" htmlFor="yearly">
+                  Yearly ($299.99/year - Save 17%)
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="cardNumber" className="form-label">Card Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+                required
+              />
+            </div>
+            <div className="row g-3 mb-3">
+              <div className="col-md-6">
+                <label htmlFor="expiryDate" className="form-label">Expiry Date</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="expiryDate"
+                  placeholder="MM/YY"
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(e.target.value)}
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="expiryDate">Expiry Date</Label>
-                  <Input
-                    id="expiryDate"
-                    placeholder="MM/YY"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="cvv">CVV</Label>
-                  <Input
-                    id="cvv"
-                    placeholder="123"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value)}
-                    required
-                  />
-                </div>
+              <div className="col-md-6">
+                <label htmlFor="cvv" className="form-label">CVV</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="cvv"
+                  placeholder="123"
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value)}
+                  required
+                />
               </div>
             </div>
-            <Button
+            <button
               type="submit"
-              className="w-full mt-6 bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-white hover:from-[#40e0d0] hover:to-[#1e3a8a] transition-all duration-300"
+              className="btn btn-primary w-100"
               disabled={loading}
             >
               {loading ? 'Processing...' : 'Subscribe Now'}
-            </Button>
+            </button>
           </form>
-        </CardContent>
-        <CardFooter className="text-center text-sm text-gray-500">
-          By subscribing, you agree to our Terms of Service and Privacy Policy.
-        </CardFooter>
-      </Card>
+        </div>
+        <div className="card-footer text-center border-0 bg-transparent">
+          <small className="text-muted">By subscribing, you agree to our Terms of Service and Privacy Policy.</small>
+        </div>
+      </div>
     </div>
   )
 }

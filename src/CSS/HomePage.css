@@ -52,3 +52,23 @@
       background: linear-gradient(to bottom right, #1a202c, #2d3748, #1a202c);
     }
   }
+
+  .custom-gradient {
+    background: linear-gradient(to bottom right, #08096b, #00e6d4);
+  }
+  
+  /* In your HomePage.css or a similar CSS file */
+.custom-gradient {
+  background: linear-gradient(to bottom right, #08096b, #00e6d4);
+}
+
+.btn-custom-gradient {
+  background: linear-gradient(to bottom right, #08096b, #00e6d4);
+  color: white; /* Adjust text color */
+  border: none; /* Optional: Remove border */
+}
+
+.table-heading-gradient {
+  background: linear-gradient(to bottom right, #08096b, #00e6d4);
+  color: white; /* Adjust text color */
+}

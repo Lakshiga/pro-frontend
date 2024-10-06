@@ -5,6 +5,7 @@ import Login from "./Components/Login"; // Updated path
 import Register from "./Components/Register"; // Updated path
 import AdminDashboard from "./Components/AdminDashboard"; // Updated path
 import OrganizerDashboard from "./Components/OrganizerDashboard"; // Updated path
+import OrganizerSubscribe from "./Components/OrganizerSubscribe"; // Updated path
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
+          <Route path="/organizer-subscribe" element={<OrganizerSubscribe />} />
         </Routes>
       </div>
     </Router>

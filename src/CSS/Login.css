@@ -19,6 +19,13 @@
   width: 60px;
   height: 60px;
 }
+.logo-square {
+  width: 70px; /* Set the width */
+  height: 70px; /* Set the height equal to the width for a square */
+  border-radius: 50px; /* Adjust this value for the desired roundness */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
 
 .login-title {
   font-size: 1.5rem;
@@ -53,11 +60,15 @@
 }
 
 .register-link {
-  color: #1e3a8a;
+  color: #6bd6e4;
   font-weight: 600;
   text-decoration: none;
 }
 
 .register-link:hover {
   text-decoration: underline;
+}
+
+.custom-gradient {
+  background: linear-gradient(to bottom right, #08096b, #00e6d4);
 }

@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Button } from "../Components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../Components/ui/card"
-import { Input } from "../Components/ui/input"
-import { Label } from "../Components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../Components/ui/select"
-import { motion } from "framer-motion"
+import { motion } from 'framer-motion'
 import axios from 'axios'
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import "../CSS/Register.css"
+import logo from '../Images/MatchMaster.png'; // Import your logo here
+
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
@@ -29,10 +27,10 @@ export default function Register() {
     }))
   }
 
-  const handleRoleChange = (value) => {
+  const handleRoleChange = (e) => {
     setFormData(prevData => ({
       ...prevData,
-      role: value
+      role: e.target.value
     }))
   }
 
@@ -57,105 +55,89 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#e6f7ff] via-white to-[#e6fffa] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center custom-gradient p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-center mb-4">
-              <img src="/MatchMaster.png" alt="Match Master Logo" width={60} height={60} />
-            </div>
-            <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-transparent bg-clip-text">
-              Create an Account
-            </CardTitle>
-            <CardDescription className="text-center">
-              Enter your details to register for Match Master
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="card w-100" style={{ maxWidth: '28rem' }}>
+          <div className="card-header text-center">
+          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-2" />
+            <h2 className="card-title fw-bold mb-0">Create an Account</h2>
+            <p className="text-muted">Enter your details to register for Match Master</p>
+          </div>
+          <div className="card-body">
             <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input 
-                    id="name" 
-                    name="name" 
-                    placeholder="John Doe" 
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">Name</label>
+                <input 
+                  id="name" 
+                  name="name" 
+                  placeholder="John Doe" 
+                  className="form-control" 
+                  required 
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input 
+                  id="email" 
+                  name="email" 
+                  placeholder="john@example.com" 
+                  type="email" 
+                  className="form-control" 
+                  required 
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <div className="input-group">
+                  <input 
+                    id="password" 
+                    name="password" 
+                    type={showPassword ? "text" : "password"} 
+                    className="form-control" 
                     required 
-                    value={formData.name}
+                    value={formData.password}
                     onChange={handleInputChange}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
-                    name="email" 
-                    placeholder="john@example.com" 
-                    type="email" 
-                    required 
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Input 
-                      id="password" 
-                      name="password" 
-                      type={showPassword ? "text" : "password"} 
-                      required 
-                      value={formData.password}
-                      onChange={handleInputChange}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                    >
-                      {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
-                    </button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
-                  <Select onValueChange={handleRoleChange} value={formData.role}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="player">Player</SelectItem>
-                      <SelectItem value="organizer">Organizer</SelectItem>
-                      <SelectItem value="umpire">Umpire</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="btn btn-outline-secondary"
+                  >
+                    {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
+                  </button>
                 </div>
               </div>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
-              {success && <p className="text-green-500 mt-2">Registration successful!</p>}
-              <Button className="w-full mt-6 bg-gradient-to-r from-[#1e3a8a] to-[#40e0d0] text-white hover:from-[#40e0d0] hover:to-[#1e3a8a] transition-all duration-300" type="submit">
-                Register
-              </Button>
+              <div className="mb-3">
+                <label htmlFor="role" className="form-label">Role</label>
+                <select id="role" className="form-select" value={formData.role} onChange={handleRoleChange}>
+                  <option value="" disabled>Select your role</option>
+                  <option value="player">Player</option>
+                  <option value="organizer">Organizer</option>
+                  <option value="umpire">Umpire</option>
+                </select>
+              </div>
+              {error && <p className="text-danger">{error}</p>}
+              {success && <p className="text-success">Registration successful!</p>}
+              <button type="submit" className="btn btn-primary w-100">Register</button>
             </form>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
-            <div className="text-sm text-gray-600 dark:text-gray-400 text-center">
-              By registering, you agree to our 
-              <Link href="/terms" className="text-[#40e0d0] hover:underline ml-1">Terms of Service</Link> and 
-              <Link href="/privacy" className="text-[#40e0d0] hover:underline ml-1">Privacy Policy</Link>
+          </div>
+          <div className="card-footer text-center">
+            <small className="text-muted">
+              By registering, you agree to our <Link to="/terms" className="text-decoration-none">Terms of Service</Link> and <Link to="/privacy" className="text-decoration-none">Privacy Policy</Link>
+            </small>
+            <div className="mt-2">
+              <small>Already have an account? <Link to="/login" className="fw-bold text-decoration-none">Log in</Link></small>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 text-center">
-              Already have an account? 
-              <Link href="/login" className="text-[#1e3a8a] hover:underline font-semibold ml-1">
-                Log in
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </motion.div>
     </div>
   )

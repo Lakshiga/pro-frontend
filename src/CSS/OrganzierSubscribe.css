@@ -1,0 +1,22 @@
+.custom-gradient {
+    background: linear-gradient(to bottom right, #08096b, #00e6d4);
+  }
+  
+  .btn-primary {
+    background-color: #08096b;
+    border-color: #08096b;
+  }
+  
+  .btn-primary:hover, .btn-primary:focus {
+    background-color: #00e6d4;
+    border-color: #00e6d4;
+  }
+  
+  .text-primary {
+    color: #08096b !important;
+  }
+  
+  .form-check-input:checked {
+    background-color: #08096b;
+    border-color: #08096b;
+  }
