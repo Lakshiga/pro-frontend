@@ -40,7 +40,7 @@ export default function HomePage() {
       <main className="flex-grow-1">
         <section className="py-5 custom-gradient text-white">
           <div className="container text-center">
-          <h1 className="display-4 fw-bold">Revolutionize Your <span style={{ color: '#00e6d4' }}>Sports Management</span></h1>
+          <h1 className="display-4 fw-bold">  Elevate Your  <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
           <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
             <a href="/register" className="btn btn-outline-light me-2 fw-bold"style={{ color: '#00e6d4' }}>Get Started for Free</a>
             <a href="#features" className="btn btn-outline-light fw-bold"style={{ color: '#00e6d4' }}>Learn More</a>
