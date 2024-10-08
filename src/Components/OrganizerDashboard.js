@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import { IoCalendarNumberSharp } from "react-icons/io5";
 import { FaTrophy, FaUsersLine, FaDollarSign } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import "../CSS/OrganizerDashboard.css"
+import "../CSS/OrganizerDashboard.css";
 import logo from '../Images/MatchMaster.png'; // Import your logo here
+import DrawComponent from '../Components/DrawComponent.js'; // Adjust the import path as needed
 
 const OrganizerDashboard = () => {
   const [events, setEvents] = useState([]);
   const [matches, setMatches] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
   const [subscription, setSubscription] = useState(null);
-  const [newEvent, setNewEvent] = useState({ name: '', date: '', sport: '' });
   const [newMatch, setNewMatch] = useState({ eventId: '', player1: '', player2: '', date: '' });
   const [activeTab, setActiveTab] = useState('events');
+  const [newEvent, setNewEvent] = useState({
+    name: '',
+    date: '',
+    sport: '',
+    ageGroup: '',
+    matchType: "knockout",
+    players: [],
+  });
 
+  const [matchDraw, setMatchDraw] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +33,10 @@ const OrganizerDashboard = () => {
   const fetchData = async () => {
     try {
       const [eventsRes, matchesRes, usersRes, subscriptionRes] = await Promise.all([
-        axios.get('/api/organizer/events'),
-        axios.get('/api/organizer/matches'),
+        axios.post('http://localhost:4000/api/event/create'),
+        axios.post('http://localhost:4000/api/match/create'),
         axios.get('/api/organizer/unverified-users'),
-        axios.get('/api/organizer/subscription')
+        axios.get('/api/organizer/subscription'),
       ]);
       setEvents(eventsRes.data);
       setMatches(matchesRes.data);
@@ -42,18 +50,69 @@ const OrganizerDashboard = () => {
   const createEvent = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/event/create', newEvent);
+      const res = await axios.post('http://localhost:4000/api/event/create', newEvent);
       setEvents([...events, res.data]);
-      setNewEvent({ name: '', date: '', sport: '' });
+      const generatedMatchDraw = await createMatchesForEvent(res.data._id, newEvent.players, newEvent.matchType);
+      setMatchDraw(generatedMatchDraw);
+      // Reset new event state
+      setNewEvent({ name: '', date: '', sport: '', ageGroup: '', matchType: '', players: [] });
     } catch (error) {
       console.error('Error creating event:', error);
     }
   };
 
+  const createMatchesForEvent = async (eventId, players, matchType) => {
+    if (players.length < 2) {
+      console.error('Not enough players to create matches.');
+      return [];
+    }
+    const matchDraw = matchType === 'knockout' ? generateKnockoutDraw(players) : generateLeagueDraw(players);
+    try {
+      for (const match of matchDraw) {
+        const [player1, player2] = match.split(' vs ');
+        await axios.post('http://localhost:4000/api/match/create', {
+          eventId,
+          player1,
+          player2,
+          date: newEvent.date,
+        });
+      }
+      fetchData(); // Refresh data to show the newly created matches
+      return matchDraw; // Return the match draw
+    } catch (error) {
+      console.error('Error creating matches:', error);
+      return [];
+    }
+  };
+
+  const generateKnockoutDraw = (players) => {
+    let shuffledPlayers = [...players].sort(() => 0.5 - Math.random());
+    let matches = [];
+    for (let i = 0; i < shuffledPlayers.length; i += 2) {
+      if (i + 1 < shuffledPlayers.length) {
+        matches.push(`${shuffledPlayers[i]} vs ${shuffledPlayers[i + 1]}`);
+      }
+    }
+    return matches;
+  };
+
+  const generateLeagueDraw = (players) => {
+    const matches = [];
+    const numPlayers = players.length;
+
+    for (let i = 0; i < numPlayers; i++) {
+      for (let j = i + 1; j < numPlayers; j++) {
+        matches.push(`${players[i]} vs ${players[j]}`);
+      }
+    }
+
+    return matches;
+  };
+
   const createMatch = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/match/create', newMatch);
+      const res = await axios.post('http://localhost:4000/api/match/create', newMatch);
       setMatches([...matches, res.data]);
       setNewMatch({ eventId: '', player1: '', player2: '', date: '' });
     } catch (error) {
@@ -63,7 +122,7 @@ const OrganizerDashboard = () => {
 
   const verifyUser = async (userId) => {
     try {
-      await axios.post(`/api/organizer/verify-user/${userId}`);
+      await axios.post(`/api/auth/verify-user/${userId}`);
       setUnverifiedUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error('Error verifying user:', error);
@@ -137,57 +196,105 @@ const OrganizerDashboard = () => {
           </li>
         </ul>
 
-        <div className="tab-content">
-          {activeTab === 'events' && (
-            <div className="tab-pane fade show active">
-              <div className="card mb-4">
-                <div className="card-body">
-                  <h5 className="card-title">Create New Event</h5>
-                  <form onSubmit={createEvent}>
-                    <div className="row g-3">
-                      <div className="col-md-4">
-                        <label htmlFor="eventName" className="form-label">Event Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="eventName"
-                          value={newEvent.name}
-                          onChange={(e) => setNewEvent({...newEvent, name: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-4" >
-                        <label htmlFor="eventDate" className="form-label">Date</label>
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="eventDate"
-                          value={newEvent.date}
-                          onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label htmlFor="eventSport" className="form-label">Sport</label>
-                        <select
-                          className="form-select"
-                          id="eventSport"
-                          value={newEvent.sport}
-                          onChange={(e) => setNewEvent({...newEvent, sport: e.target.value})}
-                          required
-                        >
-                          <option value="">Select a sport</option>
-                          <option value="table-tennis">Table Tennis</option>
-                          <option value="carom">Carom</option>
-                          <option value="chess">Chess</option>
-                          <option value="badminton">Badminton</option>
-                        </select>
-                      </div>
-                    </div>
-                    <button type="submit" className="btn mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>Create Event</button>
-                  </form>
+    <div className="tab-content">
+      {activeTab === 'events' && (
+        <div className="tab-pane fade show active">
+          <div className="card mb-4">
+            <div className="card-body">
+              <h5 className="card-title">Create New Event</h5>
+              <form onSubmit={createEvent}>
+                <div className="row g-3">
+                  <div className="col-md-4">
+                    <label htmlFor="eventName" className="form-label">Event Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="eventName"
+                      value={newEvent.name}
+                      onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="eventDate" className="form-label">Date</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="eventDate"
+                      value={newEvent.date}
+                      onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="eventSport" className="form-label">Sport</label>
+                    <select
+                      className="form-select"
+                      id="eventSport"
+                      value={newEvent.sport}
+                      onChange={(e) => setNewEvent({ ...newEvent, sport: e.target.value })}
+                      required
+                    >
+                      <option value="">Select a sport</option>
+                      <option value="table-tennis">Table Tennis</option>
+                      <option value="carom">Carom</option>
+                      <option value="chess">Chess</option>
+                      <option value="badminton">Badminton</option>
+                    </select>
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="eventAgeGroup" className="form-label">Age Group</label>
+                    <select
+                      className="form-select"
+                      id="eventAgeGroup"
+                      value={newEvent.ageGroup}
+                      onChange={(e) => setNewEvent({ ...newEvent, ageGroup: e.target.value })}
+                      required
+                    >
+                      <option value="">Select age group</option>
+                      <option value="under-12">Under 12</option>
+                      <option value="under-15">Under 15</option>
+                      <option value="under-18">Under 18</option>
+                      <option value="adult">Adult</option>
+                    </select>
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="matchType" className="form-label">Match Type</label>
+                    <select
+                      className="form-select"
+                      id="matchType"
+                      value={newEvent.matchType}
+                      onChange={(e) => setNewEvent({ ...newEvent, matchType: e.target.value })}
+                      required
+                    >
+                      <option value="knockout">Knockout</option>
+                      <option value="league">League</option>
+                    </select>
+                  </div>
+                  <div className="col-md-12">
+                    <label htmlFor="eventPlayers" className="form-label">Add Players (comma separated)</label>
+                    <textarea
+                      className="form-control"
+                      id="eventPlayers"
+                      rows="3"
+                      placeholder="Enter player names separated by commas"
+                      value={newEvent.players.join(',')} // Join array for textarea
+                      onChange={(e) => setNewEvent({ ...newEvent, players: e.target.value.split(',').map(player => player.trim()) })}
+                      required
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
+                <button type="submit" className="btn mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>
+                  Create Event and Generate Draw
+                </button>
+              </form>
+            </div>
+          </div>
+          <div>
+               {/* Include the DrawComponent */}
+        {matchDraw.length > 0 && <DrawComponent draw={matchDraw} />}
+            </div>
+ 
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">Event List</h5>
@@ -241,6 +348,22 @@ const OrganizerDashboard = () => {
                             <option key={event.id} value={event.id}>{event.name}</option>
                           ))}
                         </select>
+                        <div className="col-md-12">
+                    <label htmlFor="eventAgeGroup" className="form-label">Age Group</label>
+                    <select
+                      className="form-select"
+                      id="eventAgeGroup"
+                      value={newEvent.ageGroup}
+                      onChange={(e) => setNewEvent({ ...newEvent, ageGroup: e.target.value })}
+                      required
+                    >
+                      <option value="">Select age group</option>
+                      <option value="under-12">Under 12</option>
+                      <option value="under-15">Under 15</option>
+                      <option value="under-18">Under 18</option>
+                      <option value="adult">Adult</option>
+                    </select>
+                  </div>
                       </div>
                       <div className="col-md-3">
                         <label htmlFor="matchDate" className="form-label">Date</label>
