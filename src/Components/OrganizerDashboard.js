@@ -55,7 +55,7 @@ const OrganizerDashboard = () => {
       const generatedMatchDraw = await createMatchesForEvent(res.data._id, newEvent.players, newEvent.matchType);
       setMatchDraw(generatedMatchDraw);
       // Reset new event state
-      setNewEvent({ name: '', date: '', sport: '', ageGroup: '', matchType: '', players: [] });
+      setNewEvent({ name: '', date: '', sport: '', ageGroup: '', matchType: 'knockout', players: [] });
     } catch (error) {
       console.error('Error creating event:', error);
     }
@@ -68,15 +68,22 @@ const OrganizerDashboard = () => {
     }
     const matchDraw = matchType === 'knockout' ? generateKnockoutDraw(players) : generateLeagueDraw(players);
     try {
+      const createdMatches = [];
+
       for (const match of matchDraw) {
-        const [player1, player2] = match.split(' vs ');
-        await axios.post('http://localhost:4000/api/match/create', {
-          eventId,
-          player1,
-          player2,
-          date: newEvent.date,
-        });
-      }
+      const [player1, player2] = match.split(' vs ');
+        
+      const res = await axios.post('http://localhost:4000/api/match/create', {
+        event_id: eventId,   // Use event_id to pass the eventId correctly
+        player1_id: player1, // Assuming player1 and player2 are user IDs
+        player2_id: player2,
+        umpire_id: 'umpireIdHere', // Pass the correct umpire ID, you may fetch this separately
+        match_date: newEvent.date, // Ensure the date is passed correctly
+        status: 'scheduled'
+      });
+      
+      createdMatches.push(res.data); // Store created match data
+    }
       fetchData(); // Refresh data to show the newly created matches
       return matchDraw; // Return the match draw
     } catch (error) {

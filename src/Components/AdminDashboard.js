@@ -23,11 +23,15 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [organizersRes, paymentsRes] = await Promise.all([
-        axios.get('http://localhost:3000/api/organizers'),
-        axios.get('http://localhost:3000/api/payments')
+      const [usersRes, paymentsRes] = await Promise.all([
+        axios.get('http://localhost:4000/api/admin/users'), // Fetch all users
+        axios.get('http://localhost:4000/api/payments')
       ]);
-      setOrganizers(organizersRes.data);
+
+      const allUsers = usersRes.data; 
+      const filteredOrganizers = allUsers.filter(user => user.role === 'organizer'); // Filter for organizers
+
+      setOrganizers(filteredOrganizers); // Set the state to filtered organizers
       setPayments(paymentsRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -38,7 +42,7 @@ const AdminDashboard = () => {
 
   const verifyOrganizer = async (organizerId) => {
     try {
-      await axios.patch(`http://localhost:3000/api/admin/verify/${organizerId}`);
+      await axios.post(`http://localhost:4000/api/admin/verify-organizer/${organizerId}`); // Adjusted the request method to POST
       fetchData();
     } catch (error) {
       console.error('Error verifying organizer:', error);
@@ -47,7 +51,7 @@ const AdminDashboard = () => {
 
   const approvePayment = async (paymentId) => {
     try {
-      await axios.patch(`http://localhost:3000/api/payments/approve/${paymentId}`);
+      await axios.patch(`http://localhost:4000/api/payments/approve/${paymentId}`);
       fetchData();
     } catch (error) {
       console.error('Error approving payment:', error);
@@ -68,8 +72,8 @@ const AdminDashboard = () => {
       <div className="container">
         <header className="d-flex justify-content-between align-items-center mb-5">
           <div className="d-flex align-items-center">
-          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
-            <h1 className="h3 fw-bold text-white mb-0">  Admin Dashboard </h1>
+            <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
+            <h1 className="h3 fw-bold text-white mb-0"> Admin Dashboard </h1>
           </div>
           <button className="btn btn-outline-light">
             Logout
@@ -79,7 +83,7 @@ const AdminDashboard = () => {
         <div className="row g-4 mb-4">
           {[
             { title: "Total Users", value: organizers.length, icon: FaUsersLine, color: "bg-info" },
-            { title: "Pending Verifications", value: organizers.filter(org => org.status === 'pending').length, icon: LuCheckCircle, color: "bg-info" },
+            { title: "Pending Verifications", value: organizers.filter(org => org.isVerified === false).length, icon: LuCheckCircle, color: "bg-info" },
             { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: FaDollarSign, color: "bg-info" },
             { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: LuBarChart3, color: "bg-info" },
           ].map((item, index) => (
@@ -90,7 +94,7 @@ const AdminDashboard = () => {
               transition={{ duration: 0.3, delay: index * 0.1 }}
               className={`col-md-6 col-lg-3`}
             >
-              <div className={`${item.color}  p-3 rounded`}style={{ color: 'navy' }}>
+              <div className={`${item.color} p-3 rounded`} style={{ color: 'navy' }}>
                 <div className="d-flex justify-content-between mb-2">
                   <h2 className="h6 mb-0">{item.title}</h2>
                   <item.icon className="fs-4" />
@@ -119,7 +123,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <ul className="nav nav-tabs mb-4"style={{ color: 'navy' }}>
+        <ul className="nav nav-tabs mb-4" style={{ color: 'navy' }}>
           <li className="nav-item">
             <button
               className={`nav-link ${activeTab === 'organizers' ? 'active' : ''}`}
@@ -128,7 +132,7 @@ const AdminDashboard = () => {
               Organizers
             </button>
           </li>
-          <li className="nav-item"style={{ color: 'navy' }}>
+          <li className="nav-item" style={{ color: 'navy' }}>
             <button
               className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
               onClick={() => setActiveTab('payments')}
@@ -147,7 +151,7 @@ const AdminDashboard = () => {
         ) : (
           <>
             {activeTab === 'organizers' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden"style={{ color: 'navy' }}>
+              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
                 <div className="p-4">
                   <h2 className="h5 mb-3">Organizers</h2>
                   <div className="table-responsive">
@@ -169,13 +173,13 @@ const AdminDashboard = () => {
                             <td>{new Date(organizer.registrationDate).toLocaleDateString()}</td>
                             <td>
                               <span className={`badge ${
-                                organizer.status === 'verified' ? 'bg-success' : 'bg-warning'
+                                organizer.isVerified ? 'bg-success' : 'bg-warning'
                               }`}>
-                                {organizer.status}
+                                {organizer.isVerified ? 'verified' : 'pending'}
                               </span>
                             </td>
                             <td>
-                              {organizer.status === 'pending' && (
+                              {!organizer.isVerified && (
                                 <button
                                   onClick={() => verifyOrganizer(organizer._id)}
                                   className="btn btn-primary btn-sm"
@@ -194,7 +198,7 @@ const AdminDashboard = () => {
             )}
 
             {activeTab === 'payments' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden"style={{ color: 'navy' }}>
+              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
                 <div className="p-4">
                   <h2 className="h5 mb-3">Payments</h2>
                   <div className="table-responsive">
@@ -214,7 +218,7 @@ const AdminDashboard = () => {
                             <td>${payment.amount}</td>
                             <td>
                               <span className={`badge ${
-                                payment.status === 'approved' ? 'bg-success' : 'bg-warning'
+                                payment.status === 'approved' ? 'bg-success' : 'bg-danger'
                               }`}>
                                 {payment.status}
                               </span>
