@@ -6,6 +6,9 @@ import Register from "./Components/Register"; // Updated path
 import AdminDashboard from "./Components/AdminDashboard"; // Updated path
 import OrganizerDashboard from "./Components/OrganizerDashboard"; // Updated path
 import OrganizerSubscribe from "./Components/OrganizerSubscribe"; // Updated path
+import UserDashboard from "./Components/UserDashboard"; // Updated path
+import UserProfile from "./Components/UserProfile"; // Updated path
+
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
           <Route path="/organizer-subscribe" element={<OrganizerSubscribe />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/user-profile" element={<UserProfile />} />
         </Routes>
       </div>
     </Router>
