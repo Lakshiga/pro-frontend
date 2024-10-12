@@ -23,16 +23,16 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [usersRes, paymentsRes] = await Promise.all([
+      const [usersRes] = await Promise.all([
         axios.get('http://localhost:4000/api/admin/users'), // Fetch all users
-        axios.get('http://localhost:4000/api/payments')
+        // axios.get('http://localhost:4000/api/payments')
       ]);
 
       const allUsers = usersRes.data; 
       const filteredOrganizers = allUsers.filter(user => user.role === 'organizer'); // Filter for organizers
 
       setOrganizers(filteredOrganizers); // Set the state to filtered organizers
-      setPayments(paymentsRes.data);
+      // setPayments(paymentsRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
   };
 
   const filteredOrganizers = organizers.filter(org =>
-    org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    org.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
     org.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
                       <tbody>
                         {filteredOrganizers.map((organizer) => (
                           <tr key={organizer._id}>
-                            <td>{organizer.name}</td>
+                            <td>{organizer.username}</td>
                             <td>{organizer.email}</td>
                             <td>{new Date(organizer.registrationDate).toLocaleDateString()}</td>
                             <td>
