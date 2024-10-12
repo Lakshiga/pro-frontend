@@ -21,7 +21,7 @@ export default function UserProfile() {
   const fetchProfile = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/user/profile')
+      const response = await axios.get('/api/user-profile/profile')
       setProfile(response.data)
       setEditedProfile(response.data)
     } catch (error) {
@@ -37,7 +37,7 @@ export default function UserProfile() {
 
   const handleSave = async () => {
     try {
-      await axios.put('/api/user/profile', editedProfile)
+      await axios.put('/api/user-profile/profile', editedProfile)
       setProfile(prevProfile => ({ ...prevProfile, ...editedProfile }))
       setEditing(false)
     } catch (error) {
@@ -79,10 +79,20 @@ export default function UserProfile() {
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-[#1e3a8a]">Personal Information</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent>Admin Dashboard
+￼Logout
+Total Users
+0
+Pending Verifications
+0
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="name">Name</Label>
+              Admin Dashboard
+￼Logout
+Total Users
+0
+Pending Verifications
+0 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   value={editing ? editedProfile.name : profile.name}

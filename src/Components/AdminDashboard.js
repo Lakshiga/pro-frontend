@@ -215,10 +215,10 @@ const AdminDashboard = () => {
                         {filteredPayments.map((payment) => (
                           <tr key={payment._id}>
                             <td>{payment.organizerId.name}</td>
-                            <td>${payment.amount}</td>
+                            <td>{`$${payment.amount}`}</td>
                             <td>
                               <span className={`badge ${
-                                payment.status === 'approved' ? 'bg-success' : 'bg-danger'
+                                payment.status === 'approved' ? 'bg-success' : 'bg-warning'
                               }`}>
                                 {payment.status}
                               </span>
