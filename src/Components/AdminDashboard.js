@@ -12,6 +12,7 @@ import "../CSS/AdminDashboard.css";
 const AdminDashboard = () => {
   const [organizers, setOrganizers] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [users, setUsers] = useState([]); // New state for users
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('organizers');
@@ -25,14 +26,13 @@ const AdminDashboard = () => {
       setLoading(true);
       const [usersRes] = await Promise.all([
         axios.get('http://localhost:4000/api/admin/users'), // Fetch all users
-        // axios.get('http://localhost:4000/api/payments')
       ]);
 
       const allUsers = usersRes.data; 
       const filteredOrganizers = allUsers.filter(user => user.role === 'organizer'); // Filter for organizers
 
       setOrganizers(filteredOrganizers); // Set the state to filtered organizers
-      // setPayments(paymentsRes.data);
+      setUsers(allUsers); // Set users data
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -67,6 +67,11 @@ const AdminDashboard = () => {
     payment.organizerId.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const filteredUsers = users.filter(user =>
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="min-vh-100 custom-gradient p-5">
       <div className="container">
@@ -82,7 +87,7 @@ const AdminDashboard = () => {
 
         <div className="row g-4 mb-4">
           {[
-            { title: "Total Users", value: organizers.length, icon: FaUsersLine, color: "bg-info" },
+            { title: "Total Users", value: users.length, icon: FaUsersLine, color: "bg-info" },
             { title: "Pending Verifications", value: organizers.filter(org => org.isVerified === false).length, icon: LuCheckCircle, color: "bg-info" },
             { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: FaDollarSign, color: "bg-info" },
             { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: LuBarChart3, color: "bg-info" },
@@ -116,7 +121,7 @@ const AdminDashboard = () => {
             <input
               id="search"
               className="form-control"
-              placeholder="Search organizers or payments..."
+              placeholder="Search organizers, users or payments..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -132,12 +137,20 @@ const AdminDashboard = () => {
               Organizers
             </button>
           </li>
-          <li className="nav-item" style={{ color: 'navy' }}>
+          <li className="nav-item">
             <button
               className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
               onClick={() => setActiveTab('payments')}
             >
               Payments
+            </button>
+          </li>
+          <li className="nav-item"> 
+            <button
+              className={`nav-link ${activeTab === 'users' ? 'active' : ''}`} 
+              onClick={() => setActiveTab('users')}
+            >
+              Users
             </button>
           </li>
         </ul>
@@ -215,24 +228,46 @@ const AdminDashboard = () => {
                         {filteredPayments.map((payment) => (
                           <tr key={payment._id}>
                             <td>{payment.organizerId.name}</td>
-                            <td>{`$${payment.amount}`}</td>
-                            <td>
-                              <span className={`badge ${
-                                payment.status === 'approved' ? 'bg-success' : 'bg-warning'
-                              }`}>
-                                {payment.status}
-                              </span>
-                            </td>
+                            <td>${payment.amount}</td>
+                            <td>{payment.status}</td>
                             <td>
                               {payment.status === 'pending' && (
                                 <button
                                   onClick={() => approvePayment(payment._id)}
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-success btn-sm"
                                 >
                                   Approve
                                 </button>
                               )}
                             </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'users' && (
+              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
+                <div className="p-4">
+                  <h2 className="h5 mb-3">Users</h2>
+                  <div className="table-responsive">
+                    <table className="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Role</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredUsers.map((user) => (
+                          <tr key={user._id}>
+                            <td>{user.username}</td>
+                            <td>{user.email}</td>
+                            <td>{user.role}</td>
                           </tr>
                         ))}
                       </tbody>
