@@ -33,10 +33,10 @@ const OrganizerDashboard = () => {
   const fetchData = async () => {
     try {
       const [eventsRes, matchesRes, usersRes, subscriptionRes] = await Promise.all([
-        axios.post('http://localhost:4000/api/event/create'),
-        axios.post('http://localhost:4000/api/match/create'),
-        axios.get('/api/organizer/unverified-users'),
-        axios.get('/api/organizer/subscription'),
+        // axios.post('http://localhost:4000/api/event/create'),
+        // axios.post('http://localhost:4000/api/match/create'),
+        axios.get('http://localhost:4000/api/organizer/unverified-users'),
+        axios.get('http://localhost:4000/api/organizer/subscription'),
       ]);
       setEvents(eventsRes.data);
       setMatches(matchesRes.data);
