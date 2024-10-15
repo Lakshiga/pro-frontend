@@ -201,9 +201,6 @@ const OrganizerDashboard = () => {
             <button className={`nav-link ${activeTab === 'events' ? 'active' : ''}`} onClick={() => setActiveTab('events')}>Events</button>
           </li>
           <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'matches' ? 'active' : ''}`} onClick={() => setActiveTab('matches')}>Matches</button>
-          </li>
-          <li className="nav-item">
             <button className={`nav-link ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
           </li>
         </ul>
@@ -315,93 +312,14 @@ const OrganizerDashboard = () => {
                             <td>{new Date(event.date).toLocaleDateString()}</td>
                             <td>{event.sport}</td>
                             <td>
-                              <button className="btn btn-outline-primary btn-sm me-2">Edit</button>
-                              <button className="btn btn-outline-primary btn-sm">View</button>
+                              <button className="btn btn-outline-info"onClick={() => navigate(`/event/${event._id}`)}>View</button>
+                              <button className="btn btn-outline-warning ms-2"onClick={() => navigate(`/event/edit/${event._id}`)}>Edit</button>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'matches' && (
-            <div className="tab-pane fade show active">
-              <div className="card mb-4">
-                <div className="card-body">
-                  <h5 className="card-title">Create New Match</h5>
-                  <form onSubmit={createMatch}>
-                    <div className="row g-3">
-                      <div className="col-md-3">
-                        <label htmlFor="matchEvent" className="form-label">Event</label>
-                        <select
-                          className="form-select"
-                          id="matchEvent"
-                          value={newMatch.eventId}
-                          onChange={(e) => setNewMatch({...newMatch, eventId: e.target.value})}
-                          required
-                        >
-                          <option value="">Select an event</option>
-                          {events.map((event) => (
-                            <option key={event.id} value={event.id}>{event.name}</option>
-                          ))}
-                        </select>
-                        <div className="col-md-12">
-                    <label htmlFor="eventAgeGroup" className="form-label">Age Group</label>
-                    <select
-                      className="form-select"
-                      id="eventAgeGroup"
-                      value={newEvent.ageGroup}
-                      onChange={(e) => setNewEvent({ ...newEvent, ageGroup: e.target.value })}
-                      required
-                    >
-                      <option value="">Select age group</option>
-                      <option value="under-12">Under 12</option>
-                      <option value="under-15">Under 15</option>
-                      <option value="under-18">Under 18</option>
-                      <option value="adult">Adult</option>
-                    </select>
-                  </div>
-                      </div>
-                      <div className="col-md-3">
-                        <label htmlFor="matchDate" className="form-label">Date</label>
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="matchDate"
-                          value={newMatch.date}
-                          onChange={(e) => setNewMatch({...newMatch, date: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <label htmlFor="player1" className="form-label">Player 1</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="player1"
-                          value={newMatch.player1}
-                          onChange={(e) => setNewMatch({...newMatch, player1: e.target.value})}
-                          required
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <label htmlFor="player2" className="form-label">Player 2</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="player2"
-                          value={newMatch.player2}
-                          onChange={(e) => setNewMatch({...newMatch, player2: e.target.value})}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary mt-3">Create Match</button>
-                  </form>
                 </div>
               </div>
             </div>
