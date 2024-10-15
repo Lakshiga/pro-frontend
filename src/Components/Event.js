@@ -12,8 +12,7 @@ const Event = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await axios.get(`/api/event/getEventsByEventId/${event._id}`);
-        setEvent(response.data);
+        const response = await axios.get(`http://localhost:4000/api/event/getEventsByEventId/${id}`);        setEvent(response.data);
         setLoading(false);
       } catch (error) {
         setError('Error fetching event details');
