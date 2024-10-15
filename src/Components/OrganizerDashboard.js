@@ -312,8 +312,8 @@ const OrganizerDashboard = () => {
                             <td>{new Date(event.date).toLocaleDateString()}</td>
                             <td>{event.sport}</td>
                             <td>
-                              <button className="btn btn-outline-info"onClick={() => navigate(`/event/${event._id}`)}>View</button>
-                              <button className="btn btn-outline-warning ms-2"onClick={() => navigate(`/event/edit/${event._id}`)}>Edit</button>
+                              <button className="btn btn-outline-info"onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}>View</button>
+                              <button className="btn btn-outline-warning ms-2"onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}>Edit</button>
                             </td>
                           </tr>
                         ))}
