@@ -32,8 +32,15 @@ const OrganizerDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const [eventsRes, matchesRes, usersRes, subscriptionRes] = await Promise.all([
-        // axios.post('http://localhost:4000/api/event/create'),
+      const token = localStorage.getItem('token'); 
+      const [eventsRes, usersRes, matchesRes, subscriptionRes] = await Promise.all([
+        axios.get('http://localhost:4000/api/event/getEventsByOrganizer',
+          {
+            headers:{
+              Authorization:`Bearer ${token}`,
+            }
+          }
+      ),
         // axios.post('http://localhost:4000/api/match/create'),
         axios.get('http://localhost:4000/api/admin/users'),
         // axios.get('http://localhost:4000/api/organizer/subscription'),
@@ -197,9 +204,6 @@ const OrganizerDashboard = () => {
             <button className={`nav-link ${activeTab === 'matches' ? 'active' : ''}`} onClick={() => setActiveTab('matches')}>Matches</button>
           </li>
           <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>User Verification</button>
-          </li>
-          <li className="nav-item">
             <button className={`nav-link ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
           </li>
         </ul>
@@ -278,18 +282,6 @@ const OrganizerDashboard = () => {
                       <option value="knockout">Knockout</option>
                       <option value="league">League</option>
                     </select>
-                  </div>
-                  <div className="col-md-12">
-                    <label htmlFor="eventPlayers" className="form-label">Add Players (comma separated)</label>
-                    <textarea
-                      className="form-control"
-                      id="eventPlayers"
-                      rows="3"
-                      placeholder="Enter player names separated by commas"
-                      value={newEvent.players.join(',')} // Join array for textarea
-                      onChange={(e) => setNewEvent({ ...newEvent, players: e.target.value.split(',').map(player => player.trim()) })}
-                      required
-                    ></textarea>
                   </div>
                 </div>
                 <button type="submit" className="btn mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>
@@ -409,73 +401,6 @@ const OrganizerDashboard = () => {
                     </div>
                     <button type="submit" className="btn btn-primary mt-3">Create Match</button>
                   </form>
-                </div>
-              </div>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Match List</h5>
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Event</th>
-                          <th>Player 1</th>
-                          <th>Player 2</th>
-                          <th>Date</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {matches.map((match) => (
-                          <tr key={match.id}>
-                            <td>{events.find(e => e.id === match.eventId)?.name}</td>
-                            <td>{match.player1}</td>
-                            <td>{match.player2}</td>
-                            <td>{new Date(match.date).toLocaleDateString()}</td>
-                            <td>
-                              <button className="btn btn-outline-primary btn-sm">Edit</button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'users' && (
-            <div className="tab-pane fade show active">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Unverified Users</h5>
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Role</th>
-                          <th>Registration Date</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {unverified.map((user) => (
-                          <tr key={user.id}>
-                            <td>{user.username}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                            <td>{new Date(user.registrationDate).toLocaleDateString()}</td>
-                            <td>
-                              <button onClick={() => verifyUser(user.id)} className="btn btn-success btn-sm">Verify</button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
               </div>
             </div>
