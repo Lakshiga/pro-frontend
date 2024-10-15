@@ -24,8 +24,8 @@ function App() {
           <Route path="/organizer-subscribe" element={<OrganizerSubscribe />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/organizer-dashboard/event" element={<Event />} />
-        </Routes>
+          <Route path="/organizer-dashboard/event/:id" element={<Event />} />       
+       </Routes>
       </div>
     </Router>
   );
