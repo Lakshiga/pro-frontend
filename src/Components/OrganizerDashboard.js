@@ -10,7 +10,7 @@ import DrawComponent from '../Components/DrawComponent.js'; // Adjust the import
 const OrganizerDashboard = () => {
   const [events, setEvents] = useState([]);
   const [matches, setMatches] = useState([]);
-  const [unverifiedUsers, setUnverifiedUsers] = useState([]);
+  const [unverified, setUnverified] = useState([]);
   const [subscription, setSubscription] = useState(null);
   const [newMatch, setNewMatch] = useState({ eventId: '', player1: '', player2: '', date: '' });
   const [activeTab, setActiveTab] = useState('events');
@@ -35,12 +35,13 @@ const OrganizerDashboard = () => {
       const [eventsRes, matchesRes, usersRes, subscriptionRes] = await Promise.all([
         // axios.post('http://localhost:4000/api/event/create'),
         // axios.post('http://localhost:4000/api/match/create'),
-        axios.get('http://localhost:4000/api/organizer/unverified-users'),
-        axios.get('http://localhost:4000/api/organizer/subscription'),
+        axios.get('http://localhost:4000/api/admin/users'),
+        // axios.get('http://localhost:4000/api/organizer/subscription'),
       ]);
       setEvents(eventsRes.data);
       setMatches(matchesRes.data);
-      setUnverifiedUsers(usersRes.data);
+      const unverified = usersRes.data.filter(user => (user.role === 'player' || user.role === 'umpire') && !user.verified); // Filter unverified players and umpires
+      setUnverified(unverified); // Only show unverified users
       setSubscription(subscriptionRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -130,7 +131,7 @@ const OrganizerDashboard = () => {
   const verifyUser = async (userId) => {
     try {
       await axios.post(`/api/auth/verify-user/${userId}`);
-      setUnverifiedUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+      setUnverified(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error('Error verifying user:', error);
     }
@@ -155,7 +156,7 @@ const OrganizerDashboard = () => {
         {[
           { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp, color: "bg-info" },
           { title: "Total Matches", value: matches.length, icon: FaTrophy, color: "bg-info" },
-          { title: "Unverified Users", value: unverifiedUsers.length, icon: FaUsersLine, color: "bg-info" },
+          { title: "Unverified Users", value: unverified.length, icon: FaUsersLine, color: "bg-info" },
         ].map((item, index) => (
           <div key={index} className="col-md-6 col-lg-3">
             <div className={`card ${item.color}`} style={{ color: 'navy' }}>
@@ -461,9 +462,9 @@ const OrganizerDashboard = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {unverifiedUsers.map((user) => (
+                        {unverified.map((user) => (
                           <tr key={user.id}>
-                            <td>{user.name}</td>
+                            <td>{user.username}</td>
                             <td>{user.email}</td>
                             <td>{user.role}</td>
                             <td>{new Date(user.registrationDate).toLocaleDateString()}</td>
