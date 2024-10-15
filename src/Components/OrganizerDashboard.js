@@ -315,7 +315,8 @@ const OrganizerDashboard = () => {
                             <td>{new Date(event.date).toLocaleDateString()}</td>
                             <td>{event.sport}</td>
                             <td>
-                              <button className="btn btn-outline-primary btn-sm">Edit</button>
+                              <button className="btn btn-outline-primary btn-sm me-2">Edit</button>
+                              <button className="btn btn-outline-primary btn-sm">View</button>
                             </td>
                           </tr>
                         ))}
