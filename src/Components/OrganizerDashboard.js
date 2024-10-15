@@ -25,6 +25,7 @@ const OrganizerDashboard = () => {
 
   const [matchDraw, setMatchDraw] = useState([]);
   const navigate = useNavigate();
+  const [token, setToken]= useState("");
 
   useEffect(() => {
     fetchData();
@@ -32,7 +33,8 @@ const OrganizerDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('token'); 
+      const localtoken = localStorage.getItem('token'); 
+      setToken(localtoken);
       const [eventsRes, usersRes, matchesRes, subscriptionRes] = await Promise.all([
         axios.get('http://localhost:4000/api/event/getEventsByOrganizer',
           {
@@ -58,7 +60,11 @@ const OrganizerDashboard = () => {
   const createEvent = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/event/create', newEvent);
+      const res = await axios.post('http://localhost:4000/api/event/create', newEvent,{
+        headers:{
+          Authorization:`Bearer ${token}`,
+        }
+      });
       setEvents([...events, res.data]);
       const generatedMatchDraw = await createMatchesForEvent(res.data._id, newEvent.players, newEvent.matchType);
       setMatchDraw(generatedMatchDraw);
