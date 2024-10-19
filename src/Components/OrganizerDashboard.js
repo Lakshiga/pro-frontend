@@ -39,7 +39,7 @@ const OrganizerDashboard = () => {
         axios.get('http://localhost:4000/api/event/getEventsByOrganizer',
           {
             headers:{
-              Authorization:`Bearer ${token}`,
+              Authorization:`Bearer ${localtoken}`,
             }
           }
       ),

@@ -15,7 +15,7 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
   const fetchData = async () => {
     try {
       const [eventsRes, matchesRes] = await Promise.all([
-        axios.get('/api/events'),
+        axios.get('http://localhost:4000/api/event/active'),
         axios.get('/api/matches')
       ]);
       setEvents(eventsRes.data);
@@ -52,7 +52,7 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
 
         <div className="row g-4 mb-4">
           <div className="col-md-4">
-            <div className="card bg-white shadow">
+            <div className="card bg-info">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center">
                   <h6 className="card-subtitle text-muted">Total Events</h6>
@@ -63,7 +63,7 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
             </div>
           </div>
           <div className="col-md-4">
-            <div className="card bg-white shadow">
+            <div className="card bg-info">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center">
                   <h6 className="card-subtitle text-muted">Total Matches</h6>
