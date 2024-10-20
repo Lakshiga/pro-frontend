@@ -26,6 +26,11 @@ const OrganizerDashboard = () => {
   const [matchDraw, setMatchDraw] = useState([]);
   const navigate = useNavigate();
   const [token, setToken]= useState("");
+  
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Replace with your token key
+    navigate('/login');
+  };
 
   useEffect(() => {
     fetchData();
@@ -162,7 +167,7 @@ const OrganizerDashboard = () => {
           <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
           <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
         </div>
-        <button className="btn btn-outline-light">Logout</button>
+        <button className="btn btn-outline-light" onClick={handleLogout}>Logout</button>
       </header>
 
       <div className="row g-4 mb-4">
@@ -319,7 +324,7 @@ const OrganizerDashboard = () => {
                             <td>{event.sport}</td>
                             <td>
                               <button className="btn btn-outline-info"onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}>View</button>
-                              <button className="btn btn-outline-warning ms-2"onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}>Edit</button>
+                              <button className="btn btn-outline-info ms-2"onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}>Edit</button>
                             </td>
                           </tr>
                         ))}

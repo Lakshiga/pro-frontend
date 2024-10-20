@@ -6,7 +6,8 @@ import { LuCheckCircle } from "react-icons/lu";
 import { FaDollarSign } from "react-icons/fa6";
 import { LuBarChart3 } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
-import logo from '../Images/MatchMaster.png'; // Import your logo here
+import logo from '../Images/MatchMaster.png'; 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "../CSS/AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -16,11 +17,20 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('organizers');
+  const navigate = useNavigate(); // Create a navigate function
 
+  // Handle Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Replace with your token key
+    navigate('/login');
+  };
+
+  // useEffect for fetching data
   useEffect(() => {
     fetchData();
   }, []);
 
+  // Fetch data function
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -80,7 +90,7 @@ const AdminDashboard = () => {
             <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
             <h1 className="h3 fw-bold text-white mb-0"> Admin Dashboard </h1>
           </div>
-          <button className="btn btn-outline-light">
+          <button className="btn btn-outline-light" onClick={handleLogout}>
             Logout
           </button>
         </header>
@@ -228,13 +238,19 @@ const AdminDashboard = () => {
                         {filteredPayments.map((payment) => (
                           <tr key={payment._id}>
                             <td>{payment.organizerId.name}</td>
-                            <td>${payment.amount}</td>
-                            <td>{payment.status}</td>
+                            <td>{`$${payment.amount}`}</td>
+                            <td>
+                              <span className={`badge ${
+                                payment.status === 'approved' ? 'bg-success' : 'bg-warning'
+                              }`}>
+                                {payment.status}
+                              </span>
+                            </td>
                             <td>
                               {payment.status === 'pending' && (
                                 <button
                                   onClick={() => approvePayment(payment._id)}
-                                  className="btn btn-success btn-sm"
+                                  className="btn btn-primary btn-sm"
                                 >
                                   Approve
                                 </button>

@@ -19,33 +19,38 @@ export default function HomePage() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <header className="px-4 py-3 d-flex align-items-center border-bottom bg-white sticky-top shadow-sm">
+      <header className="px-5 py-1 d-flex align-items-center border-bottom bg-white sticky-top shadow-sm">
         <a className="d-flex align-items-center justify-content-center text-decoration-none" href="#">
-          <img src={logo} alt="Match Master Logo" width={85} height={80} className="me-2" />
+          <img src={logo} alt="Match Master Logo" width={75} height={70} className="me-2" />
           <span className="h5 fw-bold " style={{ color: 'navy' }} >Match Master</span>
         </a>
-        <nav className={`ms-auto ${isMenuOpen ? 'd-flex' : 'd-none'} d-md-flex gap-3`}>
+        <nav className={`ms-auto ${isMenuOpen ? 'd-flex' : 'd-none'} d-md-flex gap-4`}>
           {['Features', 'Sports', 'Testimonials', 'Pricing'].map((item) => (
             <a key={item} className="text-secondary text-decoration-none fw-bold" href={`#${item.toLowerCase()}`}>
               {item}
             </a>
           ))}
         </nav>
-        <a href="/login" className="btn w-15 py-2 custom-gradient ms-3 fw-bold"style={{ color: '#00e6d4' }}>Log In</a>
+        <a href="/login" className="btn w-15 py-2 custom-gradient ms-5 fw-bold"style={{ color: '#00e6d4' }}>Log In</a>
         <button className="btn btn-outline-secondary d-md-none ms-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <IoMenu />
         </button>
       </header>
 
       <main className="flex-grow-1">
-        <section className="py-5 custom-gradient text-white">
-          <div className="container text-center">
-          <h1 className="display-4 fw-bold">  Elevate Your  <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
-          <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
-            <a href="/register" className="btn btn-outline-light me-2 fw-bold"style={{ color: '#00e6d4' }}>Get Started for Free</a>
-            <a href="#features" className="btn btn-outline-light fw-bold"style={{ color: '#00e6d4' }}>Learn More</a>
-          </div>
-        </section>
+      <section className="py-5 custom-gradient text-white d-flex align-items-center justify-content-center" style={{ height: '520px', backgroundSize: 'cover' }}>
+  <div className="container text-center">
+    <h1 className="display-4 fw-bold">Elevate Your <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
+    <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
+    <div className="d-flex justify-content-center">
+      <a href="/register" className="btn btn-outline-light me-2 fw-bold" style={{ color: '#00e6d4' }}>Get Started for Free</a>
+      <a href="#features" className="btn btn-outline-light fw-bold" style={{ color: '#00e6d4' }}>Learn More</a>
+    </div>
+  </div>
+</section>
+
+
+
 
         <section id="features" className="py-5 bg-light">
           <div className="container">
@@ -73,51 +78,61 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="sports" className="py-5 custom-gradient">
-          <div className="container">
-            <h2 className="text-center mb-5 text-white">Supported Sports</h2>
-            <div className="row row-cols-2 row-cols-md-4 g-4">
-              {[
-                { icon: LiaTableTennisSolid, name: "Table Tennis" },
-                { icon: FaChess, name: "Chess" },
-                { icon: FaDribbble, name: "Carom" },
-                { icon: LuAward, name: "Badminton" },
-              ].map((sport, index) => (
-                <div key={index} className="col text-center">
-                  <div className="bg-white rounded-circle p-4 shadow-lg mb-3 d-flex justify-content-center align-items-center mx-auto" style={{width: '100px', height: '100px'}}>
-                    <sport.icon className="fs-1" style={{ color: 'navy' }} />
-                  </div>
-                  <h3 className="text-white">{sport.name}</h3>
-                </div>
-              ))}
-            </div>
+        <section 
+  id="sports" 
+  className="py-5 custom-gradient d-flex align-items-center" 
+  style={{ height: '520px', backgroundSize: 'cover' }}
+>
+  <div className="container d-flex flex-column align-items-center">
+    <h2 className="text-center mb-5 text-white">Supported Sports</h2>
+    <div className="row row-cols-2 row-cols-md-4 g-5" >
+      {[
+        { icon: LiaTableTennisSolid, name: "Table Tennis" },
+        { icon: FaChess, name: "Chess" },
+        { icon: FaDribbble, name: "Carom" },
+        { icon: LuAward, name: "Badminton" },
+      ].map((sport, index) => (
+        <div key={index} className="col text-center">
+          <div 
+            className="bg-white rounded-circle p-4 shadow-lg mb-3 d-flex justify-content-center align-items-center mx-auto" 
+            style={{ width: '100px', height: '100px' }}
+          >
+            <sport.icon className="fs-1" style={{ color: 'navy' }} />
           </div>
-        </section>
+          <h3 className="text-white">{sport.name}</h3>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
-        <section id="testimonials" className="py-5 bg-white">
-          <div className="container">
-            <h2 className="text-center mb-5" style={{ color: 'navy' }}>What Our Users Say</h2>
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-              {[
-                { name: "Alex Johnson", role: "Tournament Organizer", quote: "Match Master has revolutionized how we manage our annual chess tournament. It's a game-changer!" },
-                { name: "Sarah Lee", role: "Badminton Coach", quote: "The performance analytics have helped us improve our training strategies. Highly recommended!" },
-                { name: "Mike Chen", role: "Table Tennis Player", quote: "As a player, I love how easy it is to track my matches and see my progress over time." },
-              ].map((testimonial, index) => (
-                <div key={index} className="col">
-                  <div className="card h-100 border-primary">
-                    <div className="card-header w-100 py-2 custom-gradient text-white text-white">
-                      <h5 className="card-title mb-0">{testimonial.name}</h5>
-                      <small>{testimonial.role}</small>
-                    </div>
-                    <div className="card-body">
-                      <p className="card-text fw-bold">"{testimonial.quote}"</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+
+        <section id="testimonials" className="py-5 bg-white d-flex align-items-center" style={{ height: '520px', backgroundSize: 'cover' }}>
+  <div className="container">
+    <h2 className="text-center mb-5" style={{ color: 'navy' }}>What Our Users Say</h2>
+    <div className="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+      {[
+        { name: "Alex Johnson", role: "Tournament Organizer", quote: "Match Master has revolutionized how we manage our annual chess tournament. It's a game-changer!" },
+        { name: "Sarah Lee", role: "Badminton Coach", quote: "The performance analytics have helped us improve our training strategies. Highly recommended!" },
+        { name: "Mike Chen", role: "Table Tennis Player", quote: "As a player, I love how easy it is to track my matches and see my progress over time." },
+      ].map((testimonial, index) => (
+        <div key={index} className="col">
+          <div className="card h-100 border-primary text-center"> {/* Added text-center class here */}
+            <div className="card-header w-100 py-2 custom-gradient text-white">
+              <h5 className="card-title mb-0">{testimonial.name}</h5>
+              <small>{testimonial.role}</small>
+            </div>
+            <div className="card-body">
+              <p className="card-text fw-bold">"{testimonial.quote}"</p>
             </div>
           </div>
-        </section>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
 
         <section id="pricing" className="py-5 custom-gradient">
           <div className="container">
@@ -154,13 +169,14 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-5 custom-gradient text-white">
-          <div className="container text-center">
-            <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
-            <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
-            <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#00e6d4' }}>Start Your Free Trial</Link>
-          </div>
-        </section>
+        <section className="d-flex justify-content-center align-items-center custom-gradient text-white" style={{ height: '520px', backgroundSize: 'cover' }}>
+  <div className="container text-center">
+    <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
+    <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
+    <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#00e6d4' }}>Start Your Free Trial</Link>
+  </div>
+</section>
+
       </main>
 
       <footer className="py-4 bg-light border-top">

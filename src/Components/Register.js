@@ -6,6 +6,7 @@ import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import "../CSS/Register.css"
 import logo from '../Images/MatchMaster.png'; // Import your logo here
+import Layout from '../Components/Layout.js'; 
 
 
 export default function Register() {
@@ -58,7 +59,8 @@ export default function Register() {
   }
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center custom-gradient p-4">
+    <Layout>
+     <div className="min-vh-100 d-flex align-items-center justify-content-center custom-gradient p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -143,5 +145,6 @@ export default function Register() {
         </div>
       </motion.div>
     </div>
-  )
+   </Layout>
+  );
 }

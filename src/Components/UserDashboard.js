@@ -3,10 +3,91 @@ import axios from 'axios';
 import { FaCalendarAlt, FaTrophy, FaCheckCircle } from 'react-icons/fa';
 import "../CSS/UserDashboard.css";
 
+// Separate component for Event List
+const EventList = ({ events }) => (
+  <div className="tab-pane fade show active">
+    <div className="card bg-white shadow">
+      <div className="card-body">
+        <h5 className="card-title mb-4">Event List</h5>
+        <div className="table-responsive">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Sport</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((event) => (
+                <tr key={event.id}>
+                  <td>{event.name}</td>
+                  <td>{new Date(event.date).toLocaleDateString()}</td>
+                  <td>{event.sport}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Separate component for Match List
+const MatchList = ({ matches, events, user, updateScore }) => (
+  <div className="tab-pane fade show active">
+    <div className="card bg-white shadow">
+      <div className="card-body">
+        <h5 className="card-title mb-4">Match List</h5>
+        <div className="table-responsive">
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Player 1</th>
+                <th>Player 2</th>
+                <th>Date</th>
+                <th>Score</th>
+                {user.role === 'umpire' && <th>Action</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {matches.map((match) => (
+                <tr key={match.id}>
+                  <td>{events.find(e => e.id === match.eventId)?.name || 'N/A'}</td>
+                  <td>{match.player1}</td>
+                  <td>{match.player2}</td>
+                  <td>{new Date(match.date).toLocaleDateString()}</td>
+                  <td>{match.score || 'Not available'}</td>
+                  {user.role === 'umpire' && (
+                    <td>
+                      <button
+                        onClick={() => {
+                          const score = prompt('Enter the score:');
+                          if (score) updateScore(match.id, score);
+                        }}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Update Score
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) => {
   const [events, setEvents] = useState([]);
   const [matches, setMatches] = useState([]);
   const [activeTab, setActiveTab] = useState('events');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -22,6 +103,7 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
       setMatches(matchesRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setErrorMessage('Failed to load data. Please try again later.');
     }
   };
 
@@ -32,8 +114,10 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
       setMatches(matches.map(match => 
         match.id === matchId ? { ...match, score } : match
       ));
+      alert('Score updated successfully!');
     } catch (error) {
       console.error('Error updating score:', error);
+      setErrorMessage('Failed to update score. Please try again.');
     }
   };
 
@@ -88,6 +172,8 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
           )}
         </div>
 
+        {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
         <ul className="nav nav-tabs mb-4">
           <li className="nav-item">
             <button 
@@ -108,83 +194,8 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
         </ul>
 
         <div className="tab-content">
-          {activeTab === 'events' && (
-            <div className="tab-pane fade show active">
-              <div className="card bg-white shadow">
-                <div className="card-body">
-                  <h5 className="card-title mb-4">Event List</h5>
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Date</th>
-                          <th>Sport</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {events.map((event) => (
-                          <tr key={event.id}>
-                            <td>{event.name}</td>
-                            <td>{new Date(event.date).toLocaleDateString()}</td>
-                            <td>{event.sport}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'matches' && (
-            <div className="tab-pane fade show active">
-              <div className="card bg-white shadow">
-                <div className="card-body">
-                  <h5 className="card-title mb-4">Match List</h5>
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>Event</th>
-                          <th>Player 1</th>
-                          <th>Player 2</th>
-                          <th>Date</th>
-                          <th>Score</th>
-                          {user.role === 'umpire' && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {matches.map((match) => (
-                          <tr key={match.id}>
-                            <td>{events.find(e => e.id === match.eventId)?.name}</td>
-                            <td>{match.player1}</td>
-                            <td>{match.player2}</td>
-                            <td>{new Date(match.date).toLocaleDateString()}</td>
-                            <td>{match.score || 'Not available'}</td>
-                            {user.role === 'umpire' && (
-                              <td>
-                                <button
-                                  onClick={() => {
-                                    const score = prompt('Enter the score:');
-                                    if (score) updateScore(match.id, score);
-                                  }}
-                                  className="btn btn-primary btn-sm"
-                                >
-                                  Update Score
-                                </button>
-                              </td>
-                            )}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {activeTab === 'events' && <EventList events={events} />}
+          {activeTab === 'matches' && <MatchList matches={matches} events={events} user={user} updateScore={updateScore} />}
         </div>
       </div>
     </div>

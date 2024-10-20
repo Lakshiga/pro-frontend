@@ -12,7 +12,7 @@
   }
   
   .logo-text {
-    background: linear-gradient(to right, #1e3a8a, #40e0d0);
+    background: linear-gradient(to right, #0A2342, #40e0d0);
     -webkit-background-clip: text; /* For Safari */
     background-clip: text; /* Standard property (not fully supported for text in all browsers) */
     -webkit-text-fill-color: transparent; /* For Safari */ /* Standard property, but not supported */
@@ -20,7 +20,7 @@
   
   
   .hero-section {
-    background: linear-gradient(to bottom right, #1e3a8a, #2a4a9a, #40e0d0);
+    background: linear-gradient(to bottom right, #0A2342, #0A2342, #40e0d0);
   }
   
   .feature-card:hover {
