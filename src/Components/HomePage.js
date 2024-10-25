@@ -31,7 +31,7 @@ export default function HomePage() {
             </a>
           ))}
         </nav>
-        <a href="/login" className="btn w-15 py-2 custom-gradient ms-5 fw-bold"style={{ color: '#00e6d4' }}>Log In</a>
+        <a href="/login" className="btn w-15 py-2 custom-gradient ms-5 fw-bold"style={{ color: '#fff' }}>Log In</a>
         <button className="btn btn-outline-secondary d-md-none ms-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <IoMenu />
         </button>
@@ -43,14 +43,11 @@ export default function HomePage() {
     <h1 className="display-4 fw-bold">Elevate Your <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
     <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
     <div className="d-flex justify-content-center">
-      <a href="/register" className="btn btn-outline-light me-2 fw-bold" style={{ color: '#00e6d4' }}>Get Started for Free</a>
-      <a href="#features" className="btn btn-outline-light fw-bold" style={{ color: '#00e6d4' }}>Learn More</a>
+      <a href="/register" className="btn btn-outline-light me-2 fw-bold" style={{ color: '#fff' }}>Get Started for Free</a>
+      <a href="#features" className="btn btn-outline-light fw-bold" style={{ color: '#fff' }}>Learn More</a>
     </div>
   </div>
 </section>
-
-
-
 
         <section id="features" className="py-5 bg-light">
           <div className="container">
@@ -173,7 +170,7 @@ export default function HomePage() {
   <div className="container text-center">
     <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
     <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
-    <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#00e6d4' }}>Start Your Free Trial</Link>
+    <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#fff' }}>Start Your Free Trial</Link>
   </div>
 </section>
 

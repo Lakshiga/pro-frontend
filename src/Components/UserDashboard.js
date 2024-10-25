@@ -127,11 +127,11 @@ const UserDashboard = ({ user = { id: '1', name: 'John Doe', role: 'user' } }) =
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div className="d-flex align-items-center">
             <img src="/MatchMaster.png" alt="Match Master Logo" width="60" height="60" className="me-3" />
-            <h1 className="h3 fw-bold text-primary mb-0">
+            <h1 className="h3 fw-bold mb-0" style={{ color: '#00e6d4' }}>
               {user.role === 'umpire' ? 'Umpire Dashboard' : 'User Dashboard'}
             </h1>
           </div>
-          <button className="btn btn-outline-primary">Logout</button>
+          <button className="btn btn-outline-primary" style={{ color: '#fff' }} >Logout</button>
         </div>
 
         <div className="row g-4 mb-4">
