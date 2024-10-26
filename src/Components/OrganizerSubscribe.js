@@ -259,7 +259,7 @@ const CheckoutForm = ({ plan }) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentIntentId: paymentIntent.id }),
         });
-        navigate('/organizer/dashboard');
+        navigate('/organizer-dashboard');
       } else {
         throw new Error('Payment was not successful');
       }

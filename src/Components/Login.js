@@ -187,7 +187,7 @@ export default function Login() {
         setTimeout(() => navigate('/admin-dashboard'), 2000);
       } else {
         setSuccessMessage('Login successful. Redirecting to user dashboard...');
-        setTimeout(() => navigate('/'), 2000);
+        setTimeout(() => navigate('/user-dashboard'), 2000);
       }
     } catch (error) {
       setError('Login failed. Please try again.');
