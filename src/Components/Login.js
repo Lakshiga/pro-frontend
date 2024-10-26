@@ -138,6 +138,10 @@
 // }
 
 // src/pages/Login.js
+
+
+
+
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { IoMdEyeOff } from "react-icons/io";
@@ -182,7 +186,7 @@ export default function Login() {
         setSuccessMessage('Login successful as admin. Redirecting to admin dashboard...');
         setTimeout(() => navigate('/admin-dashboard'), 2000);
       } else {
-        setSuccessMessage('Login successful. Redirecting to home page...');
+        setSuccessMessage('Login successful. Redirecting to user dashboard...');
         setTimeout(() => navigate('/'), 2000);
       }
     } catch (error) {
@@ -210,7 +214,7 @@ export default function Login() {
                   <label htmlFor="password" className="form-label">Password</label>
                   <div className="input-group">
                     <input id="password" name="password" type={showPassword ? "text" : "password"} className="form-control" required value={formData.password} onChange={handleInputChange} />
-                    <button type="button" className="btn btn-outline-info" onClick={() => setShowPassword(!showPassword)}>
+                    <button type="button" className="btn btn-outline-secondery" onClick={() => setShowPassword(!showPassword)}>
                       {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
                     </button>
                   </div>

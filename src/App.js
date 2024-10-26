@@ -9,6 +9,9 @@ import OrganizerSubscribe from "./Components/OrganizerSubscribe"; // Updated pat
 import UserDashboard from "./Components/UserDashboard"; // Updated path
 import UserProfile from "./Components/UserProfile"; // Updated path
 import Event from "./Components/Event"; // Updated path
+import TermsOfService from "./Components/TermsOfService"; // Updated path
+import PrivacyPolicy from "./Components/PrivacyPolicy"; // Updated path
+import ContactUs from "./Components/ContactUs"; // Updated path
 
 
 function App() {
@@ -24,7 +27,10 @@ function App() {
           <Route path="/organizer-subscribe" element={<OrganizerSubscribe />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/organizer-dashboard/event/:id" element={<Event />} />       
+          <Route path="/organizer-dashboard/event/:id" element={<Event />} /> 
+          <Route path="/terms-of-service" element={<TermsOfService />} />    
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />  
+          <Route path="/contact-us" element={<ContactUs />} />  
        </Routes>
       </div>
     </Router>

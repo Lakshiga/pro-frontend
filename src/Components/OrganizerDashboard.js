@@ -167,7 +167,7 @@ const OrganizerDashboard = () => {
           <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
           <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
         </div>
-        <button className="btn btn-outline-light" onClick={handleLogout}>Logout</button>
+        <button className="btn btn-outline-secondary fw-bold" onClick={handleLogout}>Logout</button>
       </header>
 
       <div className="row g-4 mb-4">
@@ -199,7 +199,7 @@ const OrganizerDashboard = () => {
               </div>
               <h2 className="card-title mb-0">{subscription?.status || 'Inactive'}</h2>
               <button 
-                  className="btn mt-3"
+                  className="btn btn-outline-secondary fw-bold mt-3"
                   style={{ backgroundColor: 'navy', color: 'white' }} // Adding navy color
                   onClick={handleSubscribe}>Subscribe Now</button>
             </div>
@@ -207,14 +207,37 @@ const OrganizerDashboard = () => {
         </div>
       </div>
 
-        <ul className="nav nav-tabs mb-4" >
-          <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'events' ? 'active' : ''}`} onClick={() => setActiveTab('events')}>Events</button>
-          </li>
-          <li className="nav-item">
-            <button className={`nav-link ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
-          </li>
-        </ul>
+        <ul className="nav nav-tabs mb-4 gap-4">
+  <li className="nav-item fw-bold">
+    <button
+      className={`nav-link bg-white ${activeTab === 'events' ? 'active' : ''}`}
+      onClick={() => setActiveTab('events')}
+      style={{
+        color: activeTab === 'events' ? '#0dcaf0' : '#000',
+        transition: 'color 0.3s ease',
+      }}
+      onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
+      onMouseLeave={(e) => (e.target.style.color = activeTab === 'events' ? '#0dcaf0' : '#000')}
+    >
+      Events
+    </button>
+  </li>
+  <li className="nav-item fw-bold">
+    <button
+      className={`nav-link bg-white ${activeTab === 'analytics' ? 'active' : ''}`}
+      onClick={() => setActiveTab('analytics')}
+      style={{
+        color: activeTab === 'analytics' ? '#0dcaf0' : '#000',
+        transition: 'color 0.3s ease',
+      }}
+      onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
+      onMouseLeave={(e) => (e.target.style.color = activeTab === 'analytics' ? '#0dcaf0' : '#000')}
+    >
+      Analytics
+    </button>
+  </li>
+</ul>
+
 
     <div className="tab-content">
       {activeTab === 'events' && (
@@ -292,7 +315,7 @@ const OrganizerDashboard = () => {
                     </select>
                   </div>
                 </div>
-                <button type="submit" className="btn mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>
+                <button type="submit" className="btn btn-outline-secondary fw-bold mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>
                   Create Event and Generate Draw
                 </button>
               </form>
@@ -323,8 +346,8 @@ const OrganizerDashboard = () => {
                             <td>{new Date(event.date).toLocaleDateString()}</td>
                             <td>{event.sport}</td>
                             <td>
-                              <button className="btn btn-outline-info"onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}>View</button>
-                              <button className="btn btn-outline-info ms-2"onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}>Edit</button>
+                              <button className="btn btn-outline-secondary fw-bold"onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}>View</button>
+                              <button className="btn btn-outline-secondary fw-bold ms-2"onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}>Edit</button>
                             </td>
                           </tr>
                         ))}

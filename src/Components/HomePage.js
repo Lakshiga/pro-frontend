@@ -40,11 +40,11 @@ export default function HomePage() {
       <main className="flex-grow-1">
       <section className="py-5 custom-gradient text-white d-flex align-items-center justify-content-center" style={{ height: '520px', backgroundSize: 'cover' }}>
   <div className="container text-center">
-    <h1 className="display-4 fw-bold">Elevate Your <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
-    <p className="lead">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
+    <h1 className="display-3 fw-bold">Elevate Your <span style={{ color: '#00e6d4' }}>Sports Management to the Next Level</span></h1>
+    <p className="lead fw-bold">From organizing tournaments to tracking scores, Match Master streamlines your entire sports management process.</p>
     <div className="d-flex justify-content-center">
-      <a href="/register" className="btn btn-outline-light me-2 fw-bold" style={{ color: '#fff' }}>Get Started for Free</a>
-      <a href="#features" className="btn btn-outline-light fw-bold" style={{ color: '#fff' }}>Learn More</a>
+      <a href="/register" className="btn btn-outline-secondary me-2 fw-bold" style={{ color: '#fff' }}>Get Started</a>
+      <a href="#features" className="btn btn-outline-secondary fw-bold" style={{ color: '#fff' }}>Learn More</a>
     </div>
   </div>
 </section>
@@ -170,7 +170,7 @@ export default function HomePage() {
   <div className="container text-center">
     <h2 className="mb-4 fw-bold">Ready to Transform Your Sports Management?</h2>
     <p className="lead mb-4">Join thousands of satisfied users and take your sports events to the next level with Match Master.</p>
-    <Link to="/register" className="btn btn-outline-light btn-lg fw-bold" style={{ color: '#fff' }}>Start Your Free Trial</Link>
+    <Link to="/register" className="btn btn-outline-secondary btn-lg fw-bold" style={{ color: '#fff' }}>Start Your Free Trial</Link>
   </div>
 </section>
 
@@ -184,9 +184,9 @@ export default function HomePage() {
           </div>
           <div className="col-12">
             <nav className="nav justify-content-center"> {/* Center the nav links and icons */}
-              <Link className="nav-link text-muted" to="#">Terms of Service</Link>
-              <Link className="nav-link text-muted" to="#">Privacy Policy</Link>
-              <Link className="nav-link text-muted" to="#">Contact Us</Link>
+              <Link className="nav-link text-muted" to="/terms-of-service">Terms of Service</Link>
+              <Link className="nav-link text-muted" to="/privacy-policy">Privacy Policy</Link>
+              <Link className="nav-link text-muted" to="/contact-us">Contact Us</Link>
               {/* Social Media Icons */}
               <a href="https://www.facebook.com" className="nav-link text-muted" target="_blank" rel="noopener noreferrer">
                 <FaFacebook size={24} /> {/* Facebook Icon */}
