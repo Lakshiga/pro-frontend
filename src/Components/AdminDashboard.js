@@ -90,7 +90,7 @@ const AdminDashboard = () => {
             <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
             <h1 className="h3 fw-bold text-white mb-0"> Admin Dashboard </h1>
           </div>
-          <button className="btn btn-outline-light" onClick={handleLogout}>
+          <button className="btn btn-outline-secondary fw-bold text-white " onClick={handleLogout}>
             Logout
           </button>
         </header>
@@ -138,27 +138,45 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <ul className="nav nav-tabs mb-4" style={{ color: 'navy' }}>
+        <ul className="nav nav-tabs mb-4 gap-4" style={{ color: 'navy' }}>
           <li className="nav-item">
             <button
-              className={`nav-link ${activeTab === 'organizers' ? 'active' : ''}`}
+              className={`nav-link bg-white fw-bold ${activeTab === 'organizers' ? 'active' : ''}`}
               onClick={() => setActiveTab('organizers')}
+              style={{
+                color: activeTab === 'organizers' ? '#0dcaf0' : '#000',
+                transition: 'color 0.3s ease',
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
+              onMouseLeave={(e) => (e.target.style.color = activeTab === 'organizers' ? '#0dcaf0' : '#000')}
             >
               Organizers
             </button>
           </li>
           <li className="nav-item">
             <button
-              className={`nav-link ${activeTab === 'payments' ? 'active' : ''}`}
+              className={`nav-link bg-white fw-bold ${activeTab === 'payments' ? 'active' : ''}`}
               onClick={() => setActiveTab('payments')}
-            >
+            style={{
+              color: activeTab === 'payments' ? '#0dcaf0' : '#000',
+              transition: 'color 0.3s ease',
+            }}
+            onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
+            onMouseLeave={(e) => (e.target.style.color = activeTab === 'payments' ? '#0dcaf0' : '#000')}
+          >
               Payments
             </button>
           </li>
           <li className="nav-item"> 
             <button
-              className={`nav-link ${activeTab === 'users' ? 'active' : ''}`} 
+              className={`nav-link bg-white fw-bold ${activeTab === 'users' ? 'active' : ''}`} 
               onClick={() => setActiveTab('users')}
+              style={{
+                color: activeTab === 'users' ? '#0dcaf0' : '#000',
+                transition: 'color 0.3s ease',
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
+              onMouseLeave={(e) => (e.target.style.color = activeTab === 'users' ? '#0dcaf0' : '#000')}
             >
               Users
             </button>

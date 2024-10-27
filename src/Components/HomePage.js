@@ -32,7 +32,7 @@ export default function HomePage() {
           ))}
         </nav>
         <a href="/login" className="btn w-15 py-2 custom-gradient ms-5 fw-bold"style={{ color: '#fff' }}>Log In</a>
-        <button className="btn btn-outline-secondary d-md-none ms-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="btn btn-outline-secondary d-md-none ms-2"style={{ color: '#fff' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <IoMenu />
         </button>
       </header>
