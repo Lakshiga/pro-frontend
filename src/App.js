@@ -61,11 +61,9 @@ function App() {
           <Route
             path="/organizer-dashboard"
             element={
-              <ProtectedRoute
-                role={user.role}
-              >
+              <PrivateRoute allowedRoles={['organizer']} user={user}>
                 <OrganizerDashboard />
-              </ProtectedRoute>
+                </PrivateRoute>
             }
           />
         </Routes>

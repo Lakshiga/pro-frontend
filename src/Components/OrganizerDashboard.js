@@ -47,12 +47,9 @@ const OrganizerDashboard = () => {
             }
           }
       ),
-        // axios.post('http://localhost:4000/api/match/create'),
         axios.get('http://localhost:4000/api/admin/users'),
-        // axios.get('http://localhost:4000/api/organizer/subscription'),
       ]);
       setEvents(eventsRes.data);
-      setMatches(matchesRes.data);
       const unverified = usersRes.data.filter(user => (user.role === 'player' || user.role === 'umpire') && !user.verified); // Filter unverified players and umpires
       setUnverified(unverified); // Only show unverified users
       setSubscription(subscriptionRes.data);
@@ -134,25 +131,9 @@ const OrganizerDashboard = () => {
     return matches;
   };
 
-  const createMatch = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post('http://localhost:4000/api/match/create', newMatch);
-      setMatches([...matches, res.data]);
-      setNewMatch({ eventId: '', player1: '', player2: '', date: '' });
-    } catch (error) {
-      console.error('Error creating match:', error);
-    }
-  };
+  
 
-  const verifyUser = async (userId) => {
-    try {
-      await axios.post(`/api/auth/verify-user/${userId}`);
-      setUnverified(prevUsers => prevUsers.filter(user => user.id !== userId));
-    } catch (error) {
-      console.error('Error verifying user:', error);
-    }
-  };
+  
 
   const handleSubscribe = () => {
     navigate('/organizer-subscribe');
@@ -161,51 +142,105 @@ const OrganizerDashboard = () => {
   return (
     <div className="min-vh-100 custom-gradient p-4">
     <div className="container">
-      <header className="d-flex justify-content-between align-items-center mb-4">
-        <div className="d-flex align-items-center">
-          <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
-          <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
-        </div>
-        <button className="btn btn-outline-secondary fw-bold text-white" onClick={handleLogout}>Logout</button>
-      </header>
+    <header
+  className="d-flex justify-content-between align-items-center mb-4"
+  style={{
+    backgroundColor: '#000', // Black background
+    padding: '1rem',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+  }}
+>
+  <div className="d-flex align-items-center">
+    <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px' }} />
+    <h1 className="h3 fw-bold mb-0" style={{ color: '#CCFF00' }}>Organizer Dashboard</h1> {/* #CCFF00 color */}
+  </div>
+  <button
+    className="btn fw-bold"
+    onClick={handleLogout}
+    style={{
+      color: '#fff', // White text
+      backgroundColor: '#555', // Grey button background
+      borderColor: '#CCFF00', // Border color
+      transition: 'background 0.3s ease, color 0.3s ease',
+    }}
+    onMouseEnter={(e) => {
+      e.target.style.backgroundColor = '#CCFF00'; // Change background to #CCFF00 on hover
+      e.target.style.color = '#000'; // Black text on hover
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.backgroundColor = '#555'; // Revert to grey background
+      e.target.style.color = '#fff'; // Revert to white text
+    }}
+  >
+    Logout
+  </button>
+</header>
 
       <div className="row g-4 mb-4">
-        {[
-          { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp, color: "bg-info" },
-          { title: "Total Matches", value: matches.length, icon: FaTrophy, color: "bg-info" },
-          { title: "Unverified Users", value: unverified.length, icon: FaUsersLine, color: "bg-info" },
-        ].map((item, index) => (
-          <div key={index} className="col-md-6 col-lg-3">
-            <div className={`card ${item.color}`} style={{ color: 'navy' }}>
-              <div className="card-body">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h6 className="card-subtitle">{item.title}</h6>
-                  <item.icon className="fs-4" />
-                </div>
-                <h2 className="card-title mb-0">{item.value}</h2>
-              </div>
-            </div>
+  {[
+    { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp, color: "bg-dark" },
+    { title: "Total Matches", value: matches.length, icon: FaTrophy, color: "bg-dark" },
+    { title: "Unverified Users", value: unverified.length, icon: FaUsersLine, color: "bg-dark" },
+  ].map((item, index) => (
+    <div key={index} className="col-md-6 col-lg-3">
+      <div 
+        className={`card ${item.color} text-white card-pop`}
+        style={{
+          borderRadius: '15px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          transition: 'transform 0.3s ease-in-out',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+      >
+        <div className="card-body">
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <h6 className="card-subtitle">{item.title}</h6>
+            <item.icon className="fs-4 icon-pop" style={{ transition: 'color 0.3s ease' }} />
           </div>
-        ))}
-
-        {/* Subscription Status Integrated into the Card Grid */}
-        <div className="col-md-6 col-lg-3">
-          <div className={`card bg-info`} style={{ color: 'navy' }}>
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h6 className="card-subtitle">Subscription Status</h6>
-                <FaDollarSign className="fs-4" />
-              </div>
-              <h2 className="card-title mb-0">{subscription?.status || 'Inactive'}</h2>
-              <button 
-                  className="btn btn-outline-secondary fw-bold mt-3"
-                  style={{ backgroundColor: 'navy', color: 'white' }} // Adding navy color
-                  onClick={handleSubscribe}>Subscribe Now</button>
-            </div>
-          </div>
+          <h2 className="card-title mb-0">{item.value}</h2>
         </div>
       </div>
+    </div>
+  ))}
 
+  {/* Subscription Status Integrated into the Card Grid */}
+  <div className="col-md-6 col-lg-3">
+    <div 
+      className="card bg-dark text-white card-pop"
+      style={{
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        transition: 'transform 0.3s ease-in-out',
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+    >
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <h6 className="card-subtitle">Subscription Status</h6>
+          <FaDollarSign className="fs-4 icon-pop" style={{ transition: 'color 0.3s ease' }} />
+        </div>
+        <button 
+          className="btn btn-primary mt-3 subscribe-button"
+          style={{
+            backgroundColor: '#CCFF00',
+            borderColor: '#CCFF00',
+            color: '#000',
+            borderRadius: '10px',
+            transition: 'background 0.3s ease-in-out',
+          }}
+          onClick={handleSubscribe}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = '#AABB00')}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = '#CCFF00')}
+        >
+          Subscribe Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
         <ul className="nav nav-tabs mb-4 gap-4">
   <li className="nav-item fw-bold">
     <button

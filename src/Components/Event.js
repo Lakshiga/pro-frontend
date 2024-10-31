@@ -6,13 +6,23 @@ import { IoTrophyOutline } from 'react-icons/io5';
 import logo from '../Images/MatchMaster.png';
 
 const Event = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the event ID from the URL params
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playersDetails, setPlayersDetails] = useState([]);
+  const [message, setMessage] = useState('');
 
+  const handleCreateMatches = async () => {
+    try {
+      // Use the id from useParams as the eventId
+      const response = await axios.post(`http://localhost:4000/api/events/events/${id}/generate-matches`); 
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage(error.response?.data?.error || "Failed to generate matches");
+    }
+  };
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -152,13 +162,36 @@ const Event = () => {
 
             <Section title="Players" icon={<FaUsers />}>
               {event.players && event.players.length > 0 ? (
-                <ul style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                  {playersDetails.map(player => (
-                       <li key={player.id}>
-                         {player.username}
-                        </li>
-                          ))}
-                </ul>
+                <>
+                  <ul
+                    style={{
+                      listStyleType: 'none',
+                      padding: 0,
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                      gap: '1rem',
+                    }}
+                  >
+                    {event.players.map((player, index) => (
+                      <li key={index}>{player}</li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={handleCreateMatches}
+                    style={{
+                      backgroundColor: 'navy',
+                      color: '#fff',
+                      padding: '0.5rem 1rem',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      marginTop: '1rem',
+                    }}
+                  >
+                    Create Matches
+                  </button>
+                  {message && <p>{message}</p>}
+                </>
               ) : (
                 <p style={{ color: '#dc3545' }}>No players assigned.</p>
               )}
