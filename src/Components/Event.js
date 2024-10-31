@@ -17,7 +17,7 @@ const Event = () => {
   const handleCreateMatches = async () => {
     try {
       // Use the id from useParams as the eventId
-      const response = await axios.post(`http://localhost:4000/api/events/events/${id}/generate-matches`); 
+      const response = await axios.post(`http://localhost:4000/api/event/${id}/generate-matches`); 
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.error || "Failed to generate matches");
@@ -40,7 +40,7 @@ const Event = () => {
     const fetchPlayerDetails = async (playerIds) => {
       try {
         console.log(playerIds);
-        const response = await axios.post("http://localhost:4000/api/user-profile/list", {
+        const response = await axios.post("http://localhost:4000/api/event/user-profile/list", {
           playerIds: playerIds,
         });
         setPlayersDetails(response.data); // Save the players details
@@ -172,9 +172,11 @@ const Event = () => {
                       gap: '1rem',
                     }}
                   >
-                    {event.players.map((player, index) => (
-                      <li key={index}>{player}</li>
-                    ))}
+                    {playersDetails.map(player => (
+            <li key={player.id}>
+              {player.username}
+            </li>
+          ))}
                   </ul>
                   <button
                     onClick={handleCreateMatches}
