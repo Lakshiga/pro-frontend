@@ -17,21 +17,17 @@ import ProtectedRoute from './Components/ProtectedRoute';
 
 function App() {
   const [user, setUser] = useState({
-    isAuthenticated: false,
-    role: '',
-    isVerified: false,
+    role: ''
   });
 
   // Example: Mock data to simulate user login (replace with actual login logic)
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const userData = JSON.parse(localStorage.getItem('user'));
+    const role = localStorage.getItem('role');
 
-    if (token && userData) {
+    if (token && role) {
       setUser({
-        isAuthenticated: true,
-        role: userData.role,
-        isVerified: userData.isVerified,
+        role: role
       });
     }
   }, []);
@@ -66,8 +62,6 @@ function App() {
             path="/organizer-dashboard"
             element={
               <ProtectedRoute
-                isAuthenticated={user.isAuthenticated}
-                isVerified={user.isVerified}
                 role={user.role}
               >
                 <OrganizerDashboard />

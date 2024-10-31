@@ -11,6 +11,8 @@ const Event = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [playersDetails, setPlayersDetails] = useState([]);
+
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -18,9 +20,22 @@ const Event = () => {
         const response = await axios.get(`http://localhost:4000/api/event/getEventsByEventId/${id}`);
         setEvent(response.data);
         setLoading(false);
+        fetchPlayerDetails(response.data.players);
       } catch (error) {
         setError('Error fetching event details');
         setLoading(false);
+      }
+    };
+
+    const fetchPlayerDetails = async (playerIds) => {
+      try {
+        console.log(playerIds);
+        const response = await axios.post("http://localhost:4000/api/user-profile/list", {
+          playerIds: playerIds,
+        });
+        setPlayersDetails(response.data); // Save the players details
+      } catch (error) {
+        console.error("Error fetching player details:", error);
       }
     };
 
@@ -138,9 +153,11 @@ const Event = () => {
             <Section title="Players" icon={<FaUsers />}>
               {event.players && event.players.length > 0 ? (
                 <ul style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                  {event.players.map((player, index) => (
-                    <li key={index} style={{ backgroundColor: '#f0f4f8', padding: '1rem', borderRadius: '0.5rem', color: '#08096b', fontSize: '1.1rem', textAlign: 'center' }}>{player}</li>
-                  ))}
+                  {playersDetails.map(player => (
+                       <li key={player.id}>
+                         {player.username}
+                        </li>
+                          ))}
                 </ul>
               ) : (
                 <p style={{ color: '#dc3545' }}>No players assigned.</p>

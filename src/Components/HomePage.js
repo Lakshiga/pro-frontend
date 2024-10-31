@@ -7,7 +7,6 @@ import { LuAward } from "react-icons/lu"
 import { FaRegStar, FaArrowRightLong } from "react-icons/fa6"
 import { LiaTableTennisSolid } from "react-icons/lia"
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { FaUserCircle } from 'react-icons/fa'; // Import the profile icon
 import { AiOutlineArrowRight } from 'react-icons/ai'; // Use the right arrow
 import { motion } from 'framer-motion'
 import 'bootstrap/dist/css/bootstrap.min.css';
