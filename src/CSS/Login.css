@@ -1,14 +1,14 @@
-.login-page {
+/* .login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(to bottom right, #e6f7ff, #ffffff, #e6fffa);
-}
-
+} */
+/* 
 .dark .login-page {
   background: linear-gradient(to bottom right, #1a202c, #2d3748, #1a202c);
-}
+} */
 
 .login-card {
   width: 100%;

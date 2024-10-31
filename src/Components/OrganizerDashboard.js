@@ -3,7 +3,6 @@ import axios from 'axios';
 import { IoCalendarNumberSharp } from "react-icons/io5";
 import { FaTrophy, FaUsersLine, FaDollarSign } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import "../CSS/OrganizerDashboard.css";
 import logo from '../Images/MatchMaster.png'; // Import your logo here
 import DrawComponent from '../Components/DrawComponent.js'; // Adjust the import path as needed
 
@@ -167,7 +166,7 @@ const OrganizerDashboard = () => {
           <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
           <h1 className="h3 fw-bold text-white mb-0">Organizer Dashboard</h1>
         </div>
-        <button className="btn btn-outline-secondary fw-bold" onClick={handleLogout}>Logout</button>
+        <button className="btn btn-outline-secondary fw-bold text-white" onClick={handleLogout}>Logout</button>
       </header>
 
       <div className="row g-4 mb-4">

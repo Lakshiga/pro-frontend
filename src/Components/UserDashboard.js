@@ -132,7 +132,7 @@ const UserDashboard = ({ user = { _id: '1', name: 'John Doe', role: 'player' } }
   const [activeTab, setActiveTab] = useState('events');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // initialize navigate for navigation
-  const [token, setToken] = useState(localStorage.getItem('authToken') || ""); // initialize token state
+  const [token, setToken] = useState(""); // initialize token state
 
 
   useEffect(() => {
@@ -145,11 +145,13 @@ const UserDashboard = ({ user = { _id: '1', name: 'John Doe', role: 'player' } }
   };
 
   const fetchData = async () => {
-    try {
-      const headers = { Authorization: `Bearer ${token}` };
+    try { 
+      const localtoken = localStorage.getItem('token'); 
+      setToken(localtoken);
+      const headers = { Authorization: `Bearer ${localtoken}` };
       const [eventsRes, matchesRes] = await Promise.all([
         axios.get('http://localhost:4000/api/event/active', { headers }),
-        axios.get('http://localhost:4000/api/matches', { headers })
+        axios.get('http://localhost:4000/api/match/match-player', { headers })
       ]);
       setEvents(eventsRes.data);
       setMatches(matchesRes.data);

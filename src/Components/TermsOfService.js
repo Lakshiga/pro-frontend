@@ -9,12 +9,12 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '1rem',
-    background: 'linear-gradient(135deg, #0A2342, #2EC4B6)',
+    backgroundColor: '#000000', // Black background
   },
   card: {
     width: '100%',
     maxWidth: '36rem',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF', // White card background
     borderRadius: '0.5rem',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   },
@@ -24,13 +24,13 @@ const styles = {
     textAlign: 'center',
   },
   cardTitle: {
-    color: '#0A2342',
+    color: '#CCFF00', // Aqua title color
     fontWeight: 'bold',
     fontSize: '1.5rem',
     marginBottom: '0.5rem',
   },
   cardText: {
-    color: '#6b7280',
+    color: '#6b7280', // Light gray for last updated text
     fontSize: '0.875rem',
   },
   cardBody: {
@@ -42,25 +42,25 @@ const styles = {
     marginBottom: '1.5rem',
   },
   sectionTitle: {
-    color: '#0A2342',
+    color: '#CCFF00', // Aqua section titles
     fontWeight: 'bold',
     fontSize: '1.25rem',
     marginBottom: '0.5rem',
   },
   paragraph: {
-    color: '#374151',
+    color: '#000000', // Black for paragraph text
     fontSize: '1rem',
     lineHeight: '1.5',
   },
   link: {
-    color: '#2EC4B6',
+    color: '#CCFF00', // Aqua link color
     textDecoration: 'none',
   },
   cardFooter: {
     padding: '1rem',
-    borderTop: '1px solid #e5e7eb',
+    borderTop: '1px solid rgba(204, 255, 0, 0.1)',
     textAlign: 'center',
-    color: '#6b7280',
+    color: '#6b7280', // Light gray for footer text
     fontSize: '0.875rem',
   },
 };

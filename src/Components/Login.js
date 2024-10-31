@@ -138,10 +138,6 @@
 // }
 
 // src/pages/Login.js
-
-
-
-
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { IoMdEyeOff } from "react-icons/io";
@@ -149,7 +145,6 @@ import { FaEye } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../Images/MatchMaster.png'; 
-import "../CSS/Login.css";
 import Layout from '../Components/Layout.js'; 
 
 export default function Login() {
@@ -196,37 +191,57 @@ export default function Login() {
 
   return (
     <Layout>
-      <div className="min-vh-100 d-flex align-items-center justify-content-center custom-gradient p-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <div className="card w-100" style={{ maxWidth: '28rem' }}>
+      {/* Full-page overlay with semi-transparent background */}
+      <div className="min-vh-100 d-flex align-items-center justify-content-center" 
+           style={{ position: 'relative', backgroundColor: '#d4d4d4' }}>
+        
+        {/* Login form container with pop-up effect */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          transition={{ duration: 0.5 }}
+          className="shadow-lg rounded p-4"
+          style={{ backgroundColor: '#1a1a1a', borderRadius: '10px', boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', zIndex: 1 }}
+        >
+          <div className="card w-100" style={{ maxWidth: '28rem', backgroundColor: 'black' }}>
             <div className="card-header text-center">
               <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-2" />
-              <h2 className="card-title h4 fw-bold" style={{ color: 'navy' }}>Welcome Back</h2>
-              <p className="card-text text-muted">Log in to your Match Master account</p>
+              <h2 className="card-title h4 fw-bold" style={{ color: '#CCFF00' }}>Welcome Back</h2>
+              <p className="card-text" style={{ color: '#FFFFFF' }}>Log in to your Match Master account</p>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
+                  <label htmlFor="email" className="form-label" style={{ color: '#CCFF00' }}>Email</label>
                   <input id="email" name="email" placeholder="john@example.com" type="email" className="form-control" required value={formData.email} onChange={handleInputChange} />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
+                  <label htmlFor="password" className="form-label" style={{ color: '#CCFF00' }}>Password</label>
                   <div className="input-group">
                     <input id="password" name="password" type={showPassword ? "text" : "password"} className="form-control" required value={formData.password} onChange={handleInputChange} />
-                    <button type="button" className="btn btn-outline-secondery" onClick={() => setShowPassword(!showPassword)}>
+                    <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword(!showPassword)} style={{ color: '#CCFF00', borderColor: '#CCFF00' }}>
                       {showPassword ? <IoMdEyeOff size={20} /> : <FaEye size={20} />}
                     </button>
                   </div>
                 </div>
                 {error && <p className="text-danger">{error}</p>}
                 {successMessage && <p className="text-success">{successMessage}</p>}
-                <button type="submit" className="btn w-100 mt-3" style={{ backgroundColor: 'navy', color: 'white' }}>Log In</button>
+                {/* Login button with pop-up effect */}
+                <motion.button 
+                  type="submit" 
+                  className="btn w-100 mt-3" 
+                  style={{ backgroundColor: '#CCFF00', color: 'black' }}
+                  initial={{ scale: 0.9 }} 
+                  whileHover={{ scale: 1.05 }} 
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
+                  Log In
+                </motion.button>
               </form>
             </div>
             <div className="card-footer text-center">
-              <Link to="/forgot-password" className="fw-bold text-decoration-none">Forgot your password?</Link>
-              <p className="mt-2">Don't have an account? <Link to="/register" className="fw-bold text-decoration-none"> Register</Link></p>
+              <Link to="/forgot-password" className="fw-bold text-decoration-none" style={{ color: '#CCFF00' }}>Forgot your password?</Link>
+              <p className="mt-2" style={{ color: '#FFFFFF' }}>Don't have an account? <Link to="/register" className="fw-bold text-decoration-none" style={{ color: '#CCFF00' }}> Register</Link></p>
             </div>
           </div>
         </motion.div>

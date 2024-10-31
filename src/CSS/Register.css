@@ -1,10 +1,10 @@
 /* Custom styles for the Register page */
 
 /* Background styling for better gradients on light/dark modes */
-body {
+/* body {
     background: linear-gradient(to bottom right, #e6f7ff, #e6fffa);
     font-family: 'Inter', sans-serif;
-  }
+  } */
   
   /* Card shadow customization */
   .card {
