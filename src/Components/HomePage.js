@@ -11,7 +11,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai'; // Use the right arrow
 import { motion } from 'framer-motion'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import logo from '../Images/MatchMaster.png'
+import logo from '../Images/MM logo.jpeg'
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -933,7 +933,7 @@ useEffect(() => {
             {/* Brand Section */}
             <div>
               <img 
-                src="/logo.png" 
+                src={logo} 
                 alt="Match Master Logo" 
                 style={{ height: '32px', marginBottom: '24px' }}
               />
@@ -982,12 +982,12 @@ useEffect(() => {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
-                  { text: "Articles", href: "/articles" },
-                  { text: "FAQ", href: "/faq" },
-                  { text: "Testimonials", href: "/testimonials" },
-                  { text: "Gallery", href: "/gallery" },
-                  { text: "About Us", href: "/about" },
-                  { text: "Blog", href: "/blog" },
+                  { text: "Articles", href: "/#home" },
+                  { text: "FAQ", href: "/#home" },
+                  { text: "Testimonials", href: "/#home" },
+                  { text: "Gallery", href: "/#home" },
+                  { text: "About Us", href: "/#home" },
+                  { text: "Blog", href: "/#home" },
                 ].map((link, index) => (
                   <motion.div
                     key={index}
@@ -1019,10 +1019,10 @@ useEffect(() => {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
-                  { text: "Terms of Service", href: "/terms" },
-                  { text: "Privacy Policy", href: "/privacy" },
-                  { text: "Contact Us", href: "/contact" },
-                  { text: "Support", href: "/support" },
+                  { text: "Terms of Service", href: "/terms-of-service" },
+                  { text: "Privacy Policy", href: "/privacy-policy" },
+                  { text: "Contact Us", href: "/contact-us" },
+                  { text: "Support", href: "/terms-of-service" },
                 ].map((link, index) => (
                   <motion.div
                     key={index}
@@ -1054,8 +1054,8 @@ useEffect(() => {
               </h3>
               <div>
                 {[
-                  { icon: FaMapMarkerAlt, label: "Address:", value: "13 Division st, New York, 10004" },
-                  { icon: FaPhone, label: "Phone:", value: "0-900-856-05-59" },
+                  { icon: FaMapMarkerAlt, label: "Address:", value: "Mann's school lane uducil chunnaakam" },
+                  { icon: FaPhone, label: "Phone:", value: "0726012313" },
                   { icon: FaClock, label: "Working Hours:", value: "Mon-Fri: 8am - 4pm" },
                 ].map((item, index) => (
                   <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>

@@ -162,19 +162,19 @@
 //   );
 // }
 
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Layout from '../Components/Layout.js';
-import logo from '../Images/MatchMaster.png';
+import logo from '../Images/MM logo.jpeg';
 import "../CSS/OrganzerSubscribe.css";
+
 const stripePromise = loadStripe('pk_test_51QBrrwHbve0bLiRTaPPEZhSKHzs78tBzW8YtoCBEjulf6100zG9h8YeIinHLTLO16CFcfBXin9mbSozyN8DvLJnN00sCgpupL4');
 
 const styles = {
   customGradient: {
-    background: 'linear-gradient(to bottom right, #08096b, #00e6d4)',
+    background: '#d4d4d4',
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
@@ -186,8 +186,9 @@ const styles = {
     width: '100%',
     padding: '20px',
     borderRadius: '10px',
-    backgroundColor: 'white',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#111',
+    boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)',
+    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
   },
   formCheck: {
     marginBottom: '10px',
@@ -196,16 +197,14 @@ const styles = {
     borderRadius: '5px',
   },
   btn: {
-    background: 'linear-gradient(to left, #40e0d0, #1e3a8a)',
-    color: 'white',
+    background: '#CCFF00',
+    color: 'black',
     border: 'none',
     padding: '10px',
     borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background 0.3s',
-  },
-  btnHover: {
-    background: 'linear-gradient(to left, #1e3a8a, #40e0d0)',
+    transition: 'all 0.3s ease',
+    fontWeight: 'bold',
   },
 };
 
@@ -278,13 +277,13 @@ const CheckoutForm = ({ plan }) => {
             style: {
               base: {
                 fontSize: '16px',
-                color: '#424770',
+                color: '#d4d4d4',
                 '::placeholder': {
-                  color: '#aab7c4',
+                  color: '#888',
                 },
               },
               invalid: {
-                color: '#9e2146',
+                color: '#ff6b6b',
               },
             },
             hidePostalCode: true,
@@ -299,13 +298,19 @@ const CheckoutForm = ({ plan }) => {
           width: '100%',
           fontSize: '16px',
         }}
-        onMouseEnter={(e) => e.target.style.background = styles.btnHover.background}
-        onMouseLeave={(e) => e.target.style.background = styles.btn.background}
+        onMouseEnter={(e) => {
+          e.target.style.transform = 'scale(1.05)';
+          e.target.style.boxShadow = '0 0 15px rgba(204, 255, 0, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'scale(1)';
+          e.target.style.boxShadow = 'none';
+        }}
       >
         {isLoading ? 'Processing...' : 'Subscribe Now'}
       </button>
-      {errorMessage && <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>}
-      {status && <p style={{ color: 'green', marginTop: '10px' }}>{status}</p>}
+      {errorMessage && <p style={{ color: '#ff6b6b', marginTop: '10px' }}>{errorMessage}</p>}
+      {status && <p style={{ color: '#CCFF00', marginTop: '10px' }}>{status}</p>}
     </form>
   );
 };
@@ -316,10 +321,20 @@ export default function OrganizerSubscribe() {
   return (
     <Layout>
       <div style={styles.customGradient}>
-        <div style={styles.customCard}>
+        <div 
+          style={styles.customCard}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 0 30px rgba(204, 255, 0, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.3)';
+          }}
+        >
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <img src={logo} alt="Match Master Logo" width={60} height={60} style={{ marginBottom: '15px' }} />
-            <h2 style={{ color: '#08096b', fontWeight: 'bold', fontSize: '24px' }}>Organizer Subscription</h2>
+            <h2 style={{ color: '#CCFF00', fontWeight: 'bold', fontSize: '24px' }}>Organizer Subscription</h2>
           </div>
           <div style={{ marginBottom: '20px' }}>
             <div style={styles.formCheck}>
@@ -332,7 +347,11 @@ export default function OrganizerSubscribe() {
                   onChange={() => setPlan('monthly')}
                   style={{ marginRight: '10px', cursor: 'pointer' }}
                 />
-                <span style={{ color: plan === 'monthly' ? '#08096b' : '#333', fontWeight: plan === 'monthly' ? 'bold' : 'normal' }}>
+                <span style={{ 
+                  color: plan === 'monthly' ? '#CCFF00' : '#d4d4d4', 
+                  fontWeight: plan === 'monthly' ? 'bold' : 'normal',
+                  transition: 'color 0.3s ease',
+                }}>
                   Monthly ($29.99/month)
                 </span>
               </label>
@@ -347,7 +366,11 @@ export default function OrganizerSubscribe() {
                   onChange={() => setPlan('yearly')}
                   style={{ marginRight: '10px', cursor: 'pointer' }}
                 />
-                <span style={{ color: plan === 'yearly' ? '#08096b' : '#333', fontWeight: plan === 'yearly' ? 'bold' : 'normal' }}>
+                <span style={{ 
+                  color: plan === 'yearly' ? '#CCFF00' : '#d4d4d4', 
+                  fontWeight: plan === 'yearly' ? 'bold' : 'normal',
+                  transition: 'color 0.3s ease',
+                }}>
                   Yearly ($299.99/year - Save 17%)
                 </span>
               </label>
@@ -357,10 +380,10 @@ export default function OrganizerSubscribe() {
             <CheckoutForm plan={plan} />
           </Elements>
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <small style={{ color: '#6b7280' }}>
+            <small style={{ color: '#d4d4d4' }}>
               By subscribing, you agree to our{' '}
-              <a href="#" style={{ color: '#08096b', textDecoration: 'none' }}>Terms of Service</a> and{' '}
-              <a href="#" style={{ color: '#08096b', textDecoration: 'none' }}>Privacy Policy</a>.
+              <a href="/terms-of-service" style={{ color: '#CCFF00', textDecoration: 'none', transition: 'opacity 0.3s ease' }} onMouseEnter={(e) => e.target.style.opacity = '0.8'} onMouseLeave={(e) => e.target.style.opacity = '1'}>Terms of Service</a> and{' '}
+              <a href="/privacy-policy" style={{ color: '#CCFF00', textDecoration: 'none', transition: 'opacity 0.3s ease' }} onMouseEnter={(e) => e.target.style.opacity = '0.8'} onMouseLeave={(e) => e.target.style.opacity = '1'}>Privacy Policy</a>.
             </small>
           </div>
         </div>

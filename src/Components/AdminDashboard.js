@@ -1,48 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { FaUsersLine } from "react-icons/fa6";
-import { LuCheckCircle } from "react-icons/lu";
-import { FaDollarSign } from "react-icons/fa6";
-import { LuBarChart3 } from "react-icons/lu";
+import { FaUsersLine, FaDollarSign } from "react-icons/fa6";
+import { LuCheckCircle, LuBarChart3 } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
-import logo from '../Images/MatchMaster.png'; 
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import "../CSS/AdminDashboard.css";
+import logo from '../Images/MM logo.jpeg'; 
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const [organizers, setOrganizers] = useState([]);
   const [payments, setPayments] = useState([]);
-  const [users, setUsers] = useState([]); // New state for users
+  const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('organizers');
-  const navigate = useNavigate(); // Create a navigate function
+  const navigate = useNavigate();
 
-  // Handle Logout function
   const handleLogout = () => {
-    localStorage.removeItem('authToken'); // Replace with your token key
+    localStorage.removeItem('authToken');
     navigate('/login');
   };
 
-  // useEffect for fetching data
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Fetch data function
   const fetchData = async () => {
     try {
       setLoading(true);
       const [usersRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/admin/users'), // Fetch all users
+        axios.get('http://localhost:4000/api/admin/users'),
       ]);
 
-      const allUsers = usersRes.data; 
-      const filteredOrganizers = allUsers.filter(user => user.role === 'organizer'); // Filter for organizers
+      const allUsers = usersRes.data;
+      const filteredOrganizers = allUsers.filter(user => user.role === 'organizer');
 
-      setOrganizers(filteredOrganizers); // Set the state to filtered organizers
-      setUsers(allUsers); // Set users data
+      setOrganizers(filteredOrganizers);
+      setUsers(allUsers);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -52,7 +46,7 @@ const AdminDashboard = () => {
 
   const verifyOrganizer = async (organizerId) => {
     try {
-      await axios.post(`http://localhost:4000/api/admin/verify-organizer/${organizerId}`); // Adjusted the request method to POST
+      await axios.post(`http://localhost:4000/api/admin/verify-organizer/${organizerId}`);
       fetchData();
     } catch (error) {
       console.error('Error verifying organizer:', error);
@@ -83,50 +77,75 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-vh-100 custom-gradient p-5">
+    <div className="min-vh-100" style={{ backgroundColor: '#000000', color: '#FFFFFF', padding: '2rem' }}>
       <div className="container">
-        <header className="d-flex justify-content-between align-items-center mb-5">
+        <motion.header
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="d-flex justify-content-between align-items-center mb-5"
+        >
           <div className="d-flex align-items-center">
-            <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" />
-            <h1 className="h3 fw-bold text-white mb-0"> Admin Dashboard </h1>
+            <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px', height: '50px' }} />
+            <h1 className="h3 fw-bold mb-0 ms-3" style={{ color: '#CCFF00' }}>Admin Dashboard</h1>
           </div>
-          <button className="btn btn-outline-secondary fw-bold text-white " onClick={handleLogout}>
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(204, 255, 0, 0.5)' }}
+            whileTap={{ scale: 0.95 }}
+            className="btn fw-bold"
+            onClick={handleLogout}
+            style={{
+              backgroundColor: '#CCFF00',
+              color: '#000000',
+              border: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '5px',
+            }}
+          >
             Logout
-          </button>
-        </header>
+          </motion.button>
+        </motion.header>
 
         <div className="row g-4 mb-4">
           {[
-            { title: "Total Users", value: users.length, icon: FaUsersLine, color: "bg-info" },
-            { title: "Pending Verifications", value: organizers.filter(org => org.isVerified === false).length, icon: LuCheckCircle, color: "bg-info" },
-            { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: FaDollarSign, color: "bg-info" },
-            { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: LuBarChart3, color: "bg-info" },
+            { title: "Total Users", value: users.length, icon: FaUsersLine },
+            { title: "Pending Verifications", value: organizers.filter(org => org.isVerified === false).length, icon: LuCheckCircle },
+            { title: "Total Revenue", value: `$${payments.reduce((sum, payment) => sum + payment.amount, 0)}`, icon: FaDollarSign },
+            { title: "Pending Payments", value: payments.filter(payment => payment.status === 'pending').length, icon: LuBarChart3 },
           ].map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className={`col-md-6 col-lg-3`}
+              className="col-md-6 col-lg-3"
             >
-              <div className={`${item.color} p-3 rounded`} style={{ color: 'navy' }}>
+              <motion.div
+                whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)' }}
+                className="p-3 rounded"
+                style={{ 
+                  backgroundColor: '#111111', 
+                  border: '2px solid #CCFF00',
+                  boxShadow: '0 0 10px rgba(204, 255, 0, 0.1)',
+                }}
+              >
                 <div className="d-flex justify-content-between mb-2">
-                  <h2 className="h6 mb-0">{item.title}</h2>
-                  <item.icon className="fs-4" />
+                  <h2 className="h6 mb-0" style={{ color: '#d4d4d4' }}>{item.title}</h2>
+                  <item.icon className="fs-4" style={{ color: '#CCFF00' }} />
                 </div>
-                <div className="h2 fw-bold mb-0">
+                <div className="h2 fw-bold mb-0" style={{ color: '#CCFF00' }}>
                   {item.value}
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
 
         <div className="mb-4">
-          <label htmlFor="search" className="form-label text-white">Search</label>
+          <label htmlFor="search" className="form-label" style={{ color: '#d4d4d4' }}>Search</label>
           <div className="input-group">
-            <span className="input-group-text">
-              <IoSearch className="text-muted" />
+            <span className="input-group-text" style={{ backgroundColor: '#111111', border: '1px solid #CCFF00' }}>
+              <IoSearch style={{ color: '#CCFF00' }} />
             </span>
             <input
               id="search"
@@ -134,69 +153,64 @@ const AdminDashboard = () => {
               placeholder="Search organizers, users or payments..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ 
+                backgroundColor: '#111111', 
+                color: '#FFFFFF', 
+                border: '1px solid #CCFF00',
+              }}
             />
           </div>
         </div>
 
-        <ul className="nav nav-tabs mb-4 gap-4" style={{ color: 'navy' }}>
-          <li className="nav-item">
-            <button
-              className={`nav-link bg-white fw-bold ${activeTab === 'organizers' ? 'active' : ''}`}
-              onClick={() => setActiveTab('organizers')}
-              style={{
-                color: activeTab === 'organizers' ? '#0dcaf0' : '#000',
-                transition: 'color 0.3s ease',
-              }}
-              onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
-              onMouseLeave={(e) => (e.target.style.color = activeTab === 'organizers' ? '#0dcaf0' : '#000')}
-            >
-              Organizers
-            </button>
-          </li>
-          <li className="nav-item">
-            <button
-              className={`nav-link bg-white fw-bold ${activeTab === 'payments' ? 'active' : ''}`}
-              onClick={() => setActiveTab('payments')}
-            style={{
-              color: activeTab === 'payments' ? '#0dcaf0' : '#000',
-              transition: 'color 0.3s ease',
-            }}
-            onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
-            onMouseLeave={(e) => (e.target.style.color = activeTab === 'payments' ? '#0dcaf0' : '#000')}
-          >
-              Payments
-            </button>
-          </li>
-          <li className="nav-item"> 
-            <button
-              className={`nav-link bg-white fw-bold ${activeTab === 'users' ? 'active' : ''}`} 
-              onClick={() => setActiveTab('users')}
-              style={{
-                color: activeTab === 'users' ? '#0dcaf0' : '#000',
-                transition: 'color 0.3s ease',
-              }}
-              onMouseEnter={(e) => (e.target.style.color = '#0dcaf0')}
-              onMouseLeave={(e) => (e.target.style.color = activeTab === 'users' ? '#0dcaf0' : '#000')}
-            >
-              Users
-            </button>
-          </li>
-        </ul>
+        <motion.ul
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="nav nav-tabs mb-4 gap-4"
+          style={{ borderBottom: '2px solid #CCFF00' }}
+        >
+          {['organizers', 'payments', 'users'].map((tab) => (
+            <li key={tab} className="nav-item">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  backgroundColor: activeTab === tab ? '#CCFF00' : 'transparent',
+                  color: activeTab === tab ? '#000000' : '#FFFFFF',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '5px 5px 0 0',
+                  fontWeight: 'bold',
+                }}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </motion.button>
+            </li>
+          ))}
+        </motion.ul>
 
         {loading ? (
           <div className="text-center py-4">
-            <div className="spinner-border text-light" role="status">
+            <div className="spinner-border" role="status" style={{ color: '#CCFF00' }}>
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : (
           <>
             {activeTab === 'organizers' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="rounded shadow-sm overflow-hidden"
+                style={{ backgroundColor: '#111111', border: '2px solid #CCFF00' }}
+              >
                 <div className="p-4">
-                  <h2 className="h5 mb-3">Organizers</h2>
+                  <h2 className="h5 mb-3" style={{ color: '#CCFF00' }}>Organizers</h2>
                   <div className="table-responsive">
-                    <table className="table table-hover">
+                    <table className="table table-hover" style={{ color: '#FFFFFF' }}>
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -221,12 +235,19 @@ const AdminDashboard = () => {
                             </td>
                             <td>
                               {!organizer.isVerified && (
-                                <button
+                                <motion.button
+                                  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)' }}
+                                  whileTap={{ scale: 0.95 }}
                                   onClick={() => verifyOrganizer(organizer._id)}
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-sm"
+                                  style={{ 
+                                    backgroundColor: '#CCFF00', 
+                                    color: '#000000',
+                                    border: 'none',
+                                  }}
                                 >
                                   Verify
-                                </button>
+                                </motion.button>
                               )}
                             </td>
                           </tr>
@@ -235,15 +256,21 @@ const AdminDashboard = () => {
                     </table>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {activeTab === 'payments' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="rounded shadow-sm overflow-hidden"
+                style={{ backgroundColor: '#111111', border: '2px solid #CCFF00' }}
+              >
                 <div className="p-4">
-                  <h2 className="h5 mb-3">Payments</h2>
+                  <h2 className="h5 mb-3" style={{ color: '#CCFF00' }}>Payments</h2>
                   <div className="table-responsive">
-                    <table className="table table-hover">
+                    <table className="table table-hover" style={{ color: '#FFFFFF' }}>
                       <thead>
                         <tr>
                           <th>Organizer</th>
@@ -266,12 +293,19 @@ const AdminDashboard = () => {
                             </td>
                             <td>
                               {payment.status === 'pending' && (
-                                <button
+                                <motion.button
+                                  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)' }}
+                                  whileTap={{ scale: 0.95 }}
                                   onClick={() => approvePayment(payment._id)}
-                                  className="btn btn-primary btn-sm"
+                                  className="btn btn-sm"
+                                  style={{ 
+                                    backgroundColor: '#CCFF00', 
+                                    color: '#000000',
+                                    border: 'none',
+                                  }}
                                 >
                                   Approve
-                                </button>
+                                </motion.button>
                               )}
                             </td>
                           </tr>
@@ -280,15 +314,21 @@ const AdminDashboard = () => {
                     </table>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {activeTab === 'users' && (
-              <div className="bg-white rounded shadow-sm overflow-hidden" style={{ color: 'navy' }}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="rounded shadow-sm overflow-hidden"
+                style={{ backgroundColor: '#111111', border: '2px solid #CCFF00' }}
+              >
                 <div className="p-4">
-                  <h2 className="h5 mb-3">Users</h2>
+                  <h2 className="h5 mb-3" style={{ color: '#CCFF00' }}>Users</h2>
                   <div className="table-responsive">
-                    <table className="table table-hover">
+                    <table className="table table-hover" style={{ color: '#FFFFFF' }}>
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -307,8 +347,9 @@ const AdminDashboard = () => {
                       </tbody>
                     </table>
                   </div>
+                
                 </div>
-              </div>
+              </motion.div>
             )}
           </>
         )}

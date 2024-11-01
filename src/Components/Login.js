@@ -144,7 +144,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../Images/MatchMaster.png'; 
+import logo from '../Images/MM logo.jpeg'; 
 import Layout from '../Components/Layout.js'; 
 
 export default function Login() {

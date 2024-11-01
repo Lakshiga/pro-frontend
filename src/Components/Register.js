@@ -4,7 +4,7 @@ import axios from 'axios';
 import { IoMdEyeOff } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import logo from '../Images/MatchMaster.png'; // Import your logo here
+import logo from '../Images/MM logo.jpeg'; // Import your logo here
 import Layout from '../Components/Layout.js'; 
 
 export default function Register() {

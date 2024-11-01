@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../Images/MatchMaster.png';
+import logo from '../Images/MM logo.jpeg';
 import Layout from '../Components/Layout.js';
 
 export default function ContactUs() {
@@ -36,25 +36,30 @@ export default function ContactUs() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0A2342, #2EC4B6)',
+        background: 'white',
         padding: '1rem',
       }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          whileHover={{ scale: 1.05 }}
         >
           <div style={{
             width: '100%',
             maxWidth: '28rem',
-            backgroundColor: 'white',
+            backgroundColor: 'black',
             borderRadius: '0.375rem',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)',
             overflow: 'hidden',
-          }}>
+            transition: 'box-shadow 0.3s ease',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 0 30px rgba(204, 255, 0, 0.5)'}
+          onMouseLeave={(e) => e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.3)'}
+          >
             <div style={{
               padding: '1.5rem',
-              borderBottom: '1px solid #e5e5e5',
+              borderBottom: '1px solid #CCFF00',
               textAlign: 'center',
             }}>
               <img src={logo} alt="Match Master Logo" style={{
@@ -65,10 +70,10 @@ export default function ContactUs() {
               <h2 style={{
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-                color: '#0A2342',
+                color: '#CCFF00',
                 marginBottom: '0.5rem',
               }}>Contact Us</h2>
-              <p style={{ color: '#6c757d' }}>We'd love to hear from you</p>
+              <p style={{ color: '#d4d4d4' }}>We'd love to hear from you</p>
             </div>
             <div style={{ padding: '1.5rem' }}>
               <form onSubmit={handleSubmit}>
@@ -77,6 +82,7 @@ export default function ContactUs() {
                     display: 'block',
                     marginBottom: '0.5rem',
                     fontWeight: '500',
+                    color: '#d4d4d4',
                   }}>Name</label>
                   <input
                     id="name"
@@ -90,7 +96,9 @@ export default function ContactUs() {
                       width: '100%',
                       padding: '0.5rem',
                       borderRadius: '0.25rem',
-                      border: '1px solid #ced4da',
+                      border: '1px solid #CCFF00',
+                      backgroundColor: 'black',
+                      color: 'white',
                     }}
                   />
                 </div>
@@ -99,6 +107,7 @@ export default function ContactUs() {
                     display: 'block',
                     marginBottom: '0.5rem',
                     fontWeight: '500',
+                    color: '#d4d4d4',
                   }}>Email</label>
                   <input
                     id="email"
@@ -112,7 +121,9 @@ export default function ContactUs() {
                       width: '100%',
                       padding: '0.5rem',
                       borderRadius: '0.25rem',
-                      border: '1px solid #ced4da',
+                      border: '1px solid #CCFF00',
+                      backgroundColor: 'black',
+                      color: 'white',
                     }}
                   />
                 </div>
@@ -121,6 +132,7 @@ export default function ContactUs() {
                     display: 'block',
                     marginBottom: '0.5rem',
                     fontWeight: '500',
+                    color: '#d4d4d4',
                   }}>Message</label>
                   <textarea
                     id="message"
@@ -133,41 +145,50 @@ export default function ContactUs() {
                       width: '100%',
                       padding: '0.5rem',
                       borderRadius: '0.25rem',
-                      border: '1px solid #ced4da',
+                      border: '1px solid #CCFF00',
+                      backgroundColor: 'black',
+                      color: 'white',
                       minHeight: '100px',
                     }}
                   ></textarea>
                 </div>
-                {error && <p style={{ color: '#dc3545', marginBottom: '1rem' }}>{error}</p>}
-                {successMessage && <p style={{ color: '#28a745', marginBottom: '1rem' }}>{successMessage}</p>}
-                <button
+                {error && <p style={{ color: '#ff6b6b', marginBottom: '1rem' }}>{error}</p>}
+                {successMessage && <p style={{ color: '#CCFF00', marginBottom: '1rem' }}>{successMessage}</p>}
+                <motion.button
                   type="submit"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   style={{
                     width: '100%',
                     padding: '0.5rem',
-                    backgroundColor: '#0A2342',
-                    color: 'white',
+                    backgroundColor: '#CCFF00',
+                    color: 'black',
                     border: 'none',
                     borderRadius: '0.25rem',
                     fontWeight: 'bold',
                     cursor: 'pointer',
+                    transition: 'all 0.3s ease',
                   }}
                 >
                   Send Message
-                </button>
+                </motion.button>
               </form>
             </div>
             <div style={{
               padding: '1rem',
-              borderTop: '1px solid #e5e5e5',
+              borderTop: '1px solid #CCFF00',
               textAlign: 'center',
-              backgroundColor: '#f8f9fa',
+              backgroundColor: 'black',
             }}>
               <Link to="/" style={{
                 fontWeight: 'bold',
                 textDecoration: 'none',
-                color: '#0A2342',
-              }}>
+                color: '#CCFF00',
+                transition: 'color 0.3s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#d4d4d4'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#CCFF00'}
+              >
                 Back to Home
               </Link>
             </div>

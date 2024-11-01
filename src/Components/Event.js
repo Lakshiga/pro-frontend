@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaCalendarAlt, FaRunning, FaUsers, FaUserTie, FaUserSecret, FaChevronLeft } from 'react-icons/fa';
 import { IoTrophyOutline } from 'react-icons/io5';
-import logo from '../Images/MatchMaster.png';
+import logo from '../Images/MM logo.jpeg';
 
 const Event = () => {
-  const { id } = useParams(); // Get the event ID from the URL params
+  const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,8 +16,7 @@ const Event = () => {
 
   const handleCreateMatches = async () => {
     try {
-      // Use the id from useParams as the eventId
-      const response = await axios.post(`http://localhost:4000/api/event/${id}/generate-matches`); 
+      const response = await axios.post(`http://localhost:4000/api/event/${id}/generate-matches`);
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.error || "Failed to generate matches");
@@ -39,11 +38,10 @@ const Event = () => {
 
     const fetchPlayerDetails = async (playerIds) => {
       try {
-        console.log(playerIds);
-        const response = await axios.post("http://localhost:4000/api/event/user-profile/list", {
+        const response = await axios.post("http://localhost:4000/api/user-profile/list", {
           playerIds: playerIds,
         });
-        setPlayersDetails(response.data); // Save the players details
+        setPlayersDetails(response.data);
       } catch (error) {
         console.error("Error fetching player details:", error);
       }
@@ -59,9 +57,9 @@ const Event = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'linear-gradient(to bottom right, #08096b, #00e6d4)'
+        backgroundColor: 'black',
       }}>
-        <div className="spinner-border text-white" role="status">
+        <div className="spinner-border text-ccff00" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -75,8 +73,8 @@ const Event = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'linear-gradient(to bottom right, #08096b, #00e6d4)',
-        color: '#ffffff'
+        backgroundColor: 'black',
+        color: 'white',
       }}>
         {error}
       </div>
@@ -87,45 +85,53 @@ const Event = () => {
     <div style={{
       minHeight: '100vh',
       padding: '2rem',
-      background: 'linear-gradient(to bottom right, #08096b, #00e6d4)',
-      fontFamily: 'Arial, sans-serif'
+      backgroundColor: 'black',
+      fontFamily: 'Arial, sans-serif',
+      color: 'white',
     }}>
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '2rem',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#111',
         borderRadius: '1rem',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 0 30px rgba(204, 255, 0, 0.2)',
       }}>
         <header style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '2rem'
+          marginBottom: '2rem',
         }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="Match Master Logo" style={{ width: '80px', height: '80px', marginRight: '1rem' }} />
             <div>
-              <h1 style={{ color: '#08096b', margin: 0, fontSize: '2.5rem', fontWeight: 'bold' }}>Event Details</h1>
-              {event && <p style={{ color: '#4a5568', margin: '0.5rem 0 0 0', fontSize: '1.2rem' }}>{event.name}</p>}
+              <h1 style={{ color: '#CCFF00', margin: 0, fontSize: '2.5rem', fontWeight: 'bold' }}>Event Details</h1>
+              {event && <p style={{ color: '#d4d4d4', margin: '0.5rem 0 0 0', fontSize: '1.2rem' }}>{event.name}</p>}
             </div>
           </div>
           <button 
             onClick={() => navigate(-1)}
             style={{
-              backgroundColor: '#08096b',
-              color: '#ffffff',
+              backgroundColor: '#CCFF00',
+              color: 'black',
               padding: '0.75rem 1.5rem',
               borderRadius: '0.5rem',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)',
             }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#00e6d4'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#08096b'}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.8)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.5)';
+            }}
           >
             <FaChevronLeft style={{ marginRight: '0.5rem' }} /> Back
           </button>
@@ -142,9 +148,9 @@ const Event = () => {
 
             <Section title="Organizer" icon={<FaUserTie />}>
               {event.organizer_id ? (
-                <p style={{ color: '#08096b', fontSize: '1.1rem', backgroundColor: '#f0f4f8', padding: '1rem', borderRadius: '0.5rem' }}>{event.organizer_id.name}</p>
+                <p style={{ color: '#CCFF00', fontSize: '1.1rem', backgroundColor: '#222', padding: '1rem', borderRadius: '0.5rem' }}>{event.organizer_id.name}</p>
               ) : (
-                <p style={{ color: '#dc3545' }}>Organizer details not available</p>
+                <p style={{ color: '#ff6b6b' }}>Organizer details not available</p>
               )}
             </Section>
 
@@ -152,50 +158,91 @@ const Event = () => {
               {event.umpire_ids && event.umpire_ids.length > 0 ? (
                 <ul style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
                   {event.umpire_ids.map((umpire) => (
-                    <li key={umpire._id} style={{ backgroundColor: '#f0f4f8', padding: '1rem', borderRadius: '0.5rem', color: '#08096b', fontSize: '1.1rem' }}>{umpire.name}</li>
+                    <li key={umpire._id} style={{ 
+                      backgroundColor: '#222', 
+                      padding: '1rem', 
+                      borderRadius: '0.5rem', 
+                      color: '#CCFF00', 
+                      fontSize: '1.1rem',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
+                    }}
+                    >{umpire.name}</li>
                   ))}
                 </ul>
               ) : (
-                <p style={{ color: '#dc3545' }}>No umpires assigned.</p>
+                <p style={{ color: '#ff6b6b' }}>No umpires assigned.</p>
               )}
             </Section>
 
             <Section title="Players" icon={<FaUsers />}>
               {event.players && event.players.length > 0 ? (
                 <>
-                  <ul
-                    style={{
-                      listStyleType: 'none',
-                      padding: 0,
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                      gap: '1rem',
-                    }}
-                  >
+                  <ul style={{
+                    listStyleType: 'none',
+                    padding: 0,
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gap: '1rem',
+                  }}>
                     {playersDetails.map(player => (
-            <li key={player.id}>
-              {player.username}
-            </li>
-          ))}
+                      <li key={player.id} style={{
+                        backgroundColor: '#222',
+                        padding: '1rem',
+                        borderRadius: '0.5rem',
+                        color: '#CCFF00',
+                        fontSize: '1.1rem',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
+                      }}
+                      >{player.username}</li>
+                    ))}
                   </ul>
                   <button
                     onClick={handleCreateMatches}
                     style={{
-                      backgroundColor: 'navy',
-                      color: '#fff',
-                      padding: '0.5rem 1rem',
+                      backgroundColor: '#CCFF00',
+                      color: 'black',
+                      padding: '0.75rem 1.5rem',
                       border: 'none',
-                      borderRadius: '5px',
+                      borderRadius: '0.5rem',
                       cursor: 'pointer',
                       marginTop: '1rem',
+                      fontWeight: 'bold',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.8)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.5)';
                     }}
                   >
                     Create Matches
                   </button>
-                  {message && <p>{message}</p>}
+                  {message && <p style={{ color: '#CCFF00', marginTop: '1rem' }}>{message}</p>}
                 </>
               ) : (
-                <p style={{ color: '#dc3545' }}>No players assigned.</p>
+                <p style={{ color: '#ff6b6b' }}>No players assigned.</p>
               )}
             </Section>
 
@@ -204,19 +251,30 @@ const Event = () => {
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                   {event.matches.map((match) => (
                     <li key={match._id} style={{ 
-                      backgroundColor: '#f0f4f8', 
+                      backgroundColor: '#222', 
                       padding: '1rem', 
                       borderRadius: '0.5rem', 
                       marginBottom: '1rem', 
-                      color: '#08096b',
+                      color: '#CCFF00',
                       display: 'flex',
                       justifyContent: 'space-between',
-                      alignItems: 'center'
-                    }}>
+                      alignItems: 'center',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.02)';
+                      e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
+                    }}
+                    >
                       <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{match.player1} vs {match.player2}</span>
                       <span style={{ 
                         backgroundColor: match.status === 'completed' ? '#4CAF50' : '#FFA500',
-                        color: 'white',
+                        color: 'black',
                         padding: '0.5rem 1rem',
                         borderRadius: '2rem',
                         fontSize: '0.9rem'
@@ -225,12 +283,12 @@ const Event = () => {
                   ))}
                 </ul>
               ) : (
-                <p style={{ color: '#dc3545' }}>No matches scheduled.</p>
+                <p style={{ color: '#ff6b6b' }}>No matches scheduled.</p>
               )}
             </Section>
           </>
         ) : (
-          <p style={{ color: '#dc3545', fontSize: '1.2rem', textAlign: 'center' }}>Event not found.</p>
+          <p style={{ color: '#ff6b6b', fontSize: '1.2rem', textAlign: 'center' }}>Event not found.</p>
         )}
       </div>
     </div>
@@ -239,35 +297,35 @@ const Event = () => {
 
 const InfoCard = ({ icon, title, value }) => (
   <div style={{
-    backgroundColor: '#f0f4f8',
+    backgroundColor: '#222',
     padding: '1.5rem',
     borderRadius: '0.75rem',
     display: 'flex',
     alignItems: 'center',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+    boxShadow: '0 0 15px rgba(204, 255, 0, 0.2)',
+    transition: 'all 0.3s ease',
   }}
   onMouseOver={(e) => {
     e.currentTarget.style.transform = 'translateY(-5px)';
-    e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
+    e.currentTarget.style.boxShadow = '0 0 25px rgba(204, 255, 0, 0.4)';
   }}
   onMouseOut={(e) => {
     e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    e.currentTarget.style.boxShadow = '0 0 15px rgba(204, 255, 0, 0.2)';
   }}
   >
-    <div style={{ marginRight: '1.5rem', color: '#08096b', fontSize: '2rem' }}>{icon}</div>
+    <div style={{ marginRight: '1.5rem', color:  '#CCFF00', fontSize: '2rem' }}>{icon}</div>
     <div>
-      <h3 style={{ fontSize: '1rem', color: '#4a5568', marginBottom: '0.5rem' }}>{title}</h3>
-      <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#08096b', margin: 0 }}>{value}</p>
+      <h3 style={{ fontSize: '1rem', color: '#d4d4d4', marginBottom: '0.5rem' }}>{title}</h3>
+      <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#CCFF00', margin: 0 }}>{value}</p>
     </div>
   </div>
 );
 
 const Section = ({ title, icon, children }) => (
   <div style={{ marginBottom: '3rem' }}>
-    <h2 style={{ color: '#08096b', display: 'flex', alignItems: 'center', marginBottom: '1.5rem', fontSize: '1.75rem' }}>
-      <span style={{ marginRight: '0.75rem', backgroundColor: '#f0f4f8', padding: '0.5rem', borderRadius: '50%' }}>{icon}</span>
+    <h2 style={{ color: '#CCFF00', display: 'flex', alignItems: 'center', marginBottom: '1.5rem', fontSize: '1.75rem' }}>
+      <span style={{ marginRight: '0.75rem', backgroundColor: '#222', padding: '0.5rem', borderRadius: '50%' }}>{icon}</span>
       {title}
     </h2>
     {children}
