@@ -55,7 +55,7 @@ const AdminDashboard = () => {
 
   const approvePayment = async (paymentId) => {
     try {
-      await axios.patch(`http://localhost:4000/api/payments/approve/${paymentId}`);
+      await axios.get(`http://localhost:4000/api/payments/subscription-status/${paymentId}`);
       fetchData();
     } catch (error) {
       console.error('Error approving payment:', error);

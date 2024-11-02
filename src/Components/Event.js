@@ -12,7 +12,10 @@ const Event = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playersDetails, setPlayersDetails] = useState([]);
+  const [UmpireDetails, setUmpiresDetails] = useState([]);
   const [message, setMessage] = useState('');
+  const [matches, setMatches] = useState([]);
+
 
   const handleCreateMatches = async () => {
     try {
@@ -30,6 +33,7 @@ const Event = () => {
         setEvent(response.data);
         setLoading(false);
         fetchPlayerDetails(response.data.players);
+        fetchUmpireDetails(response.data.umpire_ids);
       } catch (error) {
         setError('Error fetching event details');
         setLoading(false);
@@ -47,10 +51,44 @@ const Event = () => {
       }
     };
 
+    const fetchUmpireDetails = async (playerIds) => {
+      try {
+        const response = await axios.post("http://localhost:4000/api/user-profile/umpire-list", {
+          umpireIds: playerIds,
+        });
+        setUmpiresDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching umpire details:", error);
+      }
+    };
+
     fetchEvent();
   }, [id]);
 
+  // Fetch matches for the specific event
+  const fetchMatches = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/match/event/${event._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Assuming token is stored in localStorage
+        },
+      });
+      setMatches(response.data); // Update state with matches data
+    } catch (error) {
+      console.error('Error fetching matches:', error.message);
+    }
+  };
+
+  // Fetch matches when component mounts or event changes
+  useEffect(() => {
+    if (event && event._id) { // Check if event and event._id are defined
+      fetchMatches();
+    }
+  }, [event]);
+
   if (loading) {
+
+    
     return (
       <div style={{
         minHeight: '100vh',
@@ -157,26 +195,26 @@ const Event = () => {
             <Section title="Umpires" icon={<FaUserSecret />}>
               {event.umpire_ids && event.umpire_ids.length > 0 ? (
                 <ul style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                  {event.umpire_ids.map((umpire) => (
-                    <li key={umpire._id} style={{ 
-                      backgroundColor: '#222', 
-                      padding: '1rem', 
-                      borderRadius: '0.5rem', 
-                      color: '#CCFF00', 
-                      fontSize: '1.1rem',
-                      transition: 'all 0.3s ease',
-                      boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.05)';
-                      e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
-                    }}
-                    >{umpire.name}</li>
-                  ))}
+                  {UmpireDetails.map(umpire => (
+                      <li key={umpire.id} style={{
+                        backgroundColor: '#222',
+                        padding: '1rem',
+                        borderRadius: '0.5rem',
+                        color: '#CCFF00',
+                        fontSize: '1.1rem',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
+                      }}
+                      >{umpire.username}</li>
+                    ))}
                 </ul>
               ) : (
                 <p style={{ color: '#ff6b6b' }}>No umpires assigned.</p>
@@ -247,45 +285,53 @@ const Event = () => {
             </Section>
 
             <Section title="Matches" icon={<IoTrophyOutline />}>
-              {event.matches && event.matches.length > 0 ? (
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  {event.matches.map((match) => (
-                    <li key={match._id} style={{ 
-                      backgroundColor: '#222', 
-                      padding: '1rem', 
-                      borderRadius: '0.5rem', 
-                      marginBottom: '1rem', 
-                      color: '#CCFF00',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      transition: 'all 0.3s ease',
-                      boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.02)';
-                      e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
-                    }}
-                    >
-                      <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{match.player1} vs {match.player2}</span>
-                      <span style={{ 
-                        backgroundColor: match.status === 'completed' ? '#4CAF50' : '#FFA500',
-                        color: 'black',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '2rem',
-                        fontSize: '0.9rem'
-                      }}>{match.status}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p style={{ color: '#ff6b6b' }}>No matches scheduled.</p>
-              )}
-            </Section>
+  {matches && matches.length > 0 ? (
+    <ul style={{ listStyleType: 'none', padding: 0 }}>
+      {matches.map((match) => (
+        match && match._id ? ( // Check if match is not null and has an _id
+          <li
+            key={match._id}
+            style={{
+              backgroundColor: '#222',
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              marginBottom: '1rem',
+              color: '#CCFF00',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'scale(1.02)';
+              e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 0 10px rgba(204, 255, 0, 0.2)';
+            }}
+          >
+            <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+              {match.player1 || 'Unknown Player 1'} vs {match.player2 || 'Unknown Player 2'}
+            </span>
+            <span style={{
+              backgroundColor: match.status === 'completed' ? '#4CAF50' : '#FFA500',
+              color: 'black',
+              padding: '0.5rem 1rem',
+              borderRadius: '2rem',
+              fontSize: '0.9rem'
+            }}>
+              {match.status || 'Unknown Status'}
+            </span>
+          </li>
+        ) : null // Render null if match is invalid
+      ))}
+    </ul>
+  ) : (
+    <p style={{ color: '#ff6b6b' }}>No matches scheduled.</p>
+  )}
+</Section>
           </>
         ) : (
           <p style={{ color: '#ff6b6b', fontSize: '1.2rem', textAlign: 'center' }}>Event not found.</p>
