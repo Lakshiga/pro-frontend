@@ -66,18 +66,35 @@ useEffect(() => {
 
       <main className="flex-grow-1">
         
-      <section id="home" 
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        backgroundImage: "url('../src/Images/352dcc6fc0ede555ed96be74e0598617 (1).jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-      }}
+      <section
+  id="home"
+  style={{
+    position: "relative",
+    height: "600px",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+  }}
     >
+
+      {/* Background Video */}
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    src="/223853.mp4"
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      zIndex: 0,
+    }}
+  />
+
       {/* Overlay for dimming effect */}
       <div
         style={{
@@ -117,7 +134,7 @@ useEffect(() => {
             top: "-50%",
             left: "0",
             width: "200%",
-            height: "200%",
+            height: "80%",
             background:
               "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%)",
             transform: "rotate(-45deg)",
@@ -132,7 +149,7 @@ useEffect(() => {
             left: 0,
             top: 0,
             width: "100%",
-            height: "100%",
+            height: "80%",
             opacity: 0.1,
           }}
           viewBox="0 0 800 600"
@@ -193,17 +210,18 @@ useEffect(() => {
             transition={{ duration: 0.8 }}
           >
             <span
-              style={{
-                display: "block",
-                fontSize: "14px",
-                textTransform: "uppercase",
-                letterSpacing: "2px",
-                marginBottom: "16px",
-                color: "#666",
-              }}
-            >
-              PROFESSIONAL MATCH MANAGEMENT
-            </span>
+  style={{
+    display: "block",
+    fontSize: "14px",
+    textTransform: "uppercase",
+    letterSpacing: "2px",
+    marginBottom: "16px",
+    color: "#666",
+    fontWeight: "bold",
+  }}
+>
+  PROFESSIONAL MATCH MANAGEMENT
+</span>
             <motion.h1
               style={{
                 fontSize: "72px",
@@ -536,6 +554,8 @@ useEffect(() => {
         }}
       />
     </section>
+
+    
         <section id="sports"  style={{padding: '80px 0',backgroundColor: '#FFFFFF',color: '#000000', textAlign: 'center', position: 'relative',overflow: 'hidden'}}>
 
       {/* Background Pattern */}
