@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logo from '../Images/MM logo.jpeg';
 import DrawComponent from '../Components/DrawComponent.js';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Login from './Login';
+import { Modal } from 'react-bootstrap';
+
 
 const OrganizerDashboard = () => {
   const [events, setEvents] = useState([]);
@@ -14,6 +19,7 @@ const OrganizerDashboard = () => {
   const [subscription, setSubscription] = useState(null);
   const [newMatch, setNewMatch] = useState({ eventId: '', player1: '', player2: '', date: '' });
   const [activeTab, setActiveTab] = useState('events');
+  const [activeModal, setActiveModal] = useState(null); // State to control modal visibility
   const [newEvent, setNewEvent] = useState({
     name: '',
     date: '',
@@ -24,13 +30,30 @@ const OrganizerDashboard = () => {
   });
 
   const [matchDraw, setMatchDraw] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false); // State to control the visibility of the login modal
   const navigate = useNavigate();
   const [token, setToken] = useState("");
-  
+
+  // Function to open the login modal
+  const openLoginModal = () => setActiveModal('login');
+
+  // Function to close the modal
+  const closeModal = () => setActiveModal(null);
+
+  // Logout handler
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
+    localStorage.removeItem('authToken'); // Remove token from localStorage
+    toast.success("Logged out successfully!"); // Show success toast
+
+    setTimeout(() => {
+      openLoginModal();// Open the login modal after a brief delay
+
+       // Navigate away from the current page (e.g., to the home page or login page)
+    navigate('/', { replace: true }); // This will navigate the user to the login page
+
+    }, 2000); // Delay to show logout success before opening the login modal
   };
+
 
   useEffect(() => {
     fetchData();
@@ -52,6 +75,7 @@ const OrganizerDashboard = () => {
       const unverified = usersRes.data.filter(user => (user.role === 'player' || user.role === 'umpire') && !user.verified);
       setUnverified(unverified);
       setSubscription(subscriptionRes.data);
+      toast.success("Data loaded successfully!");
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -69,6 +93,7 @@ const OrganizerDashboard = () => {
       const generatedMatchDraw = await createMatchesForEvent(res.data._id, newEvent.players, newEvent.matchType);
       setMatchDraw(generatedMatchDraw);
       setNewEvent({ name: '', date: '', sport: '', ageGroup: '', matchType: 'knockout', players: [] });
+      toast.success("Event created successfully!");
     } catch (error) {
       console.error('Error creating event:', error);
     }
@@ -98,6 +123,7 @@ const OrganizerDashboard = () => {
         createdMatches.push(res.data);
       }
       fetchData();
+      toast.success("Matches created successfully!");
       return matchDraw;
     } catch (error) {
       console.error('Error creating matches:', error);
@@ -131,6 +157,7 @@ const OrganizerDashboard = () => {
 
   const handleSubscribe = () => {
     navigate('/organizer-subscribe');
+    toast.info("Navigating to subscription page...");
   };
 
   return (
@@ -141,13 +168,11 @@ const OrganizerDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="d-flex justify-content-between align-items-center mb-4"
-          style={{
-            backgroundColor: '#111111',
-            padding: '1rem',
-            borderRadius: '8px',
-            boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)',
+          style={{ backgroundColor: '#111111', padding: '1rem', borderRadius: '8px', boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)',
           }}
         >
+         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+
           <div className="d-flex align-items-center">
             <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px' }} />
             <h1 className="h3 fw-bold mb-0 ms-3" style={{ color: '#CCFF00' }}>Organizer Dashboard</h1>
@@ -157,19 +182,18 @@ const OrganizerDashboard = () => {
             whileTap={{ scale: 0.95 }}
             className="btn fw-bold"
             onClick={handleLogout}
-            style={{
-              color: '#000000',
-              backgroundColor: '#CCFF00',
-              border: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '5px',
-              transition: 'all 0.3s ease',
-            }}
-          >
+            style={{color: '#000000',backgroundColor: '#CCFF00',border: 'none',padding: '0.5rem 1rem', borderRadius: '5px',transition: 'all 0.3s ease', }}>
             Logout
           </motion.button>
-        </motion.header>
 
+          {/* Login Modal */}
+        <Modal show={activeModal === 'login'} onHide={closeModal} centered>
+          <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
+            <Login closeModal={closeModal} />
+          </Modal.Body>
+        </Modal>
+
+        </motion.header>
         <div className="row g-4 mb-4">
           {[
             { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp },
@@ -181,12 +205,7 @@ const OrganizerDashboard = () => {
               <motion.div
                 whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)' }}
                 className="card bg-dark text-white"
-                style={{
-                  borderRadius: '15px',
-                  border: '2px solid #CCFF00',
-                  overflow: 'hidden',
-                }}
-              >
+                style={{borderRadius: '15px',border: '2px solid #CCFF00',overflow: 'hidden',}}>
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <h6 className="card-subtitle" style={{ color: '#d4d4d4' }}>{item.title}</h6>
@@ -203,15 +222,7 @@ const OrganizerDashboard = () => {
                       whileTap={{ scale: 0.95 }}
                       className="btn mt-2"
                       onClick={item.action}
-                      style={{
-                        backgroundColor: '#CCFF00',
-                        color: '#000000',
-                        border: 'none',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '5px',
-                        fontWeight: 'bold',
-                      }}
-                    >
+                      style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none',padding: '0.5rem 1rem', borderRadius: '5px',fontWeight: 'bold', }}>
                       {item.value}
                     </motion.button>
                   ) : (
@@ -223,13 +234,7 @@ const OrganizerDashboard = () => {
           ))}
         </div>
 
-        <motion.ul
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="nav nav-tabs mb-4 gap-4"
-          style={{ borderBottom: '2px solid #CCFF00' }}
-        >
+        <motion.ul  initial={{ opacity: 0, y: 20 }}  animate={{ opacity: 1, y: 0 }}  transition={{ duration: 0.5 }}  className="nav nav-tabs mb-4 gap-4"  style={{ borderBottom: '2px solid #CCFF00' }}>
           {['events', 'analytics'].map((tab) => (
             <li key={tab} className="nav-item">
               <motion.button
@@ -237,15 +242,7 @@ const OrganizerDashboard = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`nav-link ${activeTab === tab ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab)}
-                style={{
-                  backgroundColor: activeTab === tab ? '#CCFF00' : 'transparent',
-                  color: activeTab === tab ? '#000000' : '#FFFFFF',
-                  border: 'none',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '5px 5px 0 0',
-                  fontWeight: 'bold',
-                }}
-              >
+                style={{ backgroundColor: activeTab === tab ? '#CCFF00' : 'transparent', color: activeTab === tab ? '#000000' : '#FFFFFF', border: 'none', padding: '0.5rem 1rem', borderRadius: '5px 5px 0 0', fontWeight: 'bold', }}>
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </motion.button>
             </li>
@@ -254,12 +251,7 @@ const OrganizerDashboard = () => {
 
         <div className="tab-content">
           {activeTab === 'events' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="tab-pane fade show active"
-            >
+            <motion.div  initial={{ opacity: 0 }}  animate={{ opacity: 1 }}  transition={{ duration: 0.5 }} className="tab-pane fade show active">
               <div className="card mb-4" style={{ backgroundColor: '#111111', border: '2px solid #CCFF00', borderRadius: '15px' }}>
                 <div className="card-body">
                   <h5 className="card-title" style={{ color: '#CCFF00' }}>Create New Event</h5>
@@ -353,13 +345,7 @@ const OrganizerDashboard = () => {
               
               {matchDraw.length > 0 && <DrawComponent draw={matchDraw} />}
               
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="card"
-                style={{ backgroundColor: '#111111', border: '2px solid #CCFF00', borderRadius: '15px' }}
-              >
+              <motion.div  initial={{ opacity: 0, y: 20 }}  animate={{ opacity: 1, y: 0 }}  transition={{ duration: 0.5 }}  className="card"  style={{ backgroundColor: '#111111', border: '2px solid #CCFF00', borderRadius: '15px' }}>
                 <div className="card-body">
                   <h5 className="card-title" style={{ color: '#CCFF00' }}>Event List</h5>
                   <div className="table-responsive">
@@ -379,10 +365,7 @@ const OrganizerDashboard = () => {
                             <td>{new Date(event.date).toLocaleDateString()}</td>
                             <td>{event.sport}</td>
                             <td>
-                              <motion.button
-                                whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)' }}
-                                whileTap={{ scale: 0.95 }}
-                                className="btn btn-outline-secondary fw-bold me-2"
+                              <motion.button  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)' }}  whileTap={{ scale: 0.95 }}  className="btn btn-outline-secondary fw-bold me-2"
                                 onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}
                                 style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none' }}
                               >
@@ -409,12 +392,7 @@ const OrganizerDashboard = () => {
           )}
 
           {activeTab === 'analytics' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="tab-pane fade show active"
-            >
+            <motion.div  initial={{ opacity: 0 }}  animate={{ opacity: 1 }}  transition={{ duration: 0.5 }}  className="tab-pane fade show active"   >
               <div className="card" style={{ backgroundColor: '#111111', border: '2px solid #CCFF00', borderRadius: '15px' }}>
                 <div className="card-body">
                   <h5 className="card-title" style={{ color: '#CCFF00' }}>Performance Analytics</h5>

@@ -21,6 +21,7 @@
     "react-router-dom": "^6.26.2",
     "react-router-hash-link": "^2.4.3",
     "react-scripts": "^5.0.1",
+    "react-toastify": "^10.0.6",
     "stream-browserify": "^3.0.0",
     "stripe": "^17.2.1",
     "web-vitals": "^2.1.4"

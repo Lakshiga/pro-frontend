@@ -3,65 +3,28 @@ import { motion } from 'framer-motion';
 import Layout from '../Components/Layout';
 
 const styles = {
-  container: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1rem',
-    backgroundColor: '#000000', // Black background
+  container: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',backgroundColor: '#000000', // Black background
   },
-  card: {
-    width: '100%',
-    maxWidth: '36rem',
-    backgroundColor: '#FFFFFF', // White card background
-    borderRadius: '0.5rem',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+  card: {width: '100%',maxWidth: '36rem',
+    backgroundColor: '#FFFFFF',  borderRadius: '0.5rem', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   },
-  cardHeader: {
-    padding: '1.5rem',
-    borderBottom: '1px solid #e5e7eb',
-    textAlign: 'center',
+  cardHeader: {padding: '1.5rem',borderBottom: '1px solid #e5e7eb',textAlign: 'center',
   },
-  cardTitle: {
-    color: '#CCFF00', // Aqua title color
-    fontWeight: 'bold',
-    fontSize: '1.5rem',
-    marginBottom: '0.5rem',
+  cardTitle: { color: '#CCFF00',  fontWeight: 'bold', fontSize: '1.5rem', marginBottom: '0.5rem',
   },
-  cardText: {
-    color: '#6b7280', // Light gray for last updated text
-    fontSize: '0.875rem',
+  cardText: { color: '#6b7280',  fontSize: '0.875rem',
   },
-  cardBody: {
-    padding: '1.5rem',
-    maxHeight: '400px',
-    overflowY: 'auto',
+  cardBody: { padding: '1.5rem', maxHeight: '400px', overflowY: 'auto',
   },
-  section: {
-    marginBottom: '1.5rem',
+  section: {marginBottom: '1.5rem',
   },
-  sectionTitle: {
-    color: '#CCFF00', // Aqua section titles
-    fontWeight: 'bold',
-    fontSize: '1.25rem',
-    marginBottom: '0.5rem',
+  sectionTitle: {color: '#CCFF00', fontWeight: 'bold',fontSize: '1.25rem',marginBottom: '0.5rem',
   },
-  paragraph: {
-    color: '#000000', // Black for paragraph text
-    fontSize: '1rem',
-    lineHeight: '1.5',
+  paragraph: { color: '#000000', fontSize: '1rem',lineHeight: '1.5',
   },
-  link: {
-    color: '#CCFF00', // Aqua link color
-    textDecoration: 'none',
+  link: { color: '#CCFF00',  textDecoration: 'none',
   },
-  cardFooter: {
-    padding: '1rem',
-    borderTop: '1px solid rgba(204, 255, 0, 0.1)',
-    textAlign: 'center',
-    color: '#6b7280', // Light gray for footer text
-    fontSize: '0.875rem',
+  cardFooter: { padding: '1rem',borderTop: '1px solid rgba(204, 255, 0, 0.1)',textAlign: 'center',color: '#6b7280',  fontSize: '0.875rem',
   },
 };
 

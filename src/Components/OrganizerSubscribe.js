@@ -173,40 +173,11 @@ import "../CSS/OrganzerSubscribe.css";
 const stripePromise = loadStripe('pk_test_51QBrrwHbve0bLiRTaPPEZhSKHzs78tBzW8YtoCBEjulf6100zG9h8YeIinHLTLO16CFcfBXin9mbSozyN8DvLJnN00sCgpupL4');
 
 const styles = {
-  customGradient: {
-    background: '#d4d4d4',
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px',
-  },
-  customCard: {
-    maxWidth: '400px',
-    width: '100%',
-    padding: '20px',
-    borderRadius: '10px',
-    backgroundColor: '#111',
-    boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)',
-    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-  },
-  formCheck: {
-    marginBottom: '10px',
-  },
-  formControl: {
-    borderRadius: '5px',
-  },
-  btn: {
-    background: '#CCFF00',
-    color: 'black',
-    border: 'none',
-    padding: '10px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    fontWeight: 'bold',
-  },
-};
+  customGradient: { background: '#d4d4d4', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',},
+  customCard: {maxWidth: '400px',width: '100%',padding: '20px',borderRadius: '10px',backgroundColor: '#111', boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)', transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',},
+  formCheck: {marginBottom: '10px',},
+  formControl: {borderRadius: '5px',},
+  btn: {background: '#CCFF00',color: 'black',border: 'none',padding: '10px',borderRadius: '5px',cursor: 'pointer',transition: 'all 0.3s ease',fontWeight: 'bold', },};
 
 const CheckoutForm = ({ plan }) => {
   const stripe = useStripe();
@@ -275,28 +246,13 @@ const CheckoutForm = ({ plan }) => {
         <CardElement
           options={{
             style: {
-              base: {
-                fontSize: '16px',
-                color: '#d4d4d4',
-                '::placeholder': {
-                  color: '#888',
-                },
-              },
-              invalid: {
-                color: '#ff6b6b',
-              },
-            },
-            hidePostalCode: true,
-          }}
-        />
+              base: {fontSize: '16px',color: '#d4d4d4','::placeholder': { color: '#888', }, },
+              invalid: { color: '#ff6b6b',},}, hidePostalCode: true, }}/>
       </div>
       <button
         type="submit"
         disabled={!stripe || isLoading}
-        style={{
-          ...styles.btn,
-          width: '100%',
-          fontSize: '16px',
+        style={{...styles.btn, width: '100%', fontSize: '16px',
         }}
         onMouseEnter={(e) => {
           e.target.style.transform = 'scale(1.05)';

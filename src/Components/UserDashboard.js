@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaTrophy, FaCheckCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import logo from '../Images/MM logo.jpeg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Login from './Login';
+import { Modal } from 'react-bootstrap';
+
 
 const EventList = ({ events, applyForEvent }) => (
   <motion.div
@@ -120,16 +125,35 @@ const UserDashboard = ({ user = { _id: '1', name: 'John Doe', role: 'player' } }
   const [activeTab, setActiveTab] = useState('events');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [activeModal, setActiveModal] = useState(null); // State to control modal visibility
   const [token, setToken] = useState("");
+
+
+  // Function to open the login modal
+  const openLoginModal = () => setActiveModal('login');
+
+  // Function to close the modal
+  const closeModal = () => setActiveModal(null);
+
+
+   // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Remove token from localStorage
+    toast.success("Logged out successfully!"); // Show success toast
+
+    setTimeout(() => {
+      openLoginModal();// Open the login modal after a brief delay
+
+       // Navigate away from the current page (e.g., to the home page or login page)
+    navigate('/', { replace: true }); // This will navigate the user to the login page
+
+    }, 2000); // Delay to show logout success before opening the login modal
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
-  };
 
   const fetchData = async () => {
     try { 
@@ -155,10 +179,9 @@ const UserDashboard = ({ user = { _id: '1', name: 'John Doe', role: 'player' } }
       setMatches(matches.map(match => 
         match._id === matchId ? { ...match, score } : match
       ));
-      alert('Score updated successfully!');
+      toast.success('Score updated successfully!');
     } catch (error) {
       console.error('Error updating score:', error);
-      setErrorMessage('Failed to update score. Please try again.');
     }
   };
 
@@ -167,133 +190,121 @@ const UserDashboard = ({ user = { _id: '1', name: 'John Doe', role: 'player' } }
       await axios.post(`http://localhost:4000/api/event/${eventId}/apply`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-      alert('Applied to event successfully!');
+      toast.success('Applied to event successfully!');
       fetchData();
     } catch (error) {
       console.error('Error applying for event:', error);
-      setErrorMessage('Failed to apply for event. Please try again.');
     }
   };
 
-  return (
-    <div className="min-vh-100" style={{ backgroundColor: '#000000', color: '#FFFFFF', padding: '2rem' }}>
-      <div className="container">
-        <motion.header
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="d-flex justify-content-between align-items-center mb-4"
-          style={{
-            backgroundColor: '#111111',
-            padding: '1rem',
-            borderRadius: '8px',
-            boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)',
-          }}
-        >
-          <div className="d-flex align-items-center">
-            <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px' }} />
-            <h1 className="h3 fw-bold mb-0 ms-3" style={{ color: '#CCFF00' }}>
-              {user.role === 'umpire' ? 'Umpire Dashboard' : 'Player Dashboard'}
-            </h1>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(204, 255, 0, 0.5)' }}
-            whileTap={{ scale: 0.95 }}
-            className="btn fw-bold"
-            onClick={handleLogout}
-            style={{
-              color: '#000000',
-              backgroundColor: '#CCFF00',
-              border: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '5px',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            Logout
-          </motion.button>
-        </motion.header>
-
-        <div className="row g-4 mb-4">
-          {[
-            { title: "Total Events", value: events.length, icon: FaCalendarAlt },
-            { title: "Total Matches", value: matches.length, icon: FaTrophy },
-            { title: user.role === 'umpire' ? "Umpire Status" : "Player Status", value: "Active", icon: FaCheckCircle },
-          ].map((item, index) => (
-            <div key={index} className="col-md-6 col-lg-4">
-              <motion.div
-                whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)' }}
-                className="card bg-dark text-white"
-                style={{
-                  borderRadius: '15px',
-                  border: '2px solid #CCFF00',
-                  overflow: 'hidden',
-                }}
-              >
-                <div className="card-body">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h6 className="card-subtitle" style={{ color: '#d4d4d4' }}>{item.title}</h6>
-                    <motion.div
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <item.icon className="fs-4" style={{ color: '#CCFF00' }} />
-                    </motion.div>
-                  </div>
-                  <h2 className="card-title mb-0" style={{ color: '#CCFF00' }}>{item.value}</h2>
-                </div>
-              </motion.div>
-            </div>
-          ))}
-        </div>
-
-        {errorMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
+    return (
+      <div className="min-vh-100" style={{ backgroundColor: '#000000', color: '#FFFFFF', padding: '2rem' }}>
+        <div className="container">
+          {/* Header with Dynamic Role Title */}
+          <motion.header
+            initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
-            className="alert alert-danger mb-4"
-            role="alert"
+            transition={{ duration: 0.5 }}
+            className="d-flex justify-content-between align-items-center mb-4"
+            style={{ backgroundColor: '#111111', padding: '1rem', borderRadius: '8px', boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)', }} >
+
+           <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+
+            <div className="d-flex align-items-center">
+              <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px' }} />
+              <h1 className="h3 fw-bold mb-0 ms-3" style={{ color: '#CCFF00' }}>
+                {user.role === 'umpire' ? 'Umpire Dashboard' : 'Player Dashboard'}
+              </h1>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(204, 255, 0, 0.5)' }}
+              whileTap={{ scale: 0.95 }}
+              className="btn fw-bold"
+              onClick={handleLogout}
+              style={{color: '#000000',backgroundColor: '#CCFF00', border: 'none', padding: '0.5rem 1rem', borderRadius: '5px', transition: 'all 0.3s ease',}}>
+              Logout
+            </motion.button>
+
+            {/* Login Modal */}
+        <Modal show={activeModal === 'login'} onHide={closeModal} centered>
+          <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
+            <Login closeModal={closeModal} />
+          </Modal.Body>
+        </Modal>
+
+          </motion.header>
+  
+          {/* Conditionally Render Stats Based on Role */}
+          <div className="row g-4 mb-4">
+            {[
+              { title: "Total Events", value: events.length, icon: FaCalendarAlt },
+              { title: "Total Matches", value: matches.length, icon: FaTrophy },
+              { title: user.role === 'umpire' ? "Umpire Status" : "Player Status", value: "Active", icon: FaCheckCircle },
+            ].map((item, index) => (
+              <div key={index} className="col-md-6 col-lg-4">
+                <motion.div
+                  whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)' }}
+                  className="card bg-dark text-white"
+                  style={{borderRadius: '15px', border: '2px solid #CCFF00', overflow: 'hidden', }} >
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <h6 className="card-subtitle" style={{ color: '#d4d4d4' }}>{item.title}</h6>
+                      <motion.div
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <item.icon className="fs-4" style={{ color: '#CCFF00' }} />
+                      </motion.div>
+                    </div>
+                    <h2 className="card-title mb-0" style={{ color: '#CCFF00' }}>{item.value}</h2>
+                  </div>
+                </motion.div>
+              </div>
+            ))}
+          </div>
+  
+          {/* Error Message */}
+          {errorMessage && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="alert alert-danger mb-4"
+              role="alert"
+            >
+              {errorMessage}
+            </motion.div>
+          )}
+  
+          {/* Tab Navigation */}
+          <motion.ul
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="nav nav-tabs mb-4 gap-4"
+            style={{ borderBottom: '2px solid #CCFF00' }}
           >
-            {errorMessage}
-          </motion.div>
-        )}
-
-        <motion.ul
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="nav nav-tabs mb-4 gap-4"
-          style={{ borderBottom: '2px solid #CCFF00' }}
-        >
-          {['events', 'matches'].map((tab) => (
-            <li key={tab} className="nav-item">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`nav-link ${activeTab === tab ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab)}
-                style={{
-                  backgroundColor: activeTab === tab ? '#CCFF00' : 'transparent',
-                  color: activeTab === tab ? '#000000' : '#FFFFFF',
-                  border: 'none',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '5px 5px 0 0',
-                  fontWeight: 'bold',
-                }}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </motion.button>
-            </li>
-          ))}
-        </motion.ul>
-
-        <div className="tab-content">
-          {activeTab === 'events' && <EventList events={events} applyForEvent={applyForEvent} />}
-          {activeTab === 'matches' && <MatchList matches={matches} events={events} user={user} updateScore={updateScore} />}
+            {['events', 'matches'].map((tab) => (
+              <li key={tab} className="nav-item">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab)}
+                  style={{ backgroundColor: activeTab === tab ? '#CCFF00' : 'transparent',color: activeTab === tab ? '#000000' : '#FFFFFF',border: 'none',padding: '0.5rem 1rem',borderRadius: '5px 5px 0 0',fontWeight: 'bold',}}>
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </motion.button>
+              </li>
+            ))}
+          </motion.ul>
+  
+          {/* Conditionally Render Events and Matches */}
+          <div className="tab-content">
+            {activeTab === 'events' && <EventList events={events} applyForEvent={applyForEvent} />}
+            {activeTab === 'matches' && <MatchList matches={matches} events={events} user={user} updateScore={updateScore} />}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default UserDashboard;

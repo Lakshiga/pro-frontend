@@ -1,443 +1,175 @@
-import React, { useState,useEffect  } from 'react'
-import { Link } from 'react-router-dom'
-import { IoMenu, IoCalendarNumberSharp } from "react-icons/io5"
-import { FaUsersLine, FaChess, FaDribbble } from "react-icons/fa6"
-import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaMapMarkerAlt, FaPhone, FaClock } from "react-icons/fa"
-import { LuAward } from "react-icons/lu"
-import { FaRegStar, FaArrowRightLong } from "react-icons/fa6"
-import { LiaTableTennisSolid } from "react-icons/lia"
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { IoMenu, IoCalendarNumberSharp } from "react-icons/io5";
+import { FaUsersLine, FaChess, FaDribbble } from "react-icons/fa6";
+import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaMapMarkerAlt, FaPhone, FaClock } from "react-icons/fa";
+import { LuAward } from "react-icons/lu";
+import { FaRegStar, FaArrowRightLong } from "react-icons/fa6";
+import { LiaTableTennisSolid } from "react-icons/lia";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { AiOutlineArrowRight } from 'react-icons/ai'; // Use the right arrow
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import { Modal } from 'react-bootstrap';
+import Login from './Login';
+import Register from './Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import logo from '../Images/MM logo.jpeg'
+import logo from '../Images/MM logo.jpeg';
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [email, setEmail] = useState('')
-  const [scrollY, setScrollY] = useState(0)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [activeModal, setActiveModal] = useState(null); // Unified state for modal type (login or register)
 
-useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const openLoginModal = () => setActiveModal('login');
+  const openRegisterModal = () => setActiveModal('register');
+  const closeModal = () => setActiveModal(null); // Close any modal
+  
 
   return (
     <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#fff', color: '#CCFF00' }}>
-     <header className="px-5 py-2 d-flex align-items-center border-bottom sticky-top shadow-sm" style={{ backgroundColor: '#fff', borderColor: '#CCFF00' }}>
-  {/* Logo */}
-  <a className="d-flex align-items-center justify-content-center text-decoration-none" href="#">
-    <img src={logo} alt="Match Master Logo" width={75} height={70} className="me-1" />
-  </a>
+      <header className="px-5 py-2 d-flex align-items-center border-bottom sticky-top shadow-sm" style={{ backgroundColor: '#fff', borderColor: '#CCFF00' }}>
+        {/* Logo */}
+        <a className="d-flex align-items-center justify-content-center text-decoration-none" href="#">
+          <img src={logo} alt="Match Master Logo" width={75} height={70} className="me-1" />
+        </a>
 
-  {/* Centered Navigation Links */}
-  <nav className={`ms-auto ${isMenuOpen ? 'd-flex' : 'd-none'} d-md-flex gap-4`}>
-    {['Home' ,'Features', 'Sports', 'Testimonials', 'Pricing'].map((item) => (
-      <a
-        key={item}
-        onClick={(e) => {
-          e.preventDefault();
-          const section = document.getElementById(item.toLowerCase());
-          if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-          }
-        }}
-        className="text-decoration-none fw-bold d-flex align-items-center"
-        style={{ color: '#000000' }}
-      >
-        {item}
-        <AiOutlineArrowRight style={{ fontSize: '14px', color: '#00cc00', marginLeft: '5px', transform: 'rotate(-45deg)' }} />
-      </a>
-    ))}
-  </nav>
+        {/* Centered Navigation Links */}
+        <nav className={`ms-auto ${isMenuOpen ? 'd-flex' : 'd-none'} d-md-flex gap-4`}>
+          {['Home', 'Features', 'Sports', 'Testimonials', 'Pricing'].map((item) => (
+            <a
+              key={item}
+              onClick={(e) => {
+                e.preventDefault();
+                const section = document.getElementById(item.toLowerCase());
+                if (section) {
+                  section.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="text-decoration-none fw-bold d-flex align-items-center"
+              style={{ color: '#000000' }}
+            >
+              {item}
+              <AiOutlineArrowRight style={{ fontSize: '14px', color: '#00cc00', marginLeft: '5px', transform: 'rotate(-45deg)' }} />
+            </a>
+          ))}
+        </nav>
 
-  {/* Login Button */}
-  <a href="/login" className="btn w-15 py-2 ms-5 fw-bold" style={{ backgroundColor: '#CCFF00', color: '#000000' }}>
-    Log In
-  </a>
+        {/* Login Button */}
+        <button onClick={openLoginModal} className="btn w-15 py-2 ms-5 fw-bold" style={{ backgroundColor: '#CCFF00', color: '#000000' }}>
+          Log In
+        </button>
 
-  {/* Mobile Menu Icon */}
-  <button className="btn d-md-none ms-2" style={{ color: '#CCFF00' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-    <IoMenu />
-  </button>
-</header>
+        {/* Mobile Menu Icon */}
+        <button className="btn d-md-none ms-2" style={{ color: '#CCFF00' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <IoMenu />
+        </button>
+      </header>
+
+      {/* Login Modal */}
+      <Modal show={activeModal === 'login'} onHide={closeModal} centered>
+        <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
+          <Login closeModal={closeModal} setShowRegisterModal={openRegisterModal} />
+        </Modal.Body>
+      </Modal>
+
+      {/* Register Modal */}
+      <Modal show={activeModal === 'register'} onHide={closeModal} centered>
+        <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
+          <Register closeModal={closeModal} />
+        </Modal.Body>
+      </Modal>
 
       <main className="flex-grow-1">
         
       <section
   id="home"
-  style={{
-    position: "relative",
-    height: "600px",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-  }}
-    >
+  style={{position: "relative",height: "600px", overflow: "hidden", display: "flex", alignItems: "center",}}  >
 
       {/* Background Video */}
-  <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    src="/223853.mp4"
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      zIndex: 0,
-    }}
-  />
+  <video autoPlay loop muted playsInline src="/223853.mp4" style={{   position: "absolute",top: 0,left: 0,width: "100%",height: "100%",objectFit: "cover",zIndex: 0, }}/>
 
       {/* Overlay for dimming effect */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.4)", // Adjust opacity for dim effect
-          zIndex: 0,
-        }}
-      />
+      <div style={{ position: "absolute", top: 0, left: 0,right: 0,bottom: 0,backgroundColor: "rgba(0, 0, 0, 0.4)",zIndex: 0, }}/>
 
       {/* Animated Background Elements */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          overflow: "hidden",
-          zIndex: 1,
-        }}
-      >
+      <div style={{ position: "absolute", top: 0, left: 0,right: 0,bottom: 0,overflow: "hidden",zIndex: 1,}} >
+
         {/* Diagonal Light Effect */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0.3, 0.5, 0.3] }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{
-            position: "absolute",
-            top: "-50%",
-            left: "0",
-            width: "200%",
-            height: "80%",
-            background:
-              "linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%)",
-            transform: "rotate(-45deg)",
-            transformOrigin: "0% 0%",
-          }}
-        />
+        <motion.div initial={{ opacity: 0 }}animate={{ opacity: [0.3, 0.5, 0.3] }} transition={{duration: 4,repeat: Infinity,ease: "easeInOut",}}
+          style={{position: "absolute",top: "-50%",left: "0", width: "200%", height: "80%", background:"linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%)", transform: "rotate(-45deg)", transformOrigin: "0% 0%",}}/>
 
         {/* Animated Wave */}
-        <svg
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "80%",
-            opacity: 0.1,
-          }}
-          viewBox="0 0 800 600"
-        >
-          <motion.path
-            d="M -100 300 Q 150 100 400 300 T 900 300"
-            fill="none"
-            stroke="#CCFF00"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{
-              pathLength: [0, 1],
-              opacity: [0.2, 0.5, 0.2],
-              pathOffset: [0, 1],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.path
-            d="M -100 350 Q 150 150 400 350 T 900 350"
-            fill="none"
-            stroke="#CCFF00"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{
-              pathLength: [0, 1],
-              opacity: [0.2, 0.5, 0.2],
-              pathOffset: [0, 1],
-            }}
-            transition={{
-              duration: 5,
-              delay: 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
+        <svg style={{position: "absolute",left: 0, top: 0, width: "100%", height: "80%", opacity: 0.1, }} viewBox="0 0 800 600">
+          <motion.path d="M -100 300 Q 150 100 400 300 T 900 300" fill="none" stroke="#CCFF00"strokeWidth="2"initial={{ pathLength: 0, opacity: 0 }}animate={{  pathLength: [0, 1], opacity: [0.2, 0.5, 0.2],  pathOffset: [0, 1],}}
+            transition={{duration: 5,repeat: Infinity,ease: "easeInOut", }}/>
+          <motion.path d="M -100 350 Q 150 150 400 350 T 900 350" fill="none"stroke="#CCFF00"strokeWidth="2"initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: [0, 1], opacity: [0.2, 0.5, 0.2], pathOffset: [0, 1], }}
+            transition={{ duration: 5, delay: 0.5,repeat: Infinity,ease: "easeInOut",}} />
         </svg>
       </div>
 
-      <div
-        className="container"
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "120px 20px",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
+      <div className="container"
+        style={{ maxWidth: "1200px",margin: "0 auto",padding: "120px 20px",position: "relative", zIndex: 2,}}>
         <div className="row align-items-center">
-          <motion.div
-            className="col-lg-6"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span
-  style={{
-    display: "block",
-    fontSize: "14px",
-    textTransform: "uppercase",
-    letterSpacing: "2px",
-    marginBottom: "16px",
-    color: "#666",
-    fontWeight: "bold",
-  }}
->
-  PROFESSIONAL MATCH MANAGEMENT
-</span>
+          <motion.div className="col-lg-6"initial={{ opacity: 0, x: -50 }}animate={{ opacity: 1, x: 0 }}transition={{ duration: 0.8 }} ><span
+           style={{display: "block",fontSize: "14px", textTransform: "uppercase",letterSpacing: "2px",marginBottom: "16px",color: "#666",fontWeight: "bold",}}>PROFESSIONAL MATCH MANAGEMENT</span>
             <motion.h1
-              style={{
-                fontSize: "72px",
-                fontWeight: "900",
-                lineHeight: 1.1,
-                marginBottom: "30px",
-                color: "#ffffff",
-              }}
-            >
-              Transform with{" "}
+              style={{fontSize: "72px",fontWeight: "900",lineHeight: 1.1, marginBottom: "30px", color: "#ffffff", }} >Transform with{" "}
               <motion.span
-                animate={{
-                  color: ["#CCFF00", "#66ff00", "#CCFF00"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  display: "block",
-                  fontSize: "72px",
-                }}
-              >
-                Sports Management
+                animate={{color: ["#CCFF00", "#66ff00", "#CCFF00"], }}
+                transition={{duration: 3,repeat: Infinity,ease: "easeInOut",}}
+                style={{ display: "block", fontSize: "72px", }}> Sports Management
               </motion.span>
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              style={{
-                fontSize: "20px",
-                color: "#ffffff",
-                marginBottom: "40px",
-                lineHeight: 1.6,
-                maxWidth: "500px",
-              }}
-            >
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}transition={{ delay: 0.3 }}
+             style={{fontSize: "20px",color: "#ffffff", marginBottom: "40px",lineHeight: 1.6,maxWidth: "500px",}}>
               From organizing tournaments to tracking scores, Match Master
               streamlines your entire sports management process.
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="d-flex gap-3"
-            >
-              <motion.a
-                href="/register"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 20px rgba(204, 255, 0, 0.2)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="btn"
-                style={{
-                  padding: "15px 40px",
-                  backgroundColor: "#CCFF00",
-                  color: "#000000",
-                  borderRadius: "30px",
-                  fontWeight: "600",
-                  fontSize: "18px",
-                }}
-              >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}transition={{ delay: 0.6 }} className="d-flex gap-3">
+              <motion.a href="/register" whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(204, 255, 0, 0.2)", }} whileTap={{ scale: 0.95 }} className="btn" style={{ padding: "15px 40px", backgroundColor: "#CCFF00", color: "#000000", borderRadius: "30px", fontWeight: "600", fontSize: "18px", }}>
                 Get Started
               </motion.a>
-              <motion.a
-                href="#features"
-                whileHover={{
-                  scale: 1.05,
-                  backgroundColor: "rgba(0, 0, 0, 0.05)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="btn"
-                style={{
-                  padding: "15px 40px",
-                  border: "2px solid #ffffff",
-                  color: "#ffffff",
-                  borderRadius: "30px",
-                  fontWeight: "600",
-                  fontSize: "18px",
-                }}
-              >
+              <motion.a href="#features"whileHover={{  scale: 1.05,  backgroundColor: "rgba(0, 0, 0, 0.05)",}}whileTap={{ scale: 0.95 }}className="btn"
+                style={{padding: "15px 40px",border: "2px solid #ffffff",color: "#ffffff", borderRadius: "30px", fontWeight: "600", fontSize: "18px" }}>
                 Learn More
               </motion.a>
             </motion.div>
           </motion.div>
 
-          <motion.div
-            className="col-lg-6"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            style={{ position: "relative" }}
-          >
+          <motion.div  className="col-lg-6"  initial={{ opacity: 0, x: 50 }}  animate={{ opacity: 1, x: 0 }}  transition={{ duration: 0.8 }}  style={{ position: "relative" }} >
             {/* Light Effect Behind Image */}
-            <motion.div
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "140%",
-                height: "140%",
-                background:
-                  "radial-gradient(circle, rgba(204, 255, 0, 0.15) 0%, transparent 70%)",
-                filter: "blur(40px)",
-              }}
-            />
+            <motion.div animate={{scale: [1, 1.1, 1],opacity: [0.3, 0.6, 0.3],}} transition={{duration: 4,repeat: Infinity,ease: "easeInOut",}} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "140%",  height: "140%", background:   "radial-gradient(circle, rgba(204, 255, 0, 0.15) 0%, transparent 70%)", filter: "blur(40px)", }} />
 
             {/* Trainer Image with Container */}
-            <div
-              style={{
-                position: "relative",
-                overflow: "hidden",
-                borderRadius: "20px",
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <motion.div
-                initial={{ scale: 1.2 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.8 }}
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                }}
-              >
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3715756637847092468-I5GCmms1UAQp7eK9It6L13Ziz6iMH5.png"
-                  alt="Professional Trainer"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                  }}
-                />
+            <div style={{position: "relative",overflow: "hidden",  borderRadius: "20px", boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)", }}>
+              <motion.div initial={{ scale: 1.2 }} animate={{ scale: 1 }}  transition={{ duration: 0.8 }} style={{   position: "relative",  zIndex: 2,  }} >
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3715756637847092468-I5GCmms1UAQp7eK9It6L13Ziz6iMH5.png" alt="Professional Trainer"
+                  style={{ width: "100%", height: "auto", display: "block",     }}   />
               </motion.div>
 
               {/* Animated Gradient Overlay */}
-              <motion.div
-                animate={{
-                  background: [
-                    "linear-gradient(45deg, rgba(204, 255, 0, 0.2), rgba(0, 255, 0, 0.2))",
-                    "linear-gradient(45deg, rgba(0, 255, 0, 0.2), rgba(204, 255, 0, 0.2))",
-                  ],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: 1,
-                  opacity: 0.1,
-                }}
-              />
-            </div>
+              <motion.div  animate={{  background: [   "linear-gradient(45deg, rgba(204, 255, 0, 0.2), rgba(0, 255, 0, 0.2))",   "linear-gradient(45deg, rgba(0, 255, 0, 0.2), rgba(204, 255, 0, 0.2))", ], }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", }}
+                style={{  position: "absolute", top: 0,left: 0,right: 0,bottom: 0,zIndex: 1, opacity: 0.1, }} /></div>
           </motion.div>
         </div>
       </div>
     </section>
 
 
-    <section id="features" 
-    style={{ 
-      backgroundColor: '#111111', 
-      padding: '80px 0',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="container"
-      >
-        <h2 className="text-center mb-5" style={{ 
-          color: '#CCFF00', 
-          fontSize: '2.5rem', 
-          fontWeight: 'bold',
-          position: 'relative',
-          display: 'inline-block',
-          left: '50%',
-          transform: 'translateX(-50%)'
-        }}>
+    <section id="features" style={{   backgroundColor: '#111111', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
+      <motion.div  initial={{ opacity: 0, y: -20 }}   animate={{ opacity: 1, y: 0 }}   transition={{ duration: 0.6 }}   className="container">
+        <h2 className="text-center mb-5" style={{  color: '#CCFF00',  fontSize: '2.5rem',  fontWeight: 'bold', position: 'relative', display: 'inline-block', left: '50%', transform: 'translateX(-50%)'}}>
           Powerful Features
-          <motion.div 
-            style={{
-              position: 'absolute',
-              bottom: '-10px',
-              left: '0',
-              right: '0',
-              height: '3px',
-              background: '#CCFF00',
-              transformOrigin: 'left'
-            }}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          />
+          <motion.div  style={{  position: 'absolute',   bottom: '-10px',  left: '0',    right: '0',    height: '3px',    background: '#CCFF00', transformOrigin: 'left'}} initial={{ scaleX: 0 }}  animate={{ scaleX: 1 }}  transition={{ duration: 0.8, delay: 0.2 }}/>
         </h2>
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {[
@@ -448,84 +180,21 @@ useEffect(() => {
             { Icon: LuAward, title: "Tournament Creation", description: "Easily set up and manage tournaments of any size or format." },
             { Icon: FaArrowRightLong, title: "Live Updates", description: "Keep participants and spectators informed with live event updates." },
           ].map((feature, index) => (
-            <motion.div 
-              className="col" 
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <motion.div 
-                className="card h-100"
-                style={{ 
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)', 
-                  borderColor: '#CCFF00',
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  boxShadow: '0 4px 15px rgba(204, 255, 0, 0.1)'
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: '0 8px 25px rgba(204, 255, 0, 0.2)'
-                }}
-                transition={{ duration: 0.3 }}
-              >
+            <motion.div  className="col"  key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
+              <motion.div  className="card h-100"
+                style={{  backgroundColor: 'rgba(0, 0, 0, 0.6)',  borderColor: '#CCFF00', borderRadius: '15px', overflow: 'hidden', boxShadow: '0 4px 15px rgba(204, 255, 0, 0.1)' }} whileHover={{  scale: 1.05,  boxShadow: '0 8px 25px rgba(204, 255, 0, 0.2)' }} transition={{ duration: 0.3 }}>
                 <div className="card-body d-flex flex-column align-items-center justify-content-center p-4">
-                  <motion.div
-                    whileHover={{ rotate: 360, scale: 1.2 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                      position: 'relative',
-                      width: '80px',
-                      height: '80px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginBottom: '1rem'
-                    }}
-                  >
-                    <feature.Icon style={{ 
-                      color: '#CCFF00', 
-                      fontSize: '3rem', 
-                      position: 'relative',
-                      zIndex: 2
-                    }} />
+                  <motion.div whileHover={{ rotate: 360, scale: 1.2 }} transition={{ duration: 0.5 }}
+                    style={{  position: 'relative',  width: '80px',  height: '80px',  display: 'flex',  justifyContent: 'center',alignItems: 'center',marginBottom: '1rem'}}>
+                    <feature.Icon style={{   color: '#CCFF00',   fontSize: '3rem',   position: 'relative', zIndex: 2}} />
                     <motion.div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        borderRadius: '50%',
-                        border: '2px solid rgba(204, 255, 0, 0.3)',
-                      }}
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.8, 0.3],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
-                    />
+                      style={{ position: 'absolute',top: 0, left: 0,right: 0,bottom: 0,borderRadius: '50%',border: '2px solid rgba(204, 255, 0, 0.3)', }}
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.8, 0.3],  }}
+                      transition={{ duration: 2, repeat: Infinity,ease: 'easeInOut', }}/>
                   </motion.div>
-                  <h5 className="card-title mb-3" style={{ 
-                    color: '#CCFF00', 
-                    fontSize: '1.25rem', 
-                    fontWeight: 'bold' 
-                  }}>
-                    {feature.title}
-                  </h5>
-                  <p className="card-text text-center" style={{ 
-                    color: '#FFFFFF', 
-                    fontSize: '1rem',
-                    lineHeight: '1.5'
-                  }}>
-                    {feature.description}
-                  </p>
-                </div>
+                  <h5 className="card-title mb-3" style={{ color: '#CCFF00',   fontSize: '1.25rem',   fontWeight: 'bold'  }}>  {feature.title} </h5>
+                  <p className="card-text text-center" style={{  color: '#FFFFFF',  fontSize: '1rem', lineHeight: '1.5' }}>{feature.description}  </p>
+              </div>
               </motion.div>
             </motion.div>
           ))}
@@ -534,25 +203,9 @@ useEffect(() => {
       
       {/* Background animation */}
       <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, transparent 70%)',
-          pointerEvents: 'none'
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3]
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut'
-        }}
-      />
+        style={{ position: 'absolute',top: 0,left: 0,right: 0,bottom: 0,background: 'radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, transparent 70%)',pointerEvents: 'none'  }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3]}}
+        transition={{duration: 8,repeat: Infinity,ease: 'easeInOut'}}/>
     </section>
 
     
@@ -563,7 +216,7 @@ useEffect(() => {
       }} />
       <div style={{maxWidth: '1200px',margin: '0 auto',padding: '0 20px',position: 'relative',zIndex: 1
       }}>
-        <div style={{fontSize: '14px',textTransform: 'uppercase',letterSpacing: '2px',color: '#CCFF00',marginBottom: '16px',fontWeight: 600
+        <div style={{fontSize: '24px',textTransform: 'uppercase',letterSpacing: '2px',color: '#CCFF00',marginBottom: '16px',fontWeight: 600
         }}>
           Our Services
         </div>
@@ -577,7 +230,7 @@ useEffect(() => {
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', justifyContent: 'center', alignItems: 'start'
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px', borderRadius: '16px', transition: 'transform 0.3s ease', cursor: 'pointer'
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px', borderRadius: '16px', transition: 'transform 0.3s ease', cursor: 'pointer',
           }}
             onMouseEnter={e => {
               e.currentTarget.style.transform = 'translateY(-10px)';
@@ -586,7 +239,7 @@ useEffect(() => {
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            <div style={{ width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', transition: 'all 0.3s ease', boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)'
+            <div style={{ width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', transition: 'all 0.3s ease', boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)',border: '4px solid black'
             }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = '#b3ff00';
@@ -614,7 +267,7 @@ useEffect(() => {
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            <div style={{width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom: '20px',transition: 'all 0.3s ease',  boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)'
+            <div style={{width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom: '20px',transition: 'all 0.3s ease',  boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)',border: '4px solid black'
             }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = '#b3ff00';
@@ -644,7 +297,7 @@ useEffect(() => {
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            <div style={{ width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', transition: 'all 0.3s ease', boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)' }}
+            <div style={{ width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', transition: 'all 0.3s ease', boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)',border: '4px solid black' }}
               onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = '#b3ff00';
                 e.currentTarget.style.boxShadow = '0 15px 40px rgba(204, 255, 0, 0.3)';
@@ -673,7 +326,7 @@ useEffect(() => {
             e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          <div style={{width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',transition: 'all 0.3s ease',boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)'}}
+          <div style={{width: '160px', height: '160px', borderRadius: '50%', backgroundColor: '#CCFF00', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px',transition: 'all 0.3s ease',boxShadow: '0 10px 30px rgba(204, 255, 0, 0.2)', border: '4px solid black'}}
             onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = '#b3ff00';
               e.currentTarget.style.boxShadow = '0 15px 40px rgba(204, 255, 0, 0.3)';
@@ -714,16 +367,7 @@ useEffect(() => {
                 <h5 className="card-title mb-0">{testimonial.name}</h5>
                 <small>{testimonial.role}</small>
               </div>
-              <button 
-                className="btn btn-link" 
-                style={{ color: '#000000', fontSize: '1.5rem', textDecoration: 'none' }}
-                data-bs-toggle="collapse" 
-                data-bs-target={`#collapseQuote${index}`}
-                aria-expanded="false" 
-                aria-controls={`collapseQuote${index}`}
-              >
-                &#9660;
-              </button>
+              <button className="btn btn-link" style={{ color: '#000000', fontSize: '1.5rem', textDecoration: 'none' }}data-bs-toggle="collapse" data-bs-target={`#collapseQuote${index}`}aria-expanded="false"  aria-controls={`collapseQuote${index}`} >&#9660;</button>
             </div>
             <div id={`collapseQuote${index}`} className="collapse">
               <div className="card-body">
@@ -852,64 +496,21 @@ useEffect(() => {
 
 
 
-<section className="d-flex justify-content-center align-items-center" style={{ 
-      height: '520px', 
-      backgroundSize: 'cover', 
-      backgroundColor: '#111111',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          borderRadius: '20px',
-          padding: '40px',
-          maxWidth: '800px',
-          width: '90%',
-          position: 'relative',
-          zIndex: 2,
-          boxShadow: '0 0 50px rgba(204, 255, 0, 0.1)'
-        }}
-      >
+<section className="d-flex justify-content-center align-items-center" style={{  height: '520px',  backgroundSize: 'cover', backgroundColor: '#222222', position: 'relative',  overflow: 'hidden'}}>
+      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)',  borderRadius: '20px',  padding: '40px',  maxWidth: '800px',  width: '90%',  position: 'relative',  zIndex: 2,  boxShadow: '0 0 50px rgba(204, 255, 0, 0.1)'  }} >
         <div className="container text-center">
-          <motion.h2 
-            className="mb-4 fw-bold"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            style={{ color: '#CCFF00' }}
-          >
+          <motion.h2   className="mb-4 fw-bold"  initial={{ y: -20, opacity: 0 }}  animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }}  style={{ color: '#CCFF00' }}>
             Ready to Transform Your Sports Management?
           </motion.h2>
-          <motion.p 
-            className="lead mb-4"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            style={{ color: '#FFFFFF' }}
-          >
+          <motion.p  className="lead mb-4" initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}  transition={{ delay: 0.4, duration: 0.5 }}  style={{ color: '#FFFFFF' }}>
             Join thousands of satisfied users and take your sports events to the next level with Match Master.
           </motion.p>
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
+          <motion.div initial={{ y: -20, opacity: 0 }}  animate={{ y: 0, opacity: 1 }}  transition={{ delay: 0.6, duration: 0.5 }}>
             <Link 
               to="/register" 
               className="btn btn-lg fw-bold"
-              style={{ 
-                backgroundColor: '#CCFF00', 
-                color: '#000000',
-                padding: '12px 30px',
-                fontSize: '18px',
-                borderRadius: '30px',
-                transition: 'all 0.3s ease'
-              }}
-            >
+              style={{  backgroundColor: '#CCFF00',  color: '#000000', padding: '12px 30px', fontSize: '18px', borderRadius: '30px', transition: 'all 0.3s ease'}}>
               Start Your Free Trial
             </Link>
           </motion.div>
@@ -920,29 +521,10 @@ useEffect(() => {
       {[...Array(3)].map((_, index) => (
         <motion.div
           key={index}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            border: '2px solid rgba(204, 255, 0, 0.1)',
-            transform: 'translate(-50%, -50%)',
-          }}
-          animate={{
-            scale: [1, 2, 1],
-            opacity: [0.1, 0.5, 0.1],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            delay: index * 0.8,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </section>
+          style={{ position: 'absolute', top: '50%', left: '50%', width: '100%', height: '100%',  borderRadius: '50%',  border: '28px solid rgba(214, 255, 0, 0.1)',  transform: 'translate(-50%, -50%)',}}
+          animate={{ scale: [1, 2, 1], opacity: [0.1, 0.5, 0.1], }}
+          transition={{ duration: 4, repeat: Infinity,delay: index * 0.8, ease: 'easeInOut',}}/> ))}
+      </section>
       </main>
       <footer>
 
@@ -952,11 +534,7 @@ useEffect(() => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px' }}>
             {/* Brand Section */}
             <div>
-              <img 
-                src={logo} 
-                alt="Match Master Logo" 
-                style={{ height: '32px', marginBottom: '24px' }}
-              />
+              <img  src={logo}  alt="Match Master Logo" style={{ height: '32px', marginBottom: '24px' }} />
               <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginBottom: '24px', lineHeight: '1.6' }}>
                 Whether you're organizing a tournament or managing a team, Match Master makes every moment count with powerful sports management tools.
               </p>
@@ -971,22 +549,8 @@ useEffect(() => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '50%',
-                      border: '1px solid rgba(204, 255, 0, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#CCFF00',
-                      transition: 'all 0.3s ease'
-                    }}
-                    whileHover={{
-                      backgroundColor: '#CCFF00',
-                      color: '#000000',
-                      scale: 1.1,
-                    }}
+                    style={{ width: '40px', height: '40px',borderRadius: '50%',border: '1px solid rgba(204, 255, 0, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCFF00',transition: 'all 0.3s ease'}}
+                    whileHover={{ backgroundColor: '#CCFF00', color: '#000000', scale: 1.1, }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <social.icon size={18} />
@@ -1015,14 +579,7 @@ useEffect(() => {
                   >
                     <Link
                       to={link.href}
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        textDecoration: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        transition: 'all 0.3s ease'
-                      }}
+                      style={{color: 'rgba(255, 255, 255, 0.7)',textDecoration: 'none',display: 'flex',alignItems: 'center',gap: '8px',transition: 'all 0.3s ease'}}
                     >
                       <span style={{ color: '#CCFF00', fontSize: '14px' }}>→</span>
                       {link.text}
@@ -1050,14 +607,7 @@ useEffect(() => {
                   >
                     <Link
                       to={link.href}
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        textDecoration: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        transition: 'all 0.3s ease'
-                      }}
+                      style={{color: 'rgba(255, 255, 255, 0.7)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.3s ease' }}
                     >
                       <span style={{ color: '#CCFF00', fontSize: '14px' }}>→</span>
                       {link.text}
@@ -1079,16 +629,7 @@ useEffect(() => {
                   { icon: FaClock, label: "Working Hours:", value: "Mon-Fri: 8am - 4pm" },
                 ].map((item, index) => (
                   <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
-                    <div style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(204, 255, 0, 0.1)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#CCFF00'
-                    }}>
+                    <div style={{width: '40px',height: '40px',borderRadius: '50%', backgroundColor: 'rgba(204, 255, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#CCFF00' }}>
                       <item.icon size={18} />
                     </div>
                     <div>

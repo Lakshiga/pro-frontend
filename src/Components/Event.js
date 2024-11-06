@@ -90,13 +90,7 @@ const Event = () => {
 
     
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black',
-      }}>
+      <div style={{minHeight: '100vh',display: 'flex', justifyContent: 'center',alignItems: 'center',backgroundColor: 'black',}}>
         <div className="spinner-border text-ccff00" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -106,41 +100,16 @@ const Event = () => {
 
   if (error) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        color: 'white',
-      }}>
+      <div style={{ minHeight: '100vh', display: 'flex',justifyContent: 'center',alignItems: 'center',backgroundColor: 'black',color: 'white',}}>
         {error}
       </div>
     );
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: '2rem',
-      backgroundColor: 'black',
-      fontFamily: 'Arial, sans-serif',
-      color: 'white',
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '2rem',
-        backgroundColor: '#111',
-        borderRadius: '1rem',
-        boxShadow: '0 0 30px rgba(204, 255, 0, 0.2)',
-      }}>
-        <header style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-        }}>
+    <div style={{ minHeight: '100vh', padding: '2rem', backgroundColor: 'black', fontFamily: 'Arial, sans-serif', color: 'white',}}>
+      <div style={{maxWidth: '1200px',margin: '0 auto',padding: '2rem',backgroundColor: '#111', borderRadius: '1rem', boxShadow: '0 0 30px rgba(204, 255, 0, 0.2)',}}>
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem',}}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="Match Master Logo" style={{ width: '80px', height: '80px', marginRight: '1rem' }} />
             <div>
@@ -150,17 +119,7 @@ const Event = () => {
           </div>
           <button 
             onClick={() => navigate(-1)}
-            style={{
-              backgroundColor: '#CCFF00',
-              color: 'black',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '0.5rem',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)',
+            style={{ backgroundColor: '#CCFF00', color: 'black', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'all 0.3s ease', boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)',
             }}
             onMouseOver={(e) => {
               e.currentTarget.style.transform = 'scale(1.05)';
@@ -196,11 +155,7 @@ const Event = () => {
               {event.umpire_ids && event.umpire_ids.length > 0 ? (
                 <ul style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
                   {UmpireDetails.map(umpire => (
-                      <li key={umpire.id} style={{
-                        backgroundColor: '#222',
-                        padding: '1rem',
-                        borderRadius: '0.5rem',
-                        color: '#CCFF00',
+                      <li key={umpire.id} style={{backgroundColor: '#222',padding: '1rem',borderRadius: '0.5rem',color: '#CCFF00',
                         fontSize: '1.1rem',
                         transition: 'all 0.3s ease',
                         boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
@@ -224,22 +179,9 @@ const Event = () => {
             <Section title="Players" icon={<FaUsers />}>
               {event.players && event.players.length > 0 ? (
                 <>
-                  <ul style={{
-                    listStyleType: 'none',
-                    padding: 0,
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                    gap: '1rem',
-                  }}>
+                  <ul style={{listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', }}>
                     {playersDetails.map(player => (
-                      <li key={player.id} style={{
-                        backgroundColor: '#222',
-                        padding: '1rem',
-                        borderRadius: '0.5rem',
-                        color: '#CCFF00',
-                        fontSize: '1.1rem',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
+                      <li key={player.id} style={{backgroundColor: '#222',padding: '1rem',borderRadius: '0.5rem',color: '#CCFF00',fontSize: '1.1rem',transition: 'all 0.3s ease', boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
                       }}
                       onMouseOver={(e) => {
                         e.currentTarget.style.transform = 'scale(1.05)';
@@ -254,15 +196,7 @@ const Event = () => {
                   </ul>
                   <button
                     onClick={handleCreateMatches}
-                    style={{
-                      backgroundColor: '#CCFF00',
-                      color: 'black',
-                      padding: '0.75rem 1.5rem',
-                      border: 'none',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer',
-                      marginTop: '1rem',
-                      fontWeight: 'bold',
+                    style={{backgroundColor: '#CCFF00',color: 'black',padding: '0.75rem 1.5rem',border: 'none',borderRadius: '0.5rem', cursor: 'pointer',marginTop: '1rem', fontWeight: 'bold',
                       transition: 'all 0.3s ease',
                       boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)',
                     }}
@@ -291,18 +225,7 @@ const Event = () => {
         match && match._id ? ( // Check if match is not null and has an _id
           <li
             key={match._id}
-            style={{
-              backgroundColor: '#222',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              marginBottom: '1rem',
-              color: '#CCFF00',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)',
-            }}
+            style={{ backgroundColor: '#222', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem', color: '#CCFF00', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.3s ease', boxShadow: '0 0 10px rgba(204, 255, 0, 0.2)', }}
             onMouseOver={(e) => {
               e.currentTarget.style.transform = 'scale(1.02)';
               e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.4)';
@@ -315,12 +238,7 @@ const Event = () => {
             <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
               {match.player1 || 'Unknown Player 1'} vs {match.player2 || 'Unknown Player 2'}
             </span>
-            <span style={{
-              backgroundColor: match.status === 'completed' ? '#4CAF50' : '#FFA500',
-              color: 'black',
-              padding: '0.5rem 1rem',
-              borderRadius: '2rem',
-              fontSize: '0.9rem'
+            <span style={{ backgroundColor: match.status === 'completed' ? '#4CAF50' : '#FFA500', color: 'black', padding: '0.5rem 1rem', borderRadius: '2rem',fontSize: '0.9rem'
             }}>
               {match.status || 'Unknown Status'}
             </span>
@@ -342,14 +260,7 @@ const Event = () => {
 };
 
 const InfoCard = ({ icon, title, value }) => (
-  <div style={{
-    backgroundColor: '#222',
-    padding: '1.5rem',
-    borderRadius: '0.75rem',
-    display: 'flex',
-    alignItems: 'center',
-    boxShadow: '0 0 15px rgba(204, 255, 0, 0.2)',
-    transition: 'all 0.3s ease',
+  <div style={{ backgroundColor: '#222', padding: '1.5rem', borderRadius: '0.75rem', display: 'flex', alignItems: 'center', boxShadow: '0 0 15px rgba(204, 255, 0, 0.2)', transition: 'all 0.3s ease',
   }}
   onMouseOver={(e) => {
     e.currentTarget.style.transform = 'translateY(-5px)';
