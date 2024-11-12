@@ -34,7 +34,7 @@ export default function HomePage() {
 
   return (
     <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#fff', color: '#CCFF00' }}>
-      <header className="px-5 py-2 d-flex align-items-center border-bottom sticky-top shadow-sm" style={{ backgroundColor: '#fff', borderColor: '#CCFF00' }}>
+      <header className="px-5 py-2 d-flex align-items-center border-bottom sticky-top shadow-sm" style={{ backgroundColor: '#f1f1f1', borderColor: '#CCFF00' }}>
         {/* Logo */}
         <a className="d-flex align-items-center justify-content-center text-decoration-none" href="#">
           <img src={logo} alt="Match Master Logo" width={75} height={70} className="me-1" />
@@ -151,8 +151,8 @@ export default function HomePage() {
             {/* Trainer Image with Container */}
             <div style={{position: "relative",overflow: "hidden",  borderRadius: "20px", boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)", }}>
               <motion.div initial={{ scale: 1.2 }} animate={{ scale: 1 }}  transition={{ duration: 0.8 }} style={{   position: "relative",  zIndex: 2,  }} >
-                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3715756637847092468-I5GCmms1UAQp7eK9It6L13Ziz6iMH5.png" alt="Professional Trainer"
-                  style={{ width: "100%", height: "auto", display: "block",     }}   />
+                <img src="/heroImage1bg clear.png" alt="Professional Trainer"
+                  style={{ width: "80%", height: "80%", display: "block",     }}   />
               </motion.div>
 
               {/* Animated Gradient Overlay */}
@@ -167,9 +167,9 @@ export default function HomePage() {
 
     <section id="features" style={{   backgroundColor: '#111111', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
       <motion.div  initial={{ opacity: 0, y: -20 }}   animate={{ opacity: 1, y: 0 }}   transition={{ duration: 0.6 }}   className="container">
-        <h2 className="text-center mb-5" style={{  color: '#CCFF00',  fontSize: '2.5rem',  fontWeight: 'bold', position: 'relative', display: 'inline-block', left: '50%', transform: 'translateX(-50%)'}}>
+        <h2 className="text-center mb-5" style={{  color: 'white',  fontSize: '2.5rem',  fontWeight: 'bold', position: 'relative', display: 'inline-block', left: '50%', transform: 'translateX(-50%)'}}>
           Powerful Features
-          <motion.div  style={{  position: 'absolute',   bottom: '-10px',  left: '0',    right: '0',    height: '3px',    background: '#CCFF00', transformOrigin: 'left'}} initial={{ scaleX: 0 }}  animate={{ scaleX: 1 }}  transition={{ duration: 0.8, delay: 0.2 }}/>
+          <motion.div  style={{  position: 'absolute',   bottom: '-10px',  left: '0',    right: '0',    height: '3px',  transformOrigin: 'left'}} initial={{ scaleX: 0 }}  animate={{ scaleX: 1 }}  transition={{ duration: 0.8, delay: 0.2 }}/>
         </h2>
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {[
@@ -186,7 +186,7 @@ export default function HomePage() {
                 <div className="card-body d-flex flex-column align-items-center justify-content-center p-4">
                   <motion.div whileHover={{ rotate: 360, scale: 1.2 }} transition={{ duration: 0.5 }}
                     style={{  position: 'relative',  width: '80px',  height: '80px',  display: 'flex',  justifyContent: 'center',alignItems: 'center',marginBottom: '1rem'}}>
-                    <feature.Icon style={{   color: '#CCFF00',   fontSize: '3rem',   position: 'relative', zIndex: 2}} />
+                    <feature.Icon style={{   color: 'white',   fontSize: '3rem',   position: 'relative', zIndex: 2}} />
                     <motion.div
                       style={{ position: 'absolute',top: 0, left: 0,right: 0,bottom: 0,borderRadius: '50%',border: '2px solid rgba(204, 255, 0, 0.3)', }}
                       animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.8, 0.3],  }}

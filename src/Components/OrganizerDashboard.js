@@ -10,10 +10,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './Login';
 import { Modal } from 'react-bootstrap';
+import OrganizerSubscribe from './OrganizerSubscribe'; // Assuming this is your subscription form component
 
 
 const OrganizerDashboard = () => {
   const [events, setEvents] = useState([]);
+  const [toggle, setToggle] = useState(false); // Initialize 'toggle' as a state
   const [matches, setMatches] = useState([]);
   const [unverified, setUnverified] = useState([]);
   const [subscription, setSubscription] = useState(null);
@@ -36,6 +38,7 @@ const OrganizerDashboard = () => {
 
   // Function to open the login modal
   const openLoginModal = () => setActiveModal('login');
+  const openSubscribeModal = () => setActiveModal('subscribe'); // Open subscribe modal
 
   // Function to close the modal
   const closeModal = () => setActiveModal(null);
@@ -156,9 +159,11 @@ const OrganizerDashboard = () => {
   };
 
   const handleSubscribe = () => {
-    navigate('/organizer-subscribe');
-    toast.info("Navigating to subscription page...");
+    openSubscribeModal(); // Open the modal instead of navigating
+    toast.info("Open Subscription Modal");
   };
+
+
 
   return (
     <div className="min-vh-100" style={{ backgroundColor: '#000000', color: '#FFFFFF', padding: '2rem' }}>
@@ -168,10 +173,9 @@ const OrganizerDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="d-flex justify-content-between align-items-center mb-4"
-          style={{ backgroundColor: '#111111', padding: '1rem', borderRadius: '8px', boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)',
-          }}
+          style={{ backgroundColor: '#111111', padding: '1rem', borderRadius: '8px', boxShadow: '0 0 20px rgba(204, 255, 0, 0.2)' }}
         >
-         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
 
           <div className="d-flex align-items-center">
             <img src={logo} alt="Match Master Logo" className="logo-square mx-auto mb-1" style={{ width: '50px' }} />
@@ -182,18 +186,26 @@ const OrganizerDashboard = () => {
             whileTap={{ scale: 0.95 }}
             className="btn fw-bold"
             onClick={handleLogout}
-            style={{color: '#000000',backgroundColor: '#CCFF00',border: 'none',padding: '0.5rem 1rem', borderRadius: '5px',transition: 'all 0.3s ease', }}>
+            style={{ color: '#000000', backgroundColor: '#CCFF00', border: 'none', padding: '0.5rem 1rem', borderRadius: '5px', transition: 'all 0.3s ease' }}
+          >
             Logout
           </motion.button>
 
           {/* Login Modal */}
-        <Modal show={activeModal === 'login'} onHide={closeModal} centered>
-          <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
-            <Login closeModal={closeModal} />
-          </Modal.Body>
-        </Modal>
+          <Modal show={activeModal === 'login'} onHide={closeModal} centered>
+            <Modal.Body style={{ backgroundColor: '#1a1a1a', padding: '0' }}>
+              <Login closeModal={closeModal} />
+            </Modal.Body>
+          </Modal>
 
+          {/* Subscription Modal */}
+          <Modal show={activeModal === 'subscribe'} onHide={closeModal} centered>
+            <Modal.Body>
+              <OrganizerSubscribe closeModal={closeModal} /> {/* Subscription form component */}
+            </Modal.Body>
+          </Modal>
         </motion.header>
+
         <div className="row g-4 mb-4">
           {[
             { title: "Total Events", value: events.length, icon: IoCalendarNumberSharp },
@@ -205,14 +217,12 @@ const OrganizerDashboard = () => {
               <motion.div
                 whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(204, 255, 0, 0.3)' }}
                 className="card bg-dark text-white"
-                style={{borderRadius: '15px',border: '2px solid #CCFF00',overflow: 'hidden',}}>
+                style={{ borderRadius: '15px', border: '2px solid #CCFF00', overflow: 'hidden' }}
+              >
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <h6 className="card-subtitle" style={{ color: '#d4d4d4' }}>{item.title}</h6>
-                    <motion.div
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                       <item.icon className="fs-4" style={{ color: '#CCFF00' }} />
                     </motion.div>
                   </div>
@@ -222,7 +232,8 @@ const OrganizerDashboard = () => {
                       whileTap={{ scale: 0.95 }}
                       className="btn mt-2"
                       onClick={item.action}
-                      style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none',padding: '0.5rem 1rem', borderRadius: '5px',fontWeight: 'bold', }}>
+                      style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none', padding: '0.5rem 1rem', borderRadius: '5px', fontWeight: 'bold' }}
+                    >
                       {item.value}
                     </motion.button>
                   ) : (
