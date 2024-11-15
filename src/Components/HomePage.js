@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMenu, IoCalendarNumberSharp } from "react-icons/io5";
 import { FaUsersLine, FaChess, FaDribbble } from "react-icons/fa6";
-import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaMapMarkerAlt, FaPhone, FaClock } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram , FaMapMarkerAlt, FaPhone, FaClock } from "react-icons/fa";
 import { LuAward } from "react-icons/lu";
 import { FaRegStar, FaArrowRightLong } from "react-icons/fa6";
 import { LiaTableTennisSolid } from "react-icons/lia";
@@ -15,6 +15,7 @@ import Register from './Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import logo from '../Images/MM logo.jpeg';
+
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,12 +63,12 @@ export default function HomePage() {
         </nav>
 
         {/* Login Button */}
-        <button onClick={openLoginModal} className="btn w-15 py-2 ms-5 fw-bold" style={{ backgroundColor: '#CCFF00', color: '#000000' }}>
+        <button onClick={openLoginModal} className="btn w-15 py-2 ms-5 fw-bold" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
           Log In
         </button>
 
         {/* Mobile Menu Icon */}
-        <button className="btn d-md-none ms-2" style={{ color: '#CCFF00' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="btn d-md-none ms-2" style={{ color: '#000000' }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <IoMenu />
         </button>
       </header>
@@ -152,7 +153,8 @@ export default function HomePage() {
             <div style={{position: "relative",overflow: "hidden",  borderRadius: "20px", boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)", }}>
               <motion.div initial={{ scale: 1.2 }} animate={{ scale: 1 }}  transition={{ duration: 0.8 }} style={{   position: "relative",  zIndex: 2,  }} >
                 <img src="/heroImage1bg clear.png" alt="Professional Trainer"
-                  style={{ width: "80%", height: "80%", display: "block",     }}   />
+                  style={{ width: "100%", height: "100%", display: "block",                paddingBottom:"180px"
+                  }}   />
               </motion.div>
 
               {/* Animated Gradient Overlay */}

@@ -160,7 +160,7 @@ const OrganizerDashboard = () => {
 
   const handleSubscribe = () => {
     openSubscribeModal(); // Open the modal instead of navigating
-    toast.info("Open Subscription Modal");
+    toast.success("Open Subscription Modal");
   };
 
 
@@ -378,7 +378,7 @@ const OrganizerDashboard = () => {
                             <td>
                               <motion.button  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(204, 255, 0, 0.5)' }}  whileTap={{ scale: 0.95 }}  className="btn btn-outline-secondary fw-bold me-2"
                                 onClick={() => navigate(`/organizer-dashboard/event/${event._id}`)}
-                                style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none' }}
+                                style={{ backgroundColor: '#000000', color: '#ffffff', border: 'none' }}
                               >
                                 View
                               </motion.button>
@@ -387,7 +387,7 @@ const OrganizerDashboard = () => {
                                 whileTap={{ scale: 0.95 }}
                                 className="btn btn-outline-secondary fw-bold"
                                 onClick={() => navigate(`/organizer-dashboard/event/edit/${event._id}`)}
-                                style={{ backgroundColor: '#CCFF00', color: '#000000', border: 'none' }}
+                                style={{ backgroundColor: '#000000', color: '#ffffff', border: 'none' }}
                               >
                                 Edit
                               </motion.button>
