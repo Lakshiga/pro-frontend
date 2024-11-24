@@ -38,10 +38,10 @@ export default function ContactUs() {
           onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 0 30px rgba(204, 255, 0, 0.5)'}
           onMouseLeave={(e) => e.currentTarget.style.boxShadow = '0 0 20px rgba(204, 255, 0, 0.3)'}
           >
-            <div style={{padding: '1.5rem',borderBottom: '1px solid #CCFF00',textAlign: 'center',
+            <div style={{padding: '1.5rem',borderBottom: '1px solid #AE191B',textAlign: 'center',
             }}>
               <img src={logo} alt="Match Master Logo" style={{ width: '60px', height: '60px',marginBottom: '0.5rem', }} />
-              <h2 style={{ fontSize: '1.5rem',  fontWeight: 'bold',  color: '#CCFF00',  marginBottom: '0.5rem',
+              <h2 style={{ fontSize: '1.5rem',  fontWeight: 'bold',  color: '#AE191B',  marginBottom: '0.5rem',
               }}>Contact Us</h2>
               <p style={{ color: '#d4d4d4' }}>We'd love to hear from you</p>
             </div>
@@ -70,7 +70,7 @@ export default function ContactUs() {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    style={{  width: '100%',  padding: '0.5rem',  borderRadius: '0.25rem',  border: '1px solid #CCFF00',  backgroundColor: 'black',  color: 'white', }} />
+                    style={{  width: '100%',  padding: '0.5rem',  borderRadius: '0.25rem',  border: '1px solid #AE191B',  backgroundColor: 'black',  color: 'white', }} />
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
                   <label htmlFor="message" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: '#d4d4d4',
@@ -82,24 +82,24 @@ export default function ContactUs() {
                     required
                     value={formData.message}
                     onChange={handleInputChange}
-                    style={{ width: '100%', padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #CCFF00', backgroundColor: 'black', color: 'white',minHeight: '100px', }}
+                    style={{ width: '100%', padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #AE191B', backgroundColor: 'black', color: 'white',minHeight: '100px', }}
                   ></textarea>
                 </div>
                 {error && <p style={{ color: '#ff6b6b', marginBottom: '1rem' }}>{error}</p>}
-                {successMessage && <p style={{ color: '#CCFF00', marginBottom: '1rem' }}>{successMessage}</p>}
+                {successMessage && <p style={{ color: '#AE191B', marginBottom: '1rem' }}>{successMessage}</p>}
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  style={{  width: '100%',  padding: '0.5rem',  backgroundColor: '#CCFF00',  color: 'black',  border: 'none',  borderRadius: '0.25rem',  fontWeight: 'bold',  cursor: 'pointer',  transition: 'all 0.3s ease',}} >
+                  style={{  width: '100%',  padding: '0.5rem',  backgroundColor: '#AE191B',  color: 'black',  border: 'none',  borderRadius: '0.25rem',  fontWeight: 'bold',  cursor: 'pointer',  transition: 'all 0.3s ease',}} >
                   Send Message
                 </motion.button>
               </form>
             </div>
-            <div style={{ padding: '1rem', borderTop: '1px solid #CCFF00', textAlign: 'center',backgroundColor: 'black', }}>
-              <Link to="/" style={{ fontWeight: 'bold', textDecoration: 'none', color: '#CCFF00',  transition: 'color 0.3s ease',}}
+            <div style={{ padding: '1rem', borderTop: '1px solid #AE191B', textAlign: 'center',backgroundColor: 'black', }}>
+              <Link to="/" style={{ fontWeight: 'bold', textDecoration: 'none', color: '#AE191B',  transition: 'color 0.3s ease',}}
               onMouseEnter={(e) => e.currentTarget.style.color = '#d4d4d4'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#CCFF00'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#AE191B'}
               >
                 Back to Home
               </Link>

@@ -11,7 +11,7 @@
   
   .pop-button:hover {
     transform: scale(1.05);
-    background-color: #b3d700; /* Darker lime green */
+    background-color: #abf56f; /* Darker lime green */
   }
   
   .background-animation {

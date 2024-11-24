@@ -1,0 +1,35 @@
+/* Increase the height of the modal dialog */
+.modal-dialog {
+    height: 80%; /* Adjust this to your desired height */
+    max-height: 90vh; /* Make it a percentage of the viewport height */
+    margin: 30px auto; /* Center the modal */
+  }
+  
+  /* Allow the content inside the modal to scroll if it overflows */
+  .modal-body {
+    max-height: 70vh; /* Limit the body height to 70% of the viewport */
+    overflow-y: auto; /* Enable scrolling inside the modal body */
+  }
+  
+  /* Optional: Adjust modal content to fill the height */
+  .modal-content {
+    height: 100%; /* Ensure content takes up full height */
+  }
+  
+/* For specific elements like modal titles or labels */
+.label-black {
+    color: black;
+  }
+  
+  /* To apply to all modal content */
+  .modal-content {
+    color: black;
+  }
+  
+  /* Optional: Ensure modal footer buttons are styled correctly */
+  .modal-footer button {
+    color: black; /* Button text */
+    background-color: black; /* Button background */
+    border-color: black;
+  }
+  
