@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaCalendarAlt, FaRunning, FaUsers, FaUserTie, FaUserSecret, FaChevronLeft } from 'react-icons/fa';
 import { IoTrophyOutline } from 'react-icons/io5';
-import logo from '../Images/MM logo.jpeg';
+import logo from "../Images/new MM logo.png";
 
 
 const Event = () => {
@@ -194,7 +194,7 @@ const Event = () => {
       <div style={contentStyle}>
         <header style={headerStyle}>
           <div style={logoTitleStyle}>
-            <img src="/MatchMaster.png" alt="Match Master Logo" style={logoStyle} />
+            <img src="/new MM logo.png" alt="Match Master Logo" style={logoStyle} />
             <div>
               <h1 style={titleStyle}>Event Details</h1>
               {event && <p style={subtitleStyle}>{event.name}</p>}

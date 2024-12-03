@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../Images/MM logo.jpeg';
+import logo from "../Images/new MM logo.png";
 import Layout from '../Components/Layout.js';
 
 export default function ContactUs() {

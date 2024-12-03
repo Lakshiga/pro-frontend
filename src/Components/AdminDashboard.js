@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FaUsersLine, FaDollarSign } from "react-icons/fa6";
 import { LuCheckCircle, LuBarChart3 } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
-import logo from "../Images/MM logo.jpeg";
+import logo from "../Images/new MM logo.png";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
     <div
       className="min-vh-100"
       style={{ 
-        background: `#000000`,
+        background: `#333333`,
         color: colors.white,
         padding: "2rem"
       }}
@@ -141,12 +141,16 @@ const AdminDashboard = () => {
           />
 
           <div className="d-flex align-items-center">
-            <img
-              src={logo}
-              alt="Match Master Logo"
-              className="logo-square mx-auto mb-1"
-              style={{ width: "50px", height: "50px" }}
-            />
+          <img
+            src={logo}
+            alt="Match Master Logo"
+            width={95}
+            height={70}
+            className="me-1"
+            style={{
+              transform: "scale(2.0)", // Adjust scale to zoom the logo
+            }}
+          />
             <h1 className="h3 fw-bold mb-0 ms-3" style={{ color: colors.iceBlue }}>
               Admin Dashboard
             </h1>
@@ -160,7 +164,7 @@ const AdminDashboard = () => {
             className="btn fw-bold"
             onClick={handleLogout}
             style={{
-              backgroundColor: colors.blue,
+              backgroundColor: "#0A2472",
               color: colors.white,
               border: "none",
               padding: "0.5rem 1rem",
@@ -210,7 +214,7 @@ const AdminDashboard = () => {
                 }}
                 className="p-3 rounded"
                 style={{
-                  backgroundColor: colors.navy,
+                  backgroundColor: "#0A2472",
                   border: `1px solid ${colors.blue}`,
                   boxShadow: `0 0 10px ${colors.blue}20`,
                 }}
@@ -219,7 +223,7 @@ const AdminDashboard = () => {
                   <h2 className="h6 mb-0" style={{ color: colors.iceBlue }}>
                     {item.title}
                   </h2>
-                  <item.icon className="fs-4" style={{ color: colors.blue }} />
+                  <item.icon className="fs-4" style={{ color: colors.white }} />
                 </div>
                 <div className="h2 fw-bold mb-0" style={{ color: colors.white }}>
                   {item.value}
@@ -230,14 +234,14 @@ const AdminDashboard = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="search" className="form-label" style={{ color: colors.iceBlue }}>
+          <label htmlFor="search" className="form-label" style={{ color: colors.white }}>
             Search
           </label>
           <div className="input-group">
             <span
               className="input-group-text"
               style={{
-                backgroundColor: colors.navy,
+                backgroundColor:"#0A2472",
                 border: `1px solid ${colors.blue}`,
               }}
             >
@@ -250,8 +254,9 @@ const AdminDashboard = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{
-                backgroundColor: colors.navy,
-                color: colors.white,
+                backgroundColor: "#0A2472",
+                color: "#ffffff",
+                
                 border: `1px solid ${colors.blue}`,
               }}
             />

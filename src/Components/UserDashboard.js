@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaCalendarAlt, FaTrophy, FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
-import logo from "../Images/MM logo.jpeg";
+import logo from '../Images/new MM logo.png';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./Login";

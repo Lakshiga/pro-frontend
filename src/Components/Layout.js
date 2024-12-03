@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { IoMenu } from 'react-icons/io5';
-import logo from '../Images/MM logo.jpeg';
+import logo from '../Images/new MM logo.png';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();

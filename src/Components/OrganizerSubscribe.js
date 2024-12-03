@@ -372,7 +372,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import logo from '../Images/MM logo.jpeg';
+import logo from '../Images/new MM logo.png';
 import "../CSS/OrganzerSubscribe.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

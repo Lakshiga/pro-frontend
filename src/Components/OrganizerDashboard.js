@@ -4,7 +4,7 @@ import { IoCalendarNumberSharp } from "react-icons/io5";
 import { FaTrophy, FaUsersLine, FaDollarSign } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import logo from '../Images/MM logo.jpeg';
+import logo from '../Images/new MM logo.png';
 import DrawComponent from '../Components/DrawComponent.js';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
