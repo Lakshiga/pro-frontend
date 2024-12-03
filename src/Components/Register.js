@@ -47,7 +47,7 @@ export default function Register({ closeModal }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/auth/register', formData);
+      const response = await axios.post('https://pro-backend-yaj1.vercel.app/api/auth/register', formData);
       console.log('Registration successful:', response.data);
       setSuccess(true);
       setFormData({ username: '', email: '', password: '', role: '' });

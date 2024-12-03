@@ -89,7 +89,7 @@ const AddScoreForm = ({ events, user }) => {
       const fetchUmpireData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:4000/api/umpires/${user.name}` // Fetch umpire by ID
+            `https://pro-backend-yaj1.vercel.app/api/umpires/${user.name}` // Fetch umpire by ID
           );
           setUmpireName(response.data.name); // Set umpire's name if found
         } catch (error) {
@@ -119,7 +119,7 @@ const AddScoreForm = ({ events, user }) => {
       }
   
       const response = await axios.post(
-        `http://localhost:4000/api/score/add`,
+        `https://pro-backend-yaj1.vercel.app/api/score/add`,
         {
           match_id: matchId,
           player1_score: player1Score,
@@ -212,10 +212,10 @@ const MatchList = () => {
         let response;
         if (userRole === 'player') {
           // Fetch match data for players
-          response = await axios.get(`http://localhost:4000/api/match/match-player/${user.id}`);
+          response = await axios.get(`https://pro-backend-yaj1.vercel.app/api/match/match-player/${user.id}`);
         } else {
           // Fetch match data for umpires
-          response = await axios.get(`http://localhost:4000/api/match/umpire/${umpireId}`);
+          response = await axios.get(`https://pro-backend-yaj1.vercel.app/api/match/umpire/${umpireId}`);
         }
 
         const scores = response.data["matches"];
@@ -237,7 +237,7 @@ const MatchList = () => {
         // Call the API for each unique event ID
         const eventDetailsPromises = uniqueEventIds.map(async (eventId) => {
           try {
-            const eventResponse = await axios.get(`http://localhost:4000/api/score/${eventId}`, {
+            const eventResponse = await axios.get(`https://pro-backend-yaj1.vercel.app/api/score/${eventId}`, {
 
               headers: {
                 Authorization: `Bearer ${localtoken}` // Include the token in the Authorization header
@@ -290,7 +290,7 @@ const MatchList = () => {
   const handleUpdate = async (updatedMatch) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/score/updatescore/${updatedMatch.match_id}`,
+        `https://pro-backend-yaj1.vercel.app/api/score/updatescore/${updatedMatch.match_id}`,
         updatedMatch
       );
       
@@ -560,14 +560,14 @@ const UserDashboard = ({
       const headers = { Authorization: `Bearer ${localtoken}` };
       if (user.role === "player") {
         const playerMatchesRes = await axios.get(
-          "http://localhost:4000/api/match/match-player",
+          "https://pro-backend-yaj1.vercel.app/api/match/match-player",
           { headers }
         );
         setMatches(playerMatchesRes.data); // Set matches for player
       }
       const [eventsRes, matchesRes] = await Promise.all([
-        axios.get("http://localhost:4000/api/event/active", { headers }),
-        axios.get("http://localhost:4000/api/match/match-player", { headers }),
+        axios.get("https://pro-backend-yaj1.vercel.app/api/event/active", { headers }),
+        axios.get("https://pro-backend-yaj1.vercel.app/api/match/match-player", { headers }),
       ]);
       setEvents(eventsRes.data);
       setMatches(matchesRes.data);
@@ -580,7 +580,7 @@ const UserDashboard = ({
   const updateScore = async (matchId, score) => {
     if (user.role !== "umpire") return;
     try {
-      await axios.put(`http://localhost:4000/api/matches/${matchId}/score`, {
+      await axios.put(`https://pro-backend-yaj1.vercel.app/api/matches/${matchId}/score`, {
         score,
       });
       setMatches(
@@ -600,7 +600,7 @@ const UserDashboard = ({
   const applyForEvent = async (eventId) => {
     try {
       await axios.post(
-        `http://localhost:4000/api/event/${eventId}/apply`,
+        `https://pro-backend-yaj1.vercel.app/api/event/${eventId}/apply`,
         {},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -937,7 +937,7 @@ const UmpireMatchList = ({ user }) => {
       try {
         const token = localStorage.getItem('token');  // Retrieve token from localStorage
 
-        const response = await axios.get(`http://localhost:4000/api/match/match-player/`, {
+        const response = await axios.get(`https://pro-backend-yaj1.vercel.app/api/match/match-player/`, {
           headers: {
             Authorization: `Bearer ${token}`  // Add token to the Authorization header
           },

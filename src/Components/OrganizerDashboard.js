@@ -67,12 +67,12 @@ const OrganizerDashboard = () => {
       const localtoken = localStorage.getItem('token'); 
       setToken(localtoken);
       const [eventsRes, usersRes, matchesRes, subscriptionRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/event/getEventsByOrganizer', {
+        axios.get('https://pro-backend-yaj1.vercel.app/api/event/getEventsByOrganizer', {
           headers: {
             Authorization: `Bearer ${localtoken}`,
           }
         }),
-        axios.get('http://localhost:4000/api/admin/users'),
+        axios.get('https://pro-backend-yaj1.vercel.app/api/admin/users'),
       ]);
       setEvents(eventsRes.data);
       const unverified = usersRes.data.filter(user => (user.role === 'player' || user.role === 'umpire') && !user.verified);
@@ -87,7 +87,7 @@ const OrganizerDashboard = () => {
   const createEvent = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/event/create', newEvent, {
+      const res = await axios.post('https://pro-backend-yaj1.vercel.app/api/event/create', newEvent, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
@@ -114,7 +114,7 @@ const OrganizerDashboard = () => {
       for (const match of matchDraw) {
         const [player1, player2] = match.split(' vs ');
         
-        const res = await axios.post('http://localhost:4000/api/match/create', {
+        const res = await axios.post('https://pro-backend-yaj1.vercel.app/api/match/create', {
           event_id: eventId,
           player1_id: player1,
           player2_id: player2,

@@ -21,7 +21,7 @@ export default function ContactUs() {
     setSuccessMessage('');
 
     try {
-      await axios.post('http://localhost:4000/api/contact', formData);
+      await axios.post('https://pro-backend-yaj1.vercel.app/api/contact', formData);
       setSuccessMessage('Your message has been sent successfully. We will get back to you soon.');
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {

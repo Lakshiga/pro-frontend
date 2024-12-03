@@ -9,7 +9,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get('/api/user');
+        const response = await axios.get('https://pro-backend-yaj1.vercel.app/api/user');
         setUserId(response.data._id);
       } catch (error) {
         console.error(error);

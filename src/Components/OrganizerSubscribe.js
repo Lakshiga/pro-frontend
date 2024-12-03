@@ -407,7 +407,7 @@ const CheckoutForm = ({ plan }) => {
 
     const localtoken = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:4000/api/payments/create-payment-intent', {
+      const response = await fetch('https://pro-backend-yaj1.vercel.app/api/payments/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -431,7 +431,7 @@ const CheckoutForm = ({ plan }) => {
       } else if (paymentIntent.status === 'succeeded') {
         setStatus('Payment successful!');
         toast.success('Payment was successful!');        
-        await fetch('http://localhost:4000/api/payments/payment-success', {
+        await fetch('https://pro-backend-yaj1.vercel.app/api/payments/payment-success', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentIntentId: paymentIntent.id }),

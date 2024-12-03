@@ -21,7 +21,7 @@ export default function UserProfile() {
   const fetchProfile = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/user-profile/profile')
+      const response = await axios.get('https://pro-backend-yaj1.vercel.app/api/user-profile/profile')
       setProfile(response.data)
       setEditedProfile(response.data)
     } catch (error) {
@@ -37,7 +37,7 @@ export default function UserProfile() {
 
   const handleSave = async () => {
     try {
-      await axios.put('/api/user-profile/profile', editedProfile)
+      await axios.put('https://pro-backend-yaj1.vercel.app/api/user-profile/profile', editedProfile)
       setProfile(prevProfile => ({ ...prevProfile, ...editedProfile }))
       setEditing(false)
     } catch (error) {

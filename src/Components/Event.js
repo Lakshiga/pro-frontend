@@ -19,7 +19,7 @@ const Event = () => {
 
   const handleCreateMatches = useCallback(async () => {
     try {
-      const response = await axios.post(`http://localhost:4000/api/event/${id}/generate-matches`);
+      const response = await axios.post(`https://pro-backend-yaj1.vercel.app/api/event/${id}/generate-matches`);
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.error || "Failed to generate matches");
@@ -28,7 +28,7 @@ const Event = () => {
 
   const fetchEvent = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/event/getEventsByEventId/${id}`);
+      const response = await axios.get(`https://pro-backend-yaj1.vercel.app/api/event/getEventsByEventId/${id}`);
       setEvent(response.data);
       setLoading(false);
       fetchPlayerDetails(response.data.players);
@@ -41,7 +41,7 @@ const Event = () => {
 
   const fetchPlayerDetails = useCallback(async (playerIds) => {
     try {
-      const response = await axios.post("http://localhost:4000/api/user-profile/list", {
+      const response = await axios.post("https://pro-backend-yaj1.vercel.app/api/user-profile/list", {
         playerIds: playerIds,
       });
       setPlayersDetails(response.data);
@@ -52,7 +52,7 @@ const Event = () => {
 
   const fetchUmpireDetails = useCallback(async (umpireIds) => {
     try {
-      const response = await axios.post("http://localhost:4000/api/user-profile/umpire-list", {
+      const response = await axios.post("https://pro-backend-yaj1.vercel.app/api/user-profile/umpire-list", {
         umpireIds: umpireIds,
       });
       setUmpireDetails(response.data);
@@ -64,7 +64,7 @@ const Event = () => {
   const fetchMatches = useCallback(async () => {
     if (event && event._id) {
       try {
-        const response = await axios.get(`http://localhost:4000/api/match/event/${event._id}`, {
+        const response = await axios.get(`https://pro-backend-yaj1.vercel.app/api/match/event/${event._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

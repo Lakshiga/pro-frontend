@@ -50,8 +50,8 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const [usersRes, paymentsRes] = await Promise.all([
-        axios.get("http://localhost:4000/api/admin/users"),
-        axios.get("http://localhost:4000/api/payments/getAllPayments"),
+        axios.get("https://pro-backend-yaj1.vercel.app/api/admin/users"),
+        axios.get("https://pro-backend-yaj1.vercel.app/api/payments/getAllPayments"),
       ]);
 
       const allUsers = usersRes.data;
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
   const verifyOrganizer = async (organizerId) => {
     try {
       await axios.post(
-        `http://localhost:4000/api/admin/verify-organizer/${organizerId}`
+        `https://pro-backend-yaj1.vercel.app/api/admin/verify-organizer/${organizerId}`
       );
       fetchData();
     } catch (error) {
@@ -85,7 +85,7 @@ const AdminDashboard = () => {
   const approvePayment = async (paymentId) => {
     try {
       await axios.get(
-        `http://localhost:4000/api/payments/approvePayment/${paymentId}`
+        `https://pro-backend-yaj1.vercel.app/api/payments/approvePayment/${paymentId}`
       );
       fetchData();
       toast.success("Payment approved successfully!");
